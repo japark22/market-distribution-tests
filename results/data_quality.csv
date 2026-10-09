@@ -1,2 +1,14 @@
 market,date,action,reason
-KOSPI,2026-07-31,flag,abs log return +0.1648 exceeds 0.15
+SPX,2008-10-13,keep,move +0.1096 > 10%; no next-day reversal
+SPX,2008-10-28,keep,move +0.1025 > 10%; no next-day reversal
+SPX,2020-03-16,keep,move -0.1277 > 10%; no next-day reversal
+KOSPI,1997-11-24,keep,move -0.1160 > 10%; no next-day reversal
+KOSPI,1998-07-20,keep,move +0.1002 > 10%; no next-day reversal
+KOSPI,2000-04-17,keep,move -0.1237 > 10%; no next-day reversal
+KOSPI,2001-09-12,keep,move -0.1280 > 10%; no next-day reversal
+KOSPI,2008-10-24,keep,move -0.1117 > 10%; no next-day reversal
+KOSPI,2008-10-30,keep,move +0.1128 > 10%; no next-day reversal
+KOSPI,2026-03-04,keep,move -0.1285 > 10%; no next-day reversal
+KOSPI,2026-06-23,keep,move -0.1053 > 10%; no next-day reversal
+KOSPI,2026-07-28,keep,move -0.1147 > 10%; no next-day reversal
+KOSPI,2026-07-31,keep,move +0.1648 > 10%; no next-day reversal
