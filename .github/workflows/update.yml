@@ -1,0 +1,44 @@
+name: weekly-update
+
+on:
+  schedule:
+    - cron: "17 2 * * 6"   # Saturdays 02:17 UTC, after both markets close for the week
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["mdt/**", "scripts/**", "tests/**", "requirements.txt", ".github/workflows/update.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Unit tests
+        run: pytest -q
+      - name: Download prices and run all tests
+        run: python scripts/run_all.py --refresh
+      - name: Figures and README
+        run: |
+          python scripts/make_figures.py
+          python scripts/build_readme.py
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results docs/data.json figures README.md
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "Weekly update: results through $(date -u +%Y-%m-%d)"
+          git push

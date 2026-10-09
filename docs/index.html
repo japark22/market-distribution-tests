@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Textbook vs. Tape</title>
+<meta name="description" content="Five textbook distributions tested as hypotheses against S&P 500 and KOSPI daily returns.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --neutral: #c3c2b7;
+  --bad: #d03b3b; --good: #006300; --wash: rgba(42,120,214,0.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --neutral: #5a5955;
+    --bad: #e66767; --good: #0ca30c; --wash: rgba(57,135,229,0.14);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --neutral: #5a5955;
+  --bad: #e66767; --good: #0ca30c; --wash: rgba(57,135,229,0.14);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 80px; }
+header h1 { font-size: 30px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.01em; }
+header p.lede { color: var(--ink2); max-width: 720px; margin: 0 0 20px; font-size: 16px; }
+.meta { color: var(--muted); font-size: 13px; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 18px 0 8px; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.seg button { background: var(--surface); color: var(--ink2); border: 0; padding: 7px 14px;
+  font: inherit; font-size: 14px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.scoreboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;
+  margin: 18px 0 8px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.tile .h { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.tile .q { font-size: 14px; color: var(--ink2); margin: 2px 0 8px; min-height: 42px; }
+.tile .v { font-size: 15px; font-weight: 600; display: flex; gap: 6px; align-items: center; }
+.icon { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center;
+  font-size: 12px; color: #fff; flex: none; }
+.icon.no { background: var(--bad); } .icon.yes { background: var(--good); } .icon.part { background: #b07a00; }
+section.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px 20px 16px; margin: 22px 0; }
+section.card h2 { font-size: 20px; margin: 0 0 4px; }
+section.card .tag { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+section.card p { color: var(--ink2); margin: 6px 0 12px; max-width: 760px; }
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 4px 0 10px;
+  color: var(--ink2); font-size: 14px; }
+input[type=range] { width: 220px; accent-color: var(--s3); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--ink2); margin: 2px 0 6px; }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.key i { display: inline-block; width: 16px; height: 3px; border-radius: 2px; }
+.key i.dot { width: 9px; height: 9px; border-radius: 50%; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
+.stat { border-top: 1px solid var(--grid); padding-top: 6px; }
+.stat .l { font-size: 12px; color: var(--muted); }
+.stat .n { font-size: 18px; font-weight: 600; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+th, td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--grid); }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--muted); font-weight: 500; }
+.tablewrap { overflow-x: auto; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); color: var(--ink);
+  border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; font-size: 12.5px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12); white-space: nowrap; opacity: 0; transition: opacity .08s; z-index: 5; }
+.tip b { font-weight: 600; }
+.axis text { fill: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.axis path, .axis line { stroke: var(--axis); }
+.gridl line { stroke: var(--grid); } .gridl path { display: none; }
+.lbl { fill: var(--ink2); font-size: 12px; }
+.mlbl { fill: var(--muted); font-size: 11.5px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 760px) { .two { grid-template-columns: 1fr; } header h1 { font-size: 24px; } }
+.matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 6px; font-size: 14px; max-width: 360px; }
+.matrix div { padding: 10px; border-radius: 8px; text-align: center; }
+.matrix .hd { color: var(--muted); font-size: 12.5px; background: none; }
+.matrix .cell { background: var(--wash); font-weight: 600; font-variant-numeric: tabular-nums; }
+footer { color: var(--muted); font-size: 13px; margin-top: 30px; }
+footer a, p a { color: var(--s1); }
+.warn { background: #fff3cd; color: #5c4300; padding: 10px 14px; border-radius: 8px; margin: 10px 0; display: none; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="meta" id="meta">Loading…</div>
+  <h1>Textbook vs. Tape</h1>
+  <p class="lede">Five distributions from every statistics course, each turned into a claim about markets and tested out-of-sample on daily S&amp;P&nbsp;500 and KOSPI returns. Forecasts for day <i>t</i> use only data up to <i>t</i>−1.</p>
+  <div class="warn" id="synthetic">This page is showing simulated development data, not market data.</div>
+  <div class="bar">
+    <div class="seg" id="mkt" role="group" aria-label="Market"></div>
+  </div>
+  <div class="scoreboard" id="scoreboard"></div>
+</header>
+
+<section class="card" id="sec-tails">
+  <div class="tag">H1 Normal · H2 Student-t</div>
+  <h2>How fat are the tails?</h2>
+  <p>Dots are the observed frequency of daily returns, standardised by the full-sample mean and standard deviation, on a log scale so the tails are visible. Drag ν to see how many fat-tail days a Student-t with that shape predicts, scaled to the same variance.</p>
+  <div class="controls">
+    <label>ν = <b id="nuv"></b> <input type="range" id="nu" min="0" max="100" step="1"></label>
+    <span class="seg"><button id="nuMle">Use MLE fit</button><button id="nuInf">ν → ∞ (Normal)</button></span>
+  </div>
+  <div class="legend"><span class="key"><i class="dot" style="background:var(--s1)"></i>observed</span><span class="key"><i style="background:var(--s2)"></i>Normal</span><span class="key"><i style="background:var(--s3)"></i>Student-t, chosen ν</span></div>
+  <div class="chart" id="tails"></div>
+  <div class="tablewrap"><table id="tailTable"></table></div>
+</section>
+
+<section class="card" id="sec-var">
+  <div class="tag">Where H1 and H2 meet risk management</div>
+  <h2>Do the models survive a 99% VaR backtest?</h2>
+  <p>Each model forecasts tomorrow's 1% quantile. A breach is a day the return falls below it. A correct model breaches on 1% of days (Kupiec test) and the breaches do not bunch together (Christoffersen test).</p>
+  <div class="controls"><span class="seg" id="varModel"></span><span class="seg" id="zoom"></span></div>
+  <div class="legend"><span class="key"><i style="background:var(--neutral)"></i>daily return</span><span class="key"><i style="background:var(--s1)"></i>99% VaR forecast</span><span class="key"><i class="dot" style="background:var(--s2)"></i>breach</span></div>
+  <div class="chart" id="varChart"></div>
+  <div class="tablewrap"><table id="varTable"></table></div>
+</section>
+
+<section class="card" id="sec-bern">
+  <div class="tag">H3 Bernoulli</div>
+  <h2>Is each day a coin flip?</h2>
+  <p>The direction of a day carries almost no memory. Its size carries a lot. That is volatility clustering, and it is what breaks the next two hypotheses.</p>
+  <div class="two">
+    <div>
+      <div class="matrix" id="matrix"></div>
+      <div class="stats" id="bernStats"></div>
+    </div>
+    <div>
+      <div class="legend"><span class="key"><i style="background:var(--s1)"></i>direction (sign)</span><span class="key"><i style="background:var(--s2)"></i>size |r|</span></div>
+      <div class="chart" id="acf"></div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="sec-pois">
+  <div class="tag">H4 Poisson</div>
+  <h2>Do big moves arrive independently?</h2>
+  <p>Count the days per calendar month with a move larger than <i>k</i> standard deviations. Independent arrivals give a Poisson count, with variance equal to the mean. Switch to <b>GARCH-t tails</b> to count days the GARCH-t forecast put in the same tail probability as 2.5σ. If clustering is the whole story, those counts should look Poisson again.</p>
+  <div class="controls"><span class="seg" id="kSel"></span></div>
+  <div class="legend"><span class="key"><i class="dot" style="background:var(--s1)"></i>observed months</span><span class="key"><i class="dot" style="background:var(--neutral)"></i>Poisson with the same mean</span></div>
+  <div class="chart" id="pois"></div>
+  <div class="stats" id="poisStats"></div>
+</section>
+
+<section class="card" id="sec-pit">
+  <div class="tag">H5 Uniform</div>
+  <h2>Are the forecasts calibrated?</h2>
+  <p>Feed each realised return into the forecast's own CDF. If the forecast distribution is right, these PIT values are Uniform(0,1) and every bar sits on the line. A hump in the middle with low edges means the forecast is too wide in calm times and too narrow in the tails.</p>
+  <div class="controls"><span class="seg" id="pitModel"></span></div>
+  <div class="chart" id="pit"></div>
+  <div class="tablewrap"><table id="pitTable"></table></div>
+</section>
+
+<section class="card">
+  <div class="tag">Method</div>
+  <h2>How this was done</h2>
+  <p id="method"></p>
+</section>
+<footer>Source code, tests and raw outputs: <a href="https://github.com/japark22/market-distribution-tests">github.com/japark22/market-distribution-tests</a>. Prices from Yahoo Finance (index levels, no dividends). Not investment advice.</footer>
+</main>
+<div class="tip" id="tip"></div>
+
+<script>
+const MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t"];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (x, d = 2) => x == null || !isFinite(x) ? "–" : d3.format(`,.${d}f`)(x);
+const pfmt = p => p == null ? "–" : p < 0.0001 ? "<0.0001" : d3.format(".4f")(p);
+const tip = d3.select("#tip");
+let DATA, M, state = { mkt: null, nu: null, varModel: "GARCH-t", zoom: "all", k: "2.5", pitModel: "GARCH-t" };
+
+function showTip(ev, html) {
+  tip.html(html).style("opacity", 1);
+  const w = tip.node().offsetWidth, x = ev.pageX + 14, max = window.scrollX + innerWidth - w - 8;
+  tip.style("left", Math.min(x, max) + "px").style("top", (ev.pageY - 10) + "px");
+}
+function hideTip() { tip.style("opacity", 0); }
+
+// log-gamma (Lanczos) and Student-t density/tail for the slider
+const LG = [676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059,
+  12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+function lgamma(x) {
+  if (x < 0.5) return Math.log(Math.PI / Math.abs(Math.sin(Math.PI * x))) - lgamma(1 - x);
+  x -= 1; let a = 0.99999999999980993; const t = x + 7.5;
+  for (let i = 0; i < 8; i++) a += LG[i] / (x + i + 1);
+  return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+}
+const normPdf = z => Math.exp(-0.5 * z * z) / Math.sqrt(2 * Math.PI);
+function tPdf(x, nu, loc = 0, scale = 1) {
+  if (!isFinite(nu)) return normPdf((x - loc) / scale) / scale;
+  const z = (x - loc) / scale;
+  return Math.exp(lgamma((nu + 1) / 2) - lgamma(nu / 2) - 0.5 * Math.log(nu * Math.PI)
+    - (nu + 1) / 2 * Math.log(1 + z * z / nu)) / scale;
+}
+// two-sided tail mass beyond |z| > k by numerical integration (Simpson) of the density
+function tailMass(pdf, k) {
+  const hi = 60, n = 4000, h = (hi - k) / n; let s = pdf(k) + pdf(hi);
+  for (let i = 1; i < n; i++) s += (i % 2 ? 4 : 2) * pdf(k + i * h);
+  return 2 * s * h / 3;
+}
+const unitT = nu => isFinite(nu) ? (x => tPdf(x, nu, 0, Math.sqrt((nu - 2) / nu))) : normPdf;
+const sliderToNu = v => v >= 100 ? Infinity : 2.05 * Math.pow(60 / 2.05, v / 99);
+const nuToSlider = nu => !isFinite(nu) ? 100 : Math.round(99 * Math.log(nu / 2.05) / Math.log(60 / 2.05));
+
+function frame(el, h, m = { t: 12, r: 16, b: 34, l: 52 }) {
+  const node = d3.select(el); node.selectAll("*").remove();
+  const W = Math.max(node.node().clientWidth, 300);
+  const svg = node.append("svg").attr("viewBox", `0 0 ${W} ${h}`);
+  return { svg, W, H: h, m, iw: W - m.l - m.r, ih: h - m.t - m.b,
+    g: svg.append("g").attr("transform", `translate(${m.l},${m.t})`) };
+}
+function segButtons(sel, items, key, cb) {
+  const s = d3.select(sel); s.selectAll("button").remove();
+  s.selectAll("button").data(items).join("button").text(d => d.label)
+    .attr("aria-pressed", d => String(state[key] === d.value))
+    .on("click", (e, d) => { state[key] = d.value; s.selectAll("button").attr("aria-pressed", x => String(state[key] === x.value)); cb(); });
+}
+
+// ------------------------------------------------------------------ scoreboard
+function verdict(ok, partial) { return ok ? ["yes", "✓"] : partial ? ["part", "~"] : ["no", "✕"]; }
+function scoreboard() {
+  const h1 = M.h1, h2 = M.h2, h3 = M.h3, h4 = M.h4.raw[String(DATA.settings.tail_k)];
+  const v = Object.fromEntries(M.var.filter(r => r.alpha === 0.01).map(r => [r.model, r]));
+  const p = Object.fromEntries(M.pit.map(r => [r.model, r]));
+  const t4 = h2.tails.find(t => t.k === 4);
+  const items = [
+    ["H1 Normal", "Daily returns are Normal", verdict(h1.jb_p > 0.05), `excess kurtosis ${fmt(h1.excess_kurtosis, 1)}`],
+    ["H2 Student-t", "A fat-tailed t fits instead", verdict(h2.aic_t < h2.aic_normal && v["Student-t"].christoffersen_p > 0.05, h2.aic_t < h2.aic_normal),
+      `ν ≈ ${fmt(h2.nu, 1)}; >4σ days ${t4.observed} vs t ${fmt(t4.expected_t, 0)}`],
+    ["H3 Bernoulli", "Direction is a memoryless coin", verdict(h3.markov_p > 0.05 && h3.runs_p > 0.05, Math.abs(h3.acf_sign[0]) < 0.05),
+      `P(up|up) ${fmt(h3.p_up_after_up, 3)} vs P(up|down) ${fmt(h3.p_up_after_down, 3)}`],
+    ["H4 Poisson", "Big moves arrive independently", verdict(h4.dispersion_p > 0.05), `variance ÷ mean ${fmt(h4.dispersion, 1)}`],
+    ["H5 Uniform", "GARCH-t forecasts are calibrated", verdict(p["GARCH-t"].berkowitz_p > 0.05, p["GARCH-t"].ks_stat < p["Normal"].ks_stat / 2),
+      `KS ${fmt(p["GARCH-t"].ks_stat, 3)} vs ${fmt(p["Normal"].ks_stat, 3)} static Normal`],
+  ];
+  const label = { yes: "holds", part: "partly", no: "rejected" };
+  d3.select("#scoreboard").selectAll(".tile").data(items).join("div").attr("class", "tile")
+    .html(d => `<div class="h">${d[0]}</div><div class="q">${d[1]}</div>
+      <div class="v"><span class="icon ${d[2][0]}" aria-hidden="true">${d[2][1]}</span>${label[d[2][0]]}</div>
+      <div class="meta" style="margin-top:4px">${d[3]}</div>`);
+}
+
+// ------------------------------------------------------------------ tails
+function drawTails() {
+  const nu = state.nu;
+  d3.select("#nuv").text(isFinite(nu) ? fmt(nu, 1) : "∞");
+  d3.select("#nu").property("value", nuToSlider(nu));
+  const f = frame("#tails", 340, { t: 10, r: 18, b: 38, l: 56 });
+  const x = d3.scaleLinear([-12, 12], [0, f.iw]), y = d3.scaleLog([1e-6, 1], [f.ih, 0]);
+  f.g.append("g").attr("class", "gridl").call(d3.axisLeft(y).ticks(6, "~e").tickSize(-f.iw).tickFormat(""));
+  f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).ticks(12));
+  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(6, "~e"));
+  f.g.append("text").attr("class", "mlbl").attr("x", f.iw / 2).attr("y", f.ih + 32).attr("text-anchor", "middle").text("daily return, in standard deviations");
+  const e = M.z_hist.edges, c = M.z_hist.counts, N = d3.sum(c), w = e[1] - e[0];
+  const pts = c.map((n, i) => ({ z: e[i] + w / 2, n, d: n / (N * w) })).filter(p => p.n > 0);
+  const xs = d3.range(-12, 12.001, 0.04), line = d3.line().x(d => x(d[0])).y(d => y(Math.max(d[1], 1e-7)));
+  const clip = f.g.append("clipPath").attr("id", "tclip").append("rect").attr("width", f.iw).attr("height", f.ih);
+  const cg = f.g.append("g").attr("clip-path", "url(#tclip)");
+  cg.append("path").attr("d", line(xs.map(z => [z, normPdf(z)]))).attr("fill", "none").attr("stroke", css("--s2")).attr("stroke-width", 2);
+  const ut = unitT(nu);
+  cg.append("path").attr("d", line(xs.map(z => [z, ut(z)]))).attr("fill", "none").attr("stroke", css("--s3")).attr("stroke-width", 2);
+  f.g.selectAll("circle").data(pts).join("circle").attr("cx", d => x(d.z)).attr("cy", d => y(d.d)).attr("r", 4.5)
+    .attr("fill", css("--s1")).attr("stroke", css("--surface")).attr("stroke-width", 2)
+    .on("mousemove", (ev, d) => showTip(ev, `<b>${fmt(d.z - w / 2, 2)}σ to ${fmt(d.z + w / 2, 2)}σ</b><br>${d.n.toLocaleString()} days<br>Normal expects ${fmt(N * w * normPdf(d.z), 2)}`))
+    .on("mouseleave", hideTip);
+  // tail table: observed beyond |z|>k (bins are 0.25 wide, so k on a bin edge is exact)
+  const rows = [3, 4, 5, 6].map(k => {
+    const obs = d3.sum(c.filter((n, i) => e[i] >= k || e[i + 1] <= -k));
+    return { k, obs, norm: N * tailMass(normPdf, k), t: N * tailMass(ut, k) };
+  });
+  d3.select("#tailTable").html(`<tr><th>days with |z| &gt; k</th>${rows.map(r => `<th>k = ${r.k}</th>`).join("")}</tr>
+    <tr><td>observed</td>${rows.map(r => `<td><b>${r.obs.toLocaleString()}</b></td>`).join("")}</tr>
+    <tr><td>Normal predicts</td>${rows.map(r => `<td>${fmt(r.norm, r.norm < 10 ? 2 : 0)}</td>`).join("")}</tr>
+    <tr><td>Student-t (ν = ${isFinite(nu) ? fmt(nu, 1) : "∞"}) predicts</td>${rows.map(r => `<td>${fmt(r.t, r.t < 10 ? 2 : 0)}</td>`).join("")}</tr>`);
+}
+
+// ------------------------------------------------------------------ VaR timeline
+function drawVar() {
+  const T = M.timeline, k = state.varModel;
+  let pts = T.dates.map((d, i) => ({ d: new Date(d), r: T.r[i], q: T[k][i] }));
+  const end = pts[pts.length - 1].d;
+  const Z = { all: null, gfc: ["2007-06-01", "2009-12-31"], covid: ["2020-01-01", "2020-12-31"],
+    recent: [new Date(end.getFullYear() - 2, end.getMonth(), end.getDate()), end] }[state.zoom];
+  if (Z) { const [a, b] = Z.map(z => new Date(z)); pts = pts.filter(p => p.d >= a && p.d <= b); }
+  const f = frame("#varChart", 300, { t: 10, r: 16, b: 28, l: 52 });
+  const x = d3.scaleTime(d3.extent(pts, p => p.d), [0, f.iw]);
+  const lo = d3.min(pts, p => Math.min(p.r, p.q)), hi = d3.max(pts, p => p.r);
+  const y = d3.scaleLinear([lo * 1.05, hi * 1.05], [f.ih, 0]).nice();
+  f.g.append("g").attr("class", "gridl").call(d3.axisLeft(y).ticks(5).tickSize(-f.iw).tickFormat(""));
+  f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).ticks(8));
+  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(".0%")));
+  const bw = Math.max(f.iw / pts.length, 0.6);
+  f.g.append("path").attr("fill", "none").attr("stroke", css("--neutral")).attr("stroke-width", Math.min(bw, 1.2))
+    .attr("d", pts.map(p => `M${x(p.d)},${y(0)}V${y(p.r)}`).join(""));
+  f.g.append("path").attr("fill", "none").attr("stroke", css("--s1")).attr("stroke-width", 1.6)
+    .attr("d", d3.line().x(p => x(p.d)).y(p => y(p.q))(pts));
+  const hits = pts.filter(p => p.r < p.q);
+  f.g.selectAll("circle").data(hits).join("circle").attr("cx", p => x(p.d)).attr("cy", p => y(p.r)).attr("r", 4)
+    .attr("fill", css("--s2")).attr("stroke", css("--surface")).attr("stroke-width", 2);
+  const fd = d3.timeFormat("%Y-%m-%d"), bis = d3.bisector(p => p.d).center;
+  const cross = f.g.append("line").attr("y1", 0).attr("y2", f.ih).attr("stroke", css("--axis")).style("opacity", 0);
+  f.g.append("rect").attr("width", f.iw).attr("height", f.ih).attr("fill", "transparent")
+    .on("mousemove", ev => { const p = pts[bis(pts, x.invert(d3.pointer(ev)[0]))];
+      cross.attr("x1", x(p.d)).attr("x2", x(p.d)).style("opacity", 1);
+      showTip(ev, `<b>${fd(p.d)}</b><br>return ${d3.format("+.2%")(p.r)}<br>${k} 99% VaR ${d3.format(".2%")(p.q)}${p.r < p.q ? "<br><b>breach</b>" : ""}`); })
+    .on("mouseleave", () => { cross.style("opacity", 0); hideTip(); });
+  const rows = M.var.filter(r => r.alpha === 0.01);
+  d3.select("#varTable").html(`<tr><th>model (99% VaR)</th><th>breaches</th><th>expected</th><th>rate</th><th>Kupiec p</th><th>Christoffersen p</th><th>most in 10 days</th></tr>` +
+    rows.map(r => `<tr${r.model === k ? ' style="font-weight:600"' : ""}><td>${r.model}</td><td>${r.violations}</td><td>${fmt(r.expected, 0)}</td><td>${d3.format(".2%")(r.rate)}</td><td>${pfmt(r.kupiec_p)}</td><td>${pfmt(r.christoffersen_p)}</td><td>${r.max_cluster}</td></tr>`).join(""));
+}
+
+// ------------------------------------------------------------------ Bernoulli
+function drawBern() {
+  const h = M.h3;
+  d3.select("#matrix").html(`<div class="hd"></div><div class="hd">P(up today)</div><div class="hd">P(down today)</div>
+    <div class="hd">after an up day</div><div class="cell">${fmt(h.p_up_after_up, 3)}</div><div class="cell">${fmt(1 - h.p_up_after_up, 3)}</div>
+    <div class="hd">after a down day</div><div class="cell">${fmt(h.p_up_after_down, 3)}</div><div class="cell">${fmt(1 - h.p_up_after_down, 3)}</div>`);
+  const st = [["share of up days", fmt(h.p_up, 3)], ["runs test p", pfmt(h.runs_p)], ["Markov χ² p", pfmt(h.markov_p)],
+    ["Ljung-Box(10) sign p", pfmt(h.ljung_box10_sign_p)], ["Ljung-Box(10) |r| p", pfmt(h.ljung_box10_abs_p)]];
+  d3.select("#bernStats").html(st.map(s => `<div class="stat"><div class="l">${s[0]}</div><div class="n">${s[1]}</div></div>`).join(""));
+  const f = frame("#acf", 250, { t: 10, r: 14, b: 32, l: 44 });
+  const L = h.acf_sign.map((_, i) => i + 1);
+  const x = d3.scaleLinear([0.5, L.length + 0.5], [0, f.iw]);
+  const y = d3.scaleLinear([Math.min(-0.06, d3.min(h.acf_sign)), Math.max(0.3, d3.max(h.acf_abs))], [f.ih, 0]).nice();
+  f.g.append("rect").attr("x", 0).attr("width", f.iw).attr("y", y(h.acf_band)).attr("height", y(-h.acf_band) - y(h.acf_band)).attr("fill", css("--grid"));
+  f.g.append("text").attr("class", "mlbl").attr("x", 4).attr("y", y(-h.acf_band) - 3).text("95% band if no memory");
+  f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${y(0)})`).call(d3.axisBottom(x).ticks(10).tickFormat(""));
+  f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).ticks(10));
+  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5));
+  f.g.append("text").attr("class", "mlbl").attr("x", f.iw / 2).attr("y", f.ih + 28).attr("text-anchor", "middle").text("lag (trading days)");
+  [["acf_sign", "--s1", "direction"], ["acf_abs", "--s2", "size |r|"]].forEach(([key, col, name]) => {
+    const pts = h[key].map((v, i) => [i + 1, v]);
+    f.g.append("path").attr("d", d3.line().x(d => x(d[0])).y(d => y(d[1]))(pts)).attr("fill", "none").attr("stroke", css(col)).attr("stroke-width", 2);
+    f.g.selectAll(`circle.${key}`).data(pts).join("circle").attr("class", key).attr("cx", d => x(d[0])).attr("cy", d => y(d[1])).attr("r", 4)
+      .attr("fill", css(col)).attr("stroke", css("--surface")).attr("stroke-width", 2)
+      .on("mousemove", (ev, d) => showTip(ev, `<b>${name}, lag ${d[0]}</b><br>autocorrelation ${fmt(d[1], 3)}`)).on("mouseleave", hideTip);
+  });
+}
+
+// ------------------------------------------------------------------ Poisson
+function drawPois() {
+  const h4 = M.h4, src = state.k === "garch" ? h4.garch_filtered : h4.raw[state.k];
+  const obs = src.count_hist_observed, exp = src.count_hist_poisson;
+  const f = frame("#pois", 260, { t: 10, r: 14, b: 36, l: 48 });
+  const ks = obs.map((_, i) => i);
+  const x = d3.scaleBand(ks, [0, f.iw]).padding(0.25), y = d3.scaleLinear([0, d3.max([...obs, ...exp])], [f.ih, 0]).nice();
+  f.g.append("g").attr("class", "gridl").call(d3.axisLeft(y).ticks(5).tickSize(-f.iw).tickFormat(""));
+  f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).tickValues(ks.filter(k => ks.length < 16 || k % 2 === 0)));
+  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5));
+  f.g.append("text").attr("class", "mlbl").attr("x", f.iw / 2).attr("y", f.ih + 32).attr("text-anchor", "middle")
+    .text(state.k === "garch" ? "days per month in the GARCH-t forecast's 2.5σ-equivalent tails" : `days per month with |move| > ${state.k}σ`);
+  const bw = Math.min(x.bandwidth() / 2 - 1, 24);
+  const bar = (v, dx, col, name) => f.g.append("g").selectAll("path").data(ks).join("path")
+    .attr("d", k => { const x0 = x(k) + x.bandwidth() / 2 + dx, h = f.ih - y(v[k]), r = Math.min(4, h, bw / 2);
+      return h <= 0 ? "" : `M${x0},${f.ih}V${y(v[k]) + r}q0,-${r} ${r},-${r}h${bw - 2 * r}q${r},0 ${r},${r}V${f.ih}Z`; })
+    .attr("fill", css(col))
+    .on("mousemove", (ev, k) => showTip(ev, `<b>${k} event day${k === 1 ? "" : "s"} in a month</b><br>observed ${obs[k]} months<br>Poisson ${fmt(exp[k], 1)} months`)).on("mouseleave", hideTip);
+  bar(obs, -bw - 1, "--s1"); bar(exp, 1, "--neutral");
+  const st = [["months", src.months], ["event days", src.events.toLocaleString()], ["mean per month", fmt(src.lambda, 2)],
+    ["variance ÷ mean", fmt(src.dispersion, 2)], ["overdispersion p", pfmt(src.dispersion_p)],
+    ["months with zero", `${d3.format(".0%")(src.zero_months_observed)} vs ${d3.format(".0%")(src.zero_months_poisson)}`],
+    ["gap CV (1 = Poisson)", fmt(src.gap_cv, 2)]];
+  d3.select("#poisStats").html(st.map(s => `<div class="stat"><div class="l">${s[0]}</div><div class="n">${s[1]}</div></div>`).join(""));
+}
+
+// ------------------------------------------------------------------ PIT
+function drawPit() {
+  const P = Object.fromEntries(M.pit.map(r => [r.model, r])), p = P[state.pitModel];
+  const hist = p.hist, n = d3.sum(hist), rel = hist.map(h => h / (n / hist.length));
+  const f = frame("#pit", 260, { t: 10, r: 14, b: 34, l: 48 });
+  const x = d3.scaleLinear([0, 1], [0, f.iw]), y = d3.scaleLinear([0, Math.max(2, d3.max(rel) * 1.1)], [f.ih, 0]);
+  f.g.append("g").attr("class", "gridl").call(d3.axisLeft(y).ticks(4).tickSize(-f.iw).tickFormat(""));
+  f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).ticks(10));
+  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(4));
+  f.g.append("text").attr("class", "mlbl").attr("x", f.iw / 2).attr("y", f.ih + 30).attr("text-anchor", "middle").text("PIT value F(rₜ)  ·  bar height = frequency ÷ uniform");
+  const bw = f.iw / hist.length;
+  f.g.selectAll("path.b").data(rel).join("path").attr("class", "b")
+    .attr("d", (v, i) => { const x0 = i * bw + 1, w = bw - 2, top = y(v), r = Math.min(4, f.ih - top, w / 2);
+      return `M${x0},${f.ih}V${top + r}q0,-${r} ${r},-${r}h${w - 2 * r}q${r},0 ${r},${r}V${f.ih}Z`; })
+    .attr("fill", css("--s1"))
+    .on("mousemove", (ev, v) => { const i = rel.indexOf(v); showTip(ev, `<b>PIT ${fmt(i / hist.length, 2)}–${fmt((i + 1) / hist.length, 2)}</b><br>${hist[i].toLocaleString()} days<br>${fmt(v, 2)}× the uniform rate`); })
+    .on("mouseleave", hideTip);
+  f.g.append("line").attr("x1", 0).attr("x2", f.iw).attr("y1", y(1)).attr("y2", y(1)).attr("stroke", css("--ink2")).attr("stroke-width", 1.2);
+  f.g.append("text").attr("class", "lbl").attr("x", f.iw - 4).attr("y", y(1) - 6).attr("text-anchor", "end").text("uniform = calibrated");
+  d3.select("#pitTable").html(`<tr><th>model</th><th>KS stat</th><th>KS p</th><th>Berkowitz p</th><th>PIT &lt; 1%</th><th>PIT &gt; 99%</th></tr>` +
+    MODELS.map(m => P[m]).map(r => `<tr${r.model === state.pitModel ? ' style="font-weight:600"' : ""}><td>${r.model}</td><td>${fmt(r.ks_stat, 4)}</td><td>${pfmt(r.ks_p)}</td><td>${pfmt(r.berkowitz_p)}</td><td>${d3.format(".2%")(r.below_1pct)}</td><td>${d3.format(".2%")(r.above_99pct)}</td></tr>`).join(""));
+}
+
+function method() {
+  const s = DATA.settings;
+  d3.select("#method").html(`Daily log returns of index closing levels. Static models (Normal, Student-t) are fitted on the trailing ${s.window} trading days; historical simulation uses the trailing ${s.hs_window} days; GARCH(1,1) models with Normal or standardised-t shocks are re-estimated every ${s.refit} trading days on the trailing ${s.window} days, and their variance is filtered forward day by day with fixed parameters. Every forecast for day <i>t</i> is built from returns dated <i>t</i>−1 or earlier, and a unit test perturbs future returns to check that past forecasts do not change. The large-move threshold for H4 (${s.tail_k}σ) was fixed before looking at results, and other thresholds are reported as a sensitivity check. Data generated ${DATA.generated_utc}.`);
+}
+
+function render() {
+  M = DATA.markets[state.mkt];
+  d3.select("#meta").text(`${M.name} · ${M.start} to ${M.end} · ${M.n.toLocaleString()} trading days`);
+  if (state.nu == null || state._mkt !== state.mkt) { state.nu = M.t_fit_z.nu; state._mkt = state.mkt; }
+  scoreboard(); drawTails(); drawVar(); drawBern(); drawPois(); drawPit(); method();
+}
+
+d3.json("data.json").then(d => {
+  DATA = d;
+  if (d.synthetic) d3.select("#synthetic").style("display", "block");
+  const mk = Object.keys(d.markets); state.mkt = mk[0];
+  segButtons("#mkt", mk.map(m => ({ label: d.markets[m].name, value: m })), "mkt", render);
+  segButtons("#varModel", MODELS.map(m => ({ label: m, value: m })), "varModel", drawVar);
+  segButtons("#zoom", [{ label: "All", value: "all" }, { label: "2008", value: "gfc" }, { label: "2020", value: "covid" }, { label: "Last 2y", value: "recent" }], "zoom", drawVar);
+  segButtons("#kSel", [{ label: "2σ", value: "2.0" }, { label: "2.5σ", value: "2.5" }, { label: "3σ", value: "3.0" }, { label: "GARCH-t tails", value: "garch" }], "k", drawPois);
+  segButtons("#pitModel", MODELS.map(m => ({ label: m, value: m })), "pitModel", drawPit);
+  d3.select("#nu").on("input", function () { state.nu = sliderToNu(+this.value); drawTails(); });
+  d3.select("#nuMle").on("click", () => { state.nu = M.t_fit_z.nu; drawTails(); });
+  d3.select("#nuInf").on("click", () => { state.nu = Infinity; drawTails(); });
+  render();
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 150); });
+}).catch(err => d3.select("#meta").text("Could not load data.json: " + err));
+</script>
+</body>
+</html>
