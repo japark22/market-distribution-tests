@@ -344,7 +344,7 @@ function drawBern() {
   const x = d3.scaleLinear([0.5, L.length + 0.5], [0, f.iw]);
   const y = d3.scaleLinear([Math.min(-0.06, d3.min(h.acf_sign)), Math.max(0.3, d3.max(h.acf_abs))], [f.ih, 0]).nice();
   f.g.append("rect").attr("x", 0).attr("width", f.iw).attr("y", y(h.acf_band)).attr("height", y(-h.acf_band) - y(h.acf_band)).attr("fill", css("--grid"));
-  f.g.append("text").attr("class", "mlbl").attr("x", 4).attr("y", y(-h.acf_band) - 3).text("95% band if no memory");
+  f.g.append("text").attr("class", "mlbl").attr("x", f.iw - 4).attr("y", y(-h.acf_band) + 13).attr("text-anchor", "end").text("shaded: 95% band if no memory");
   f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${y(0)})`).call(d3.axisBottom(x).ticks(10).tickFormat(""));
   f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).ticks(10));
   f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5));
