@@ -232,7 +232,7 @@ def build(s: dict) -> str:
     t5 = {c: mk[c]["h2"]["tails"][2] for c in codes}
     nu_note = ("But one ν cannot fit every regime: "
                + ", ".join(f"ν = {mk[c]['h2']['nu']:.1f} for {names.get(c, c)}" for c in codes)
-               + " is below 3, where the t has no finite fourth moment, and the fitted t over-predicts the "
+               + (" is" if len(codes) == 1 else " are") + " below 3, where the t has no finite fourth moment, and the fitted t over-predicts the "
                "most extreme days (beyond 5σ: "
                + "; ".join(f"{names.get(c, c)} {t5[c]['observed']} observed vs {t5[c]['expected_t']:.0f} "
                            f"predicted" for c in codes)
@@ -253,10 +253,24 @@ def build(s: dict) -> str:
                      f"moves above 10%; {bad} of them reverse the next day (the signature of a bad print). "
                      "Recent extremes carry a lot of weight in tail statistics, so results can move when the "
                      "weekly refresh adds a crisis.")
+    def pass95(c):
+        return [x["model"] for x in mk[c]["var"] if x["alpha"] == 0.05
+                and x["kupiec_p"] > 0.05 and x["christoffersen_p"] > 0.05]
+
+    def cov95(c):
+        return [x["model"] for x in mk[c]["var"] if x["alpha"] == 0.05 and x["kupiec_p"] > 0.05]
+
+    v95_line = ("At the 95% level the picture is different, because the fat tails matter less that close to "
+                "the centre. Models with the right breach rate (Kupiec p > 0.05): "
+                + "; ".join(f"{names.get(c, c)}: {', '.join(cov95(c)) or 'none'}" for c in codes)
+                + ". Models that also pass Christoffersen: "
+                + "; ".join(f"{names.get(c, c)}: {', '.join(pass95(c)) or 'none'}" for c in codes)
+                + ". GJR-skew-t at 95%: ")
     v95 = "; ".join(f"{names.get(c, c)} {next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['violations']} vs "
                     f"{next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['expected']:.0f}, "
                     f"Kupiec p = {p(next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['kupiec_p'])}"
                     for c in codes)
+    v95_line += v95 + "."
     return f"""# market-distribution-tests
 
 **Five textbook distributions, each turned into a claim about markets and tested out-of-sample on
@@ -298,7 +312,7 @@ one-day 99% VaR every day, out-of-sample. ✅ means the model passes Kupiec, Chr
 |---|---|---:|---:|---:|---:|---:|
 {chr(10).join(var_rows)}
 
-At the 95% level GJR-skew-t is closer than the others but not perfect ({v95}).
+{v95_line}
 
 Where the breaches land in time shows why the unconditional models fail: they arrive in bursts
 during stress periods.
