@@ -245,7 +245,7 @@ function scoreboard() {
     ["H1 Normal", "Daily returns are Normal", verdict(h1.jb_p > 0.05), "rejected",
       `excess kurtosis ${fmt(h1.excess_kurtosis, 1)}; ${h1.tails[1].observed} days beyond 4σ vs ${fmt(h1.tails[1].expected_normal, 1)} expected`],
     ["H2 Student-t", "A fat-tailed t fits instead", verdict(shape && varPass("Student-t"), shape), shape ? "shape yes, timing no" : "rejected",
-      `ν ≈ ${fmt(h2.nu, 1)}; static-t 99% VaR breaches ${d3.format(".2%")(varRow("Student-t").rate)}, clustered`],
+      `ν ≈ ${fmt(h2.nu, 1)}; static-t 99% VaR breaches ${d3.format(".2%")(varRow("Student-t").rate)}${varRow("Student-t").christoffersen_p < 0.05 ? ", clustered" : ""}`],
     ["H3 Bernoulli", "Direction is a memoryless coin", verdict(memless, Math.abs(h3.acf_sign[0]) < 0.05),
       memless ? (h3.binom_p_vs_half < 0.05 ? "memoryless, biased coin" : "holds") : "tiny memory",
       `P(up) ${fmt(h3.p_up, 3)}; P(up|up) ${fmt(h3.p_up_after_up, 3)} vs P(up|down) ${fmt(h3.p_up_after_down, 3)}`],
@@ -364,19 +364,25 @@ function drawPois() {
   const obs = src.count_hist_observed, exp = src.count_hist_poisson;
   const f = frame("#pois", 260, { t: 10, r: 14, b: 36, l: 48 });
   const ks = obs.map((_, i) => i);
-  const x = d3.scaleBand(ks, [0, f.iw]).padding(0.25), y = d3.scaleLinear([0, d3.max([...obs, ...exp])], [f.ih, 0]).nice();
-  f.g.append("g").attr("class", "gridl").call(d3.axisLeft(y).ticks(5).tickSize(-f.iw).tickFormat(""));
+  const x = d3.scaleBand(ks, [0, f.iw]).padding(0.25), y = d3.scaleLog([0.01, d3.max(obs) * 3], [f.ih, 0]).clamp(true);
+  const p10 = d3.range(-2, Math.ceil(Math.log10(d3.max(obs) * 3))).map(e => Math.pow(10, e));
+  f.g.append("g").attr("class", "gridl").call(d3.axisLeft(y).tickValues(p10).tickSize(-f.iw).tickFormat(""));
   f.g.append("g").attr("class", "axis").attr("transform", `translate(0,${f.ih})`).call(d3.axisBottom(x).tickValues(ks.filter(k => ks.length < 16 || k % 2 === 0)));
-  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5));
+  f.g.append("g").attr("class", "axis").call(d3.axisLeft(y).tickValues(p10).tickFormat(d3.format("~g")));
+  f.g.append("text").attr("class", "mlbl").attr("transform", "rotate(-90)").attr("x", -f.ih / 2).attr("y", -38).attr("text-anchor", "middle").text("months (log scale)");
   f.g.append("text").attr("class", "mlbl").attr("x", f.iw / 2).attr("y", f.ih + 32).attr("text-anchor", "middle")
     .text(state.k === "garch" ? "days per month in the GARCH-t forecast's 2.5σ-equivalent tails" : `days per month with |move| > ${state.k}σ`);
-  const bw = Math.min(x.bandwidth() / 2 - 1, 24);
-  const bar = (v, dx, col, name) => f.g.append("g").selectAll("path").data(ks).join("path")
-    .attr("d", k => { const x0 = x(k) + x.bandwidth() / 2 + dx, h = f.ih - y(v[k]), r = Math.min(4, h, bw / 2);
-      return h <= 0 ? "" : `M${x0},${f.ih}V${y(v[k]) + r}q0,-${r} ${r},-${r}h${bw - 2 * r}q${r},0 ${r},${r}V${f.ih}Z`; })
-    .attr("fill", css(col))
-    .on("mousemove", (ev, k) => showTip(ev, `<b>${k} event day${k === 1 ? "" : "s"} in a month</b><br>observed ${obs[k]} months<br>Poisson ${fmt(exp[k], 1)} months`)).on("mouseleave", hideTip);
-  bar(obs, -bw - 1, "--s1"); bar(exp, 1, "--neutral");
+  const bw = Math.min(x.bandwidth(), 24);
+  const tipf = (ev, k) => showTip(ev, `<b>${k} event day${k === 1 ? "" : "s"} in a month</b><br>observed ${obs[k]} months<br>Poisson ${exp[k] < 0.01 ? exp[k].toExponential(1) : fmt(exp[k], 2)} months`);
+  f.g.append("g").selectAll("path").data(ks.filter(k => obs[k] > 0)).join("path")
+    .attr("d", k => { const x0 = x(k) + (x.bandwidth() - bw) / 2, top = y(obs[k]), r = Math.min(4, f.ih - top, bw / 2);
+      return `M${x0},${f.ih}V${top + r}q0,-${r} ${r},-${r}h${bw - 2 * r}q${r},0 ${r},${r}V${f.ih}Z`; })
+    .attr("fill", css("--s1")).on("mousemove", tipf).on("mouseleave", hideTip);
+  const ep = ks.filter(k => exp[k] >= 0.01).map(k => [x(k) + x.bandwidth() / 2, y(exp[k]), k]);
+  f.g.append("path").attr("d", d3.line()(ep.map(d => [d[0], d[1]]))).attr("fill", "none").attr("stroke", css("--neutral")).attr("stroke-width", 2);
+  f.g.selectAll("circle.pe").data(ep).join("circle").attr("class", "pe").attr("cx", d => d[0]).attr("cy", d => d[1]).attr("r", 4.5)
+    .attr("fill", css("--neutral")).attr("stroke", css("--surface")).attr("stroke-width", 2)
+    .on("mousemove", (ev, d) => tipf(ev, d[2])).on("mouseleave", hideTip);
   const st = [["months", src.months], ["event days", src.events.toLocaleString()], ["mean per month", fmt(src.lambda, 2)],
     ["variance ÷ mean", fmt(src.dispersion, 2)], ["overdispersion p", pfmt(src.dispersion_p)],
     ["months with zero", `${d3.format(".0%")(src.zero_months_observed)} vs ${d3.format(".0%")(src.zero_months_poisson)}`],

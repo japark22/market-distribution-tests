@@ -88,7 +88,8 @@ def fig_hero(site, th, path):
 
 def fig_var(site, th, path):
     mk = site["markets"]
-    fig, axes = plt.subplots(1, len(mk), figsize=(11, 3.6), sharey=True)
+    fig, axes = plt.subplots(1, len(mk), figsize=(11, 3.8), sharey=True, sharex=True)
+    top = max(r["violations"] / r["expected"] for m in mk.values() for r in m["var"] if r["alpha"] == 0.01)
     axes = np.atleast_1d(axes)
     for ax, (code, m) in zip(axes, mk.items()):
         rows = {r["model"]: r for r in m["var"] if r["alpha"] == 0.01}
@@ -107,7 +108,7 @@ def fig_var(site, th, path):
             note = ", ".join(flag) if flag else "passes both tests"
             ax.text(rt + 0.04, yi, f"{r['violations']} vs {r['expected']:.0f}  ·  {note}",
                     va="center", fontsize=8.5, color=th["ink2"])
-        ax.set_yticks(y, MODELS); ax.set_xlim(0, max(3.2, max(ratio) * 1.9))
+        ax.set_yticks(y, MODELS); ax.set_xlim(0, max(3.2, top * 1.9))
         ax.grid(axis="y", visible=False)
         ax.set_xlabel("99% VaR breaches ÷ expected  (1.0 = correct)")
         ax.set_title(f"{m['name']}  ·  out-of-sample {m['timeline']['dates'][0][:4]}–"
@@ -130,6 +131,7 @@ def fig_rug(site, th, path):
             col = th["data"] if k == HIGHLIGHT else th["ink2"]
             ax.vlines(dates[hit], i - 0.32, i + 0.32, color=col, lw=0.9)
         ax.set_yticks(range(len(MODELS)), MODELS[::-1]); ax.set_ylim(-0.6, len(MODELS) - 0.4)
+        ax.set_xlim(dates[0] - np.timedelta64(60, "D"), dates[-1] + np.timedelta64(60, "D"))
         ax.grid(axis="y", visible=False)
         ax.set_title(f"{m['name']}: each tick is a day the loss exceeded that model's 99% VaR")
     fig.tight_layout(); fig.savefig(path, dpi=160); plt.close(fig)
@@ -167,11 +169,13 @@ def fig_poisson(site, th, path):
         h4 = m["h4"]; raw = h4["raw"][str(h4["threshold_k"])]
         obs = np.array(raw["count_hist_observed"]); exp = np.array(raw["count_hist_poisson"])
         k = np.arange(len(obs))
-        ax.bar(k - 0.17, obs, width=0.32, color=th["data"], label="observed months")
-        ax.bar(k + 0.17, exp, width=0.32, color=th["neutral"], label="Poisson, same mean")
-        ax.set_xticks(k); ax.grid(axis="x", visible=False)
+        ax.bar(k[obs > 0], obs[obs > 0], width=0.55, color=th["data"], label="observed months")
+        ax.plot(k, exp, color=th["neutral"], lw=2, marker="o", ms=5,
+                markeredgecolor=th["surface"], label="Poisson, same mean")
+        ax.set_yscale("log"); ax.set_ylim(1e-3, obs.max() * 3)
+        ax.set_xticks(k[:: 2 if len(k) > 12 else 1]); ax.grid(axis="x", visible=False)
         ax.set_xlabel(f"days per month with |move| > {h4['threshold_k']}σ")
-        ax.set_ylabel("months")
+        ax.set_ylabel("months (log scale)")
         ax.set_title(f"{m['name']}  ·  variance ÷ mean = {raw['dispersion']:.1f} "
                      f"(Poisson: 1.0)")
         ax.legend(fontsize=9, labelcolor=th["ink2"])

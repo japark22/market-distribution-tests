@@ -19,6 +19,11 @@ def p(x):
     return "<0.0001" if x < 1e-4 else f"{x:.4f}"
 
 
+def peq(x):
+    """'p = 0.0123' or 'p < 0.0001'."""
+    return "p < 0.0001" if x is not None and x < 1e-4 else f"p = {p(x)}"
+
+
 def pct(x, d=2):
     return f"{x * 100:.{d}f}%"
 
@@ -102,19 +107,20 @@ def build(s: dict) -> str:
                       f"{m['h1']['tails'][1]['observed']} days beyond 4σ vs "
                       f"{m['h1']['tails'][1]['expected_normal']:.1f} expected", "H1"),
         row("**H2 Student-t**: a fat-tailed t fits instead", "MLE ν, AIC, VaR clustering",
-            lambda m: f"ν = {m['h2']['nu']:.1f}; ΔAIC = {m['h2']['aic_normal'] - m['h2']['aic_t']:,.0f} "
-                      f"for t; static-t VaR breaches cluster (p = {p(v99(m, 'Student-t')['christoffersen_p'])})",
+            lambda m: f"ν = {m['h2']['nu']:.1f}; AIC favours t by {m['h2']['aic_normal'] - m['h2']['aic_t']:,.0f}; "
+                      f"static-t 99% VaR breaches {pct(v99(m, 'Student-t')['rate'])} of days, clustered "
+                      f"(Christoffersen {peq(v99(m, 'Student-t')['christoffersen_p'])})",
             "H2"),
         row("**H3 Bernoulli**: up/down is a memoryless coin", "runs test, Markov χ²",
             lambda m: f"P(up after up) {m['h3']['p_up_after_up']:.3f} vs after down "
-                      f"{m['h3']['p_up_after_down']:.3f}; Markov p = {p(m['h3']['markov_p'])}", "H3"),
+                      f"{m['h3']['p_up_after_down']:.3f}; Markov {peq(m['h3']['markov_p'])}", "H3"),
         row(f"**H4 Poisson**: >{k}σ days arrive independently", "dispersion test on monthly counts",
             lambda m: f"variance ÷ mean = {m['h4']['raw'][k]['dispersion']:.2f} (Poisson: 1); "
                       f"after GARCH-t filtering {m['h4']['garch_filtered']['dispersion']:.2f}", "H4"),
         row("**H5 Uniform**: forecast PITs are U(0,1)", "Berkowitz + 99% VaR coverage and independence",
             lambda m: f"GJR-skew-t: {v99(m, 'GJR-skew-t')['violations']} breaches vs "
-                      f"{v99(m, 'GJR-skew-t')['expected']:.0f} expected, Berkowitz p = "
-                      f"{p(pitm(m, 'GJR-skew-t')['berkowitz_p'])}", "H5"),
+                      f"{v99(m, 'GJR-skew-t')['expected']:.0f} expected, Berkowitz "
+                      f"{peq(pitm(m, 'GJR-skew-t')['berkowitz_p'])}", "H5"),
     ])
 
     var_rows = []
@@ -171,10 +177,11 @@ def build(s: dict) -> str:
     if ok_all:
         last = (f"The last rung, **GJR-GARCH with skewed-t shocks**, lets bad news raise volatility more than "
                 f"good news and gives the left tail more weight. "
-                f"{'It is the only model' if ok_all == ['GJR-skew-t'] else 'Models'} "
-                f"({', '.join(ok_all)}) whose 99% VaR passes both the Kupiec and Christoffersen tests "
+                + ("It is the only model" if ok_all == ["GJR-skew-t"]
+                   else f"The models that pass ({', '.join(ok_all)}) are the ones")
+                + " whose 99% VaR passes both the Kupiec and Christoffersen tests "
                 f"and whose PITs pass Berkowitz in both markets: "
-                + "; ".join(f"{names.get(c, c)} {v99(mk[c], 'GJR-skew-t')['violations']} breaches vs "
+                + "; ".join(f"{names.get(c, c)}: {v99(mk[c], 'GJR-skew-t')['violations']} breaches vs "
                             f"{v99(mk[c], 'GJR-skew-t')['expected']:.0f} expected" for c in codes) + ".")
     else:
         last = "No model in the ladder passes all three calibration tests in both markets."
@@ -188,8 +195,10 @@ def build(s: dict) -> str:
         f"size is not ({A['h3']['acf_abs'][0]:+.3f}). Clustering also **breaks Poisson**: monthly counts of "
         f"large moves have variance {A['h4']['raw'][k]['dispersion']:.1f}× their mean, and "
         f"{A['h4']['garch_filtered']['dispersion']:.2f}× once a GARCH-t filter takes the clustering out. "
-        f"Adding volatility dynamics removes most of the bunching but not the bias: GARCH-t still breaches on "
-        f"{pct(va['GARCH-t']['rate'])} of days, and its misses are one-sided (PIT below 1%: "
+        f"Adding volatility dynamics reduces the bunching (most breaches in any 10 days: "
+        f"{va['Student-t']['max_cluster']} for the static t, {va['GARCH-t']['max_cluster']} for GARCH-t) but not "
+        f"the bias: GARCH-t still breaches on {pct(va['GARCH-t']['rate'])} of days, and its misses are "
+        f"one-sided (PIT below 1%: "
         f"{pct(gt['below_1pct'])}, above 99%: {pct(gt['above_99pct'])}). {last}"
     )
     ladder_rows = []
@@ -220,6 +229,16 @@ def build(s: dict) -> str:
                                 f"β = {v['beta']:.3f}, skew λ = {v['lambda']:+.3f}" for c, v in gjr.items())
                     + "). α near zero with a large γ means volatility responds mainly to *down* days, and "
                     "λ < 0 is a heavier left tail: the two asymmetries the symmetric models were missing.")
+    t5 = {c: mk[c]["h2"]["tails"][2] for c in codes}
+    nu_note = ("But one ν cannot fit every regime: "
+               + ", ".join(f"ν = {mk[c]['h2']['nu']:.1f} for {names.get(c, c)}" for c in codes)
+               + " is below 3, where the t has no finite fourth moment, and the fitted t over-predicts the "
+               "most extreme days (beyond 5σ: "
+               + "; ".join(f"{names.get(c, c)} {t5[c]['observed']} observed vs {t5[c]['expected_t']:.0f} "
+                           f"predicted" for c in codes)
+               + "). A single static t is averaging calm and stressed periods, which is a sign that "
+               "volatility moves over time."
+               if all(mk[c]["h2"]["nu"] < 3 for c in codes) else "")
     dq_path = ROOT / "results" / "data_quality.csv"
     big, bad = 0, 0
     if dq_path.exists():
@@ -265,7 +284,7 @@ enforces it.
 
 Fat tails shrink as returns are aggregated, but a Student-t with ν around
 {', '.join(f"{mk[c]['h2']['nu']:.1f} ({names.get(c, c)})" for c in codes)} describes the daily shape far
-better than the Normal. The real test is a forecast. Six models, each adding one ingredient, produce a
+better than the Normal. {nu_note} The real test is a forecast. Six models, each adding one ingredient, produce a
 one-day 99% VaR every day, out-of-sample. ✅ means the model passes Kupiec, Christoffersen and Berkowitz
 (all p > 0.05).
 
@@ -279,7 +298,7 @@ one-day 99% VaR every day, out-of-sample. ✅ means the model passes Kupiec, Chr
 |---|---|---:|---:|---:|---:|---:|
 {chr(10).join(var_rows)}
 
-Full 99% results below; at the 95% level GJR-skew-t is closer but not perfect ({v95}).
+At the 95% level GJR-skew-t is closer than the others but not perfect ({v95}).
 
 Where the breaches land in time shows why the unconditional models fail: they arrive in bursts
 during stress periods.
@@ -318,6 +337,9 @@ test checks mean, variance and autocorrelation of Φ<sup>−1</sup>(PIT) jointly
 
 With several thousand out-of-sample days these tests have a lot of power, so even a good model can be
 rejected for small deviations. Read the KS distance and the tail frequencies as effect sizes.
+Historical simulation has the smallest KS distance but still fails in the tails, which is why the
+calibration verdict also requires the 99% VaR tests. (Its PIT is a mid-rank among 250 past returns while
+its VaR is an interpolated quantile, so its two 1% rates differ slightly.)
 
 ## Method
 
@@ -357,7 +379,7 @@ pytest -q                             # simulation-based tests, including the no
 ```
 
 ```
-mdt/forecast.py      rolling out-of-sample predictive distributions (5 models)
+mdt/forecast.py      rolling out-of-sample predictive distributions (6 models)
 mdt/hypotheses.py    H1 to H5 tests, Kupiec, Christoffersen, Berkowitz
 mdt/data.py          download, cleaning audit, log returns
 scripts/             run_all, make_figures, build_readme
