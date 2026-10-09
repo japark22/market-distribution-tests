@@ -8,7 +8,7 @@ Outputs (all under results/ unless --out is given):
     var_backtest.csv        VaR violations and Kupiec / Christoffersen tests per model
     pit_tests.csv           PIT uniformity tests per model
     forecasts_<MKT>.csv.gz  daily out-of-sample PIT and VaR for every model
-    garch_t_params_<MKT>.csv GARCH-t parameters at each monthly refit
+    gjr_skewt_params_<MKT>.csv GJR-skew-t parameters at each monthly refit
     data_quality.csv        every row the cleaner dropped or flagged
     run_log.csv             one line per stage: run_time, market, stage, status, count, error
 and docs/data.json for the interactive page.
@@ -132,7 +132,7 @@ def run_market(market, args, log, out_dir) -> dict | None:
     wide.columns = [f"{m}|{c}" for m, c in wide.columns]
     wide.insert(0, "r", r.loc[wide.index])
     wide.round(7).to_csv(out_dir / f"forecasts_{market}.csv.gz", compression="gzip")
-    params.round(6).to_csv(out_dir / f"garch_t_params_{market}.csv")
+    params.round(6).to_csv(out_dir / f"gjr_skewt_params_{market}.csv")
     res.update(var=var_df, pit=pit_df, params=params,
                site=site_payload(market, r, res["h1"], res["h2"], res["h3"], res["h4"],
                                  fc, var_df, pit_df))

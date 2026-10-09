@@ -74,7 +74,7 @@ def fig_hero(site, th, path):
                     arrowprops=dict(arrowstyle="-", color=th["muted"], lw=0.8))
         wz = h1["worst_z"]
         one_day = 1.0 / (c.sum() * w[0])  # density of a single observation in one bin
-        ax.annotate(f"worst day {h1['worst_date']}\n{h1['worst_return']*100:.1f}% (z = {wz:.1f})",
+        ax.annotate(f"worst day {h1['worst_date']}\n{h1['worst_simple_return']*100:.1f}% (z = {wz:.1f})",
                     xy=(max(wz, -11.9), one_day * 0.8), xytext=(-11.5, 2e-2), fontsize=9,
                     color=th["ink2"], arrowprops=dict(arrowstyle="-", color=th["muted"], lw=0.8))
     axes[0].set_ylabel("density (log scale)")

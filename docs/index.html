@@ -124,7 +124,7 @@ footer a, p a { color: var(--s1); }
 <section class="card" id="sec-var">
   <div class="tag">Where H1 and H2 meet risk management</div>
   <h2>Do the models survive a 99% VaR backtest?</h2>
-  <p>Each model forecasts tomorrow's 1% quantile. A breach is a day the return falls below it. A correct model breaches on 1% of days (Kupiec test) and the breaches do not bunch together (Christoffersen test).</p>
+  <p>Six models, each adding one ingredient (fat tails, volatility clustering, asymmetry), forecast tomorrow's 1% quantile. A breach is a day the return falls below it. A correct model breaches on 1% of days (Kupiec test) and the breaches do not bunch together (Christoffersen test).</p>
   <div class="controls"><span class="seg" id="varModel"></span><span class="seg" id="zoom"></span></div>
   <div class="legend"><span class="key"><i style="background:var(--neutral)"></i>daily return</span><span class="key"><i style="background:var(--s1)"></i>99% VaR forecast</span><span class="key"><i class="dot" style="background:var(--s2)"></i>breach</span></div>
   <div class="chart" id="varChart"></div>
@@ -160,7 +160,7 @@ footer a, p a { color: var(--s1); }
 <section class="card" id="sec-pit">
   <div class="tag">H5 Uniform</div>
   <h2>Are the forecasts calibrated?</h2>
-  <p>Feed each realised return into the forecast's own CDF. If the forecast distribution is right, these PIT values are Uniform(0,1) and every bar sits on the line. A hump in the middle with low edges means the forecast is too wide in calm times and too narrow in the tails.</p>
+  <p>Feed each realised return into the forecast's own CDF. If the forecast distribution is right, these PIT values are Uniform(0,1) and every bar sits on the line. A hump in the middle with low edges means the forecast is too wide in calm times and too narrow in the tails. A tall left edge with a short right edge means the model is symmetric but losses are not: compare GARCH-t with GJR-skew-t.</p>
   <div class="controls"><span class="seg" id="pitModel"></span></div>
   <div class="chart" id="pit"></div>
   <div class="tablewrap"><table id="pitTable"></table></div>
@@ -232,26 +232,33 @@ function segButtons(sel, items, key, cb) {
 
 // ------------------------------------------------------------------ scoreboard
 function verdict(ok, partial) { return ok ? ["yes", "✓"] : partial ? ["part", "~"] : ["no", "✕"]; }
+// Same rules as scripts/build_readme.py
+const varRow = (m, a = 0.01) => M.var.find(r => r.model === m && r.alpha === a);
+const varPass = m => { const r = varRow(m); return r.kupiec_p > 0.05 && r.christoffersen_p > 0.05; };
+const calibrated = m => varPass(m) && M.pit.find(r => r.model === m).berkowitz_p > 0.05;
 function scoreboard() {
-  const h1 = M.h1, h2 = M.h2, h3 = M.h3, h4 = M.h4.raw[String(DATA.settings.tail_k)];
-  const v = Object.fromEntries(M.var.filter(r => r.alpha === 0.01).map(r => [r.model, r]));
-  const p = Object.fromEntries(M.pit.map(r => [r.model, r]));
-  const t4 = h2.tails.find(t => t.k === 4);
+  const h1 = M.h1, h2 = M.h2, h3 = M.h3, h4 = M.h4.raw[String(DATA.settings.tail_k)], hf = M.h4.garch_filtered;
+  const t4 = h2.tails.find(t => t.k === 4), ok = MODELS.filter(calibrated);
+  const shape = h2.aic_t < h2.aic_normal;
+  const memless = h3.markov_p > 0.05 && h3.runs_p > 0.05;
   const items = [
-    ["H1 Normal", "Daily returns are Normal", verdict(h1.jb_p > 0.05), `excess kurtosis ${fmt(h1.excess_kurtosis, 1)}`],
-    ["H2 Student-t", "A fat-tailed t fits instead", verdict(h2.aic_t < h2.aic_normal && v["Student-t"].christoffersen_p > 0.05, h2.aic_t < h2.aic_normal),
-      `ν ≈ ${fmt(h2.nu, 1)}; >4σ days ${t4.observed} vs t ${fmt(t4.expected_t, 0)}`],
-    ["H3 Bernoulli", "Direction is a memoryless coin", verdict(h3.markov_p > 0.05 && h3.runs_p > 0.05, Math.abs(h3.acf_sign[0]) < 0.05),
-      `P(up|up) ${fmt(h3.p_up_after_up, 3)} vs P(up|down) ${fmt(h3.p_up_after_down, 3)}`],
-    ["H4 Poisson", "Big moves arrive independently", verdict(h4.dispersion_p > 0.05), `variance ÷ mean ${fmt(h4.dispersion, 1)}`],
-    ["H5 Uniform", "GARCH-t forecasts are calibrated", verdict(p["GARCH-t"].berkowitz_p > 0.05, p["GARCH-t"].ks_stat < p["Normal"].ks_stat / 2),
-      `KS ${fmt(p["GARCH-t"].ks_stat, 3)} vs ${fmt(p["Normal"].ks_stat, 3)} static Normal`],
+    ["H1 Normal", "Daily returns are Normal", verdict(h1.jb_p > 0.05), "rejected",
+      `excess kurtosis ${fmt(h1.excess_kurtosis, 1)}; ${h1.tails[1].observed} days beyond 4σ vs ${fmt(h1.tails[1].expected_normal, 1)} expected`],
+    ["H2 Student-t", "A fat-tailed t fits instead", verdict(shape && varPass("Student-t"), shape), shape ? "shape yes, timing no" : "rejected",
+      `ν ≈ ${fmt(h2.nu, 1)}; static-t 99% VaR breaches ${d3.format(".2%")(varRow("Student-t").rate)}, clustered`],
+    ["H3 Bernoulli", "Direction is a memoryless coin", verdict(memless, Math.abs(h3.acf_sign[0]) < 0.05),
+      memless ? (h3.binom_p_vs_half < 0.05 ? "memoryless, biased coin" : "holds") : "tiny memory",
+      `P(up) ${fmt(h3.p_up, 3)}; P(up|up) ${fmt(h3.p_up_after_up, 3)} vs P(up|down) ${fmt(h3.p_up_after_down, 3)}`],
+    ["H4 Poisson", "Big moves arrive independently", verdict(h4.dispersion_p > 0.05, hf.dispersion < 1.5),
+      h4.dispersion_p > 0.05 ? "holds" : hf.dispersion < 1.5 ? "rejected; clustering explains it" : "rejected",
+      `variance ÷ mean ${fmt(h4.dispersion, 1)} raw, ${fmt(hf.dispersion, 2)} after GARCH-t filter`],
+    ["H5 Uniform", "Some forecast is calibrated", verdict(ok.length > 0), ok.length ? ok.join(", ") : "none",
+      `GJR-skew-t: ${varRow("GJR-skew-t").violations} breaches vs ${fmt(varRow("GJR-skew-t").expected, 0)} expected`],
   ];
-  const label = { yes: "holds", part: "partly", no: "rejected" };
   d3.select("#scoreboard").selectAll(".tile").data(items).join("div").attr("class", "tile")
     .html(d => `<div class="h">${d[0]}</div><div class="q">${d[1]}</div>
-      <div class="v"><span class="icon ${d[2][0]}" aria-hidden="true">${d[2][1]}</span>${label[d[2][0]]}</div>
-      <div class="meta" style="margin-top:4px">${d[3]}</div>`);
+      <div class="v"><span class="icon ${d[2][0]}" aria-hidden="true">${d[2][1]}</span>${d[3]}</div>
+      <div class="meta" style="margin-top:4px">${d[4]}</div>`);
 }
 
 // ------------------------------------------------------------------ tails
@@ -402,7 +409,7 @@ function drawPit() {
 
 function method() {
   const s = DATA.settings;
-  d3.select("#method").html(`Daily log returns of index closing levels. Static models (Normal, Student-t) are fitted on the trailing ${s.window} trading days; historical simulation uses the trailing ${s.hs_window} days; GARCH(1,1) models with Normal or standardised-t shocks are re-estimated every ${s.refit} trading days on the trailing ${s.window} days, and their variance is filtered forward day by day with fixed parameters. Every forecast for day <i>t</i> is built from returns dated <i>t</i>−1 or earlier, and a unit test perturbs future returns to check that past forecasts do not change. The large-move threshold for H4 (${s.tail_k}σ) was fixed before looking at results, and other thresholds are reported as a sensitivity check. Data generated ${DATA.generated_utc}.`);
+  d3.select("#method").html(`Daily log returns of index closing levels. Static models (Normal, Student-t) are fitted on the trailing ${s.window} trading days; historical simulation uses the trailing ${s.hs_window} days; GARCH(1,1) models with Normal or standardised-t shocks and a GJR-GARCH(1,1) with Hansen's skewed-t shocks are re-estimated every ${s.refit} trading days on the trailing ${s.window} days, and their variance is filtered forward day by day with fixed parameters. Every forecast for day <i>t</i> is built from returns dated <i>t</i>−1 or earlier, and a unit test perturbs future returns to check that past forecasts do not change. The large-move threshold for H4 (${s.tail_k}σ) was fixed before looking at results, and other thresholds are reported as a sensitivity check. Data generated ${DATA.generated_utc}.`);
 }
 
 function render() {

@@ -38,6 +38,7 @@ def h1_normal(r: pd.Series) -> dict:
         xs = x[: m * h].reshape(m, h).sum(axis=1)
         agg.append({"horizon_days": h, "n": m, "excess_kurtosis": float(stats.kurtosis(xs))})
     worst = int(np.argmin(z))
+    best = int(np.argmax(z))
     p_worst = stats.norm.cdf(z[worst])
     return {
         "n": n,
@@ -55,6 +56,10 @@ def h1_normal(r: pd.Series) -> dict:
         "worst_date": str(r.index[worst].date()),
         "worst_return": float(x[worst]),
         "worst_z": float(z[worst]),
+        "worst_simple_return": float(np.expm1(x[worst])),
+        "best_date": str(r.index[best].date()),
+        "best_simple_return": float(np.expm1(x[best])),
+        "best_z": float(z[best]),
         # expected waiting time for a day this bad under the Normal, in years of 252 days
         "worst_normal_wait_years": float(1.0 / p_worst / 252.0) if p_worst > 0 else float("inf"),
     }

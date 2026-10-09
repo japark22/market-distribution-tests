@@ -28,33 +28,49 @@ def fig(name, alt):
             f'  <img src="figures/{name}.png" alt="{alt}" width="100%">\n</picture>')
 
 
+LADDER = [  # model, what it adds over the rung before
+    ("Normal", "baseline: Normal fitted to the last 1000 days"),
+    ("Student-t", "fat tails (shape)"),
+    ("Hist. sim.", "no shape assumption (last 250 days)"),
+    ("GARCH-N", "volatility clustering (timing)"),
+    ("GARCH-t", "clustering + fat tails"),
+    ("GJR-skew-t", "clustering + fat tails + asymmetry (bad news raises volatility more; heavier left tail)"),
+]
+
+
+def var_pass(m, model, alpha=0.01):
+    r = next(x for x in m["var"] if x["model"] == model and x["alpha"] == alpha)
+    return r["kupiec_p"] > 0.05 and r["christoffersen_p"] > 0.05
+
+
+def calibrated(m, model):
+    """Passes the 99% VaR coverage and independence tests and Berkowitz on the full PIT."""
+    pit = next(x for x in m["pit"] if x["model"] == model)
+    return var_pass(m, model) and pit["berkowitz_p"] > 0.05
+
+
 def verdicts(m):
     h1, h2, h3 = m["h1"], m["h2"], m["h3"]
     h4 = m["h4"]["raw"][str(m["h4"]["threshold_k"])]
-    var = {r["model"]: r for r in m["var"] if r["alpha"] == 0.01}
-    pit = {r["model"]: r for r in m["pit"]}
     out = {}
     out["H1"] = "rejected" if h1["jb_p"] < 0.05 else "not rejected"
-    if h2["aic_t"] < h2["aic_normal"] and var["Student-t"]["christoffersen_p"] > 0.05:
-        out["H2"] = "holds"
-    elif h2["aic_t"] < h2["aic_normal"]:
-        out["H2"] = "shape yes, timing no"
+    if h2["aic_t"] < h2["aic_normal"]:
+        out["H2"] = "shape yes, timing no" if not var_pass(m, "Student-t") else "holds"
     else:
         out["H2"] = "rejected"
     if h3["markov_p"] > 0.05 and h3["runs_p"] > 0.05:
-        out["H3"] = "holds"
+        out["H3"] = "memoryless (but biased toward up days)" if h3["binom_p_vs_half"] < 0.05 else "holds"
     elif abs(h3["acf_sign"][0]) < 0.05:
-        out["H3"] = "statistically rejected, economically tiny"
+        out["H3"] = "rejected, but the memory is tiny"
     else:
         out["H3"] = "rejected"
-    out["H4"] = "rejected" if h4["dispersion_p"] < 0.05 else "not rejected"
-    g = pit["GARCH-t"]
-    if g["berkowitz_p"] > 0.05:
-        out["H5"] = "GARCH-t passes"
-    elif g["ks_stat"] < pit["Normal"]["ks_stat"] / 2:
-        out["H5"] = "GARCH-t much closer, not perfect"
+    if h4["dispersion_p"] < 0.05:
+        out["H4"] = ("rejected; clustering explains it" if m["h4"]["garch_filtered"]["dispersion"] < 1.5
+                     else "rejected")
     else:
-        out["H5"] = "rejected for all models"
+        out["H4"] = "not rejected"
+    ok = [name for name, _ in LADDER if calibrated(m, name)]
+    out["H5"] = ("calibrated: " + ", ".join(ok)) if ok else "no model calibrated"
     return out
 
 
@@ -95,10 +111,10 @@ def build(s: dict) -> str:
         row(f"**H4 Poisson**: >{k}σ days arrive independently", "dispersion test on monthly counts",
             lambda m: f"variance ÷ mean = {m['h4']['raw'][k]['dispersion']:.2f} (Poisson: 1); "
                       f"after GARCH-t filtering {m['h4']['garch_filtered']['dispersion']:.2f}", "H4"),
-        row("**H5 Uniform**: forecast PITs are U(0,1)", "KS, Berkowitz",
-            lambda m: f"KS distance: static Normal {pitm(m, 'Normal')['ks_stat']:.3f} → GARCH-t "
-                      f"{pitm(m, 'GARCH-t')['ks_stat']:.3f}; Berkowitz p = "
-                      f"{p(pitm(m, 'GARCH-t')['berkowitz_p'])}", "H5"),
+        row("**H5 Uniform**: forecast PITs are U(0,1)", "Berkowitz + 99% VaR coverage and independence",
+            lambda m: f"GJR-skew-t: {v99(m, 'GJR-skew-t')['violations']} breaches vs "
+                      f"{v99(m, 'GJR-skew-t')['expected']:.0f} expected, Berkowitz p = "
+                      f"{p(pitm(m, 'GJR-skew-t')['berkowitz_p'])}", "H5"),
     ])
 
     var_rows = []
@@ -118,8 +134,9 @@ def build(s: dict) -> str:
         h = mk[c]["h1"]
         yrs = h["worst_normal_wait_years"]
         wait = f"{yrs:.1e} years" if yrs and yrs > 1e4 else (f"{yrs:,.0f} years" if yrs else "never")
-        return (f"- **{names.get(c, c)}**: worst day {h['worst_date']} at {h['worst_return'] * 100:.1f}% "
-                f"(z = {h['worst_z']:.1f}). Under a Normal, a day that bad should come once every {wait}. "
+        return (f"- **{names.get(c, c)}**: worst day {h['worst_date']} at {h['worst_simple_return'] * 100:+.1f}% "
+                f"(z = {h['worst_z']:.1f}); best day {h['best_date']} at {h['best_simple_return'] * 100:+.1f}%. "
+                f"Under a Normal, a day as bad as the worst should come once every {wait}. "
                 f"Excess kurtosis falls from {h['aggregation'][0]['excess_kurtosis']:.1f} (daily) to "
                 f"{h['aggregation'][1]['excess_kurtosis']:.1f} (weekly) and "
                 f"{h['aggregation'][2]['excess_kurtosis']:.1f} (monthly).")
@@ -145,7 +162,82 @@ def build(s: dict) -> str:
         r = mk[c]["h4"]["raw"]
         sens.append(f"{names.get(c, c)}: " + ", ".join(f"{kk}σ → {v['dispersion']:.2f}" for kk, v in r.items()))
 
-    story = ""
+    a, b = codes[0], codes[-1]
+    A, B = mk[a], mk[b]
+    t4 = A["h1"]["tails"][1]
+    ok_all = [name for name, _ in LADDER if all(calibrated(mk[c], name) for c in codes)]
+    va = {m_: v99(A, m_) for m_, _ in LADDER}
+    gt = pitm(A, "GARCH-t")
+    if ok_all:
+        last = (f"The last rung, **GJR-GARCH with skewed-t shocks**, lets bad news raise volatility more than "
+                f"good news and gives the left tail more weight. "
+                f"{'It is the only model' if ok_all == ['GJR-skew-t'] else 'Models'} "
+                f"({', '.join(ok_all)}) whose 99% VaR passes both the Kupiec and Christoffersen tests "
+                f"and whose PITs pass Berkowitz in both markets: "
+                + "; ".join(f"{names.get(c, c)} {v99(mk[c], 'GJR-skew-t')['violations']} breaches vs "
+                            f"{v99(mk[c], 'GJR-skew-t')['expected']:.0f} expected" for c in codes) + ".")
+    else:
+        last = "No model in the ladder passes all three calibration tests in both markets."
+    story = (
+        f"**The chain of results.** Returns are **not Normal**: {names.get(a, a)} daily excess kurtosis is "
+        f"{A['h1']['excess_kurtosis']:.1f}, with {t4['observed']} days beyond 4σ where a Normal expects "
+        f"{t4['expected_normal']:.1f}. A Student-t **fixes the shape** (KS distance "
+        f"{A['h2']['ks_normal']:.3f} → {A['h2']['ks_t']:.3f}), but a static t still breaches its 99% VaR on "
+        f"{pct(va['Student-t']['rate'])} of days, and in bunches. The cause is **clustering**: the direction "
+        f"of a day is close to a coin flip (lag-1 sign autocorrelation {A['h3']['acf_sign'][0]:+.3f}), its "
+        f"size is not ({A['h3']['acf_abs'][0]:+.3f}). Clustering also **breaks Poisson**: monthly counts of "
+        f"large moves have variance {A['h4']['raw'][k]['dispersion']:.1f}× their mean, and "
+        f"{A['h4']['garch_filtered']['dispersion']:.2f}× once a GARCH-t filter takes the clustering out. "
+        f"Adding volatility dynamics removes most of the bunching but not the bias: GARCH-t still breaches on "
+        f"{pct(va['GARCH-t']['rate'])} of days, and its misses are one-sided (PIT below 1%: "
+        f"{pct(gt['below_1pct'])}, above 99%: {pct(gt['above_99pct'])}). {last}"
+    )
+    ladder_rows = []
+    for name, adds in LADDER:
+        cells = []
+        for c in codes:
+            r = v99(mk[c], name)
+            cells.append(f"{pct(r['rate'])} {'✅' if calibrated(mk[c], name) else '❌'}")
+        ladder_rows.append(f"| {name} | {adds} | " + " | ".join(cells) + " |")
+    ladder = "\n".join([
+        "| Model | What it adds | " + " | ".join(f"{names.get(c, c)}: 99% breach rate (target 1.00%)"
+                                              for c in codes) + " |",
+        "|---|---|" + "---:|" * len(codes),
+        *ladder_rows,
+    ])
+    gjr = {}
+    for c in codes:
+        path = ROOT / "results" / f"gjr_skewt_params_{c}.csv"
+        if path.exists():
+            import csv
+            rows = list(csv.DictReader(path.open()))
+            med = lambda key: sorted(float(r_[key]) for r_ in rows)[len(rows) // 2]
+            gjr[c] = {kk: med(kk) for kk in ("alpha", "gamma", "beta", "lambda")}
+    gjr_line = ""
+    if gjr:
+        gjr_line = ("Median GJR-skew-t parameters across monthly refits ("
+                    + "; ".join(f"{names.get(c, c)}: α = {v['alpha']:.3f}, γ = {v['gamma']:.3f}, "
+                                f"β = {v['beta']:.3f}, skew λ = {v['lambda']:+.3f}" for c, v in gjr.items())
+                    + "). α near zero with a large γ means volatility responds mainly to *down* days, and "
+                    "λ < 0 is a heavier left tail: the two asymmetries the symmetric models were missing.")
+    dq_path = ROOT / "results" / "data_quality.csv"
+    big, bad = 0, 0
+    if dq_path.exists():
+        import csv
+        for row_ in csv.DictReader(dq_path.open()):
+            if row_["action"] == "keep":
+                big += 1
+                bad += "possible bad print" in row_["reason"]
+    ext = "; ".join(f"{names.get(c, c)} worst {mk[c]['h1']['worst_date']} ({mk[c]['h1']['worst_simple_return'] * 100:+.1f}%), "
+                    f"best {mk[c]['h1']['best_date']} ({mk[c]['h1']['best_simple_return'] * 100:+.1f}%)" for c in codes)
+    extremes_line = (f"- **Extreme days are kept, not trimmed.** {ext}. `results/data_quality.csv` lists all {big} "
+                     f"moves above 10%; {bad} of them reverse the next day (the signature of a bad print). "
+                     "Recent extremes carry a lot of weight in tail statistics, so results can move when the "
+                     "weekly refresh adds a crisis.")
+    v95 = "; ".join(f"{names.get(c, c)} {next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['violations']} vs "
+                    f"{next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['expected']:.0f}, "
+                    f"Kupiec p = {p(next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['kupiec_p'])}"
+                    for c in codes)
     return f"""# market-distribution-tests
 
 **Five textbook distributions, each turned into a claim about markets and tested out-of-sample on
@@ -173,14 +265,21 @@ enforces it.
 
 Fat tails shrink as returns are aggregated, but a Student-t with ν around
 {', '.join(f"{mk[c]['h2']['nu']:.1f} ({names.get(c, c)})" for c in codes)} describes the daily shape far
-better than the Normal. The real test is a forecast. Five models produce a one-day 99% VaR every day,
-out-of-sample:
+better than the Normal. The real test is a forecast. Six models, each adding one ingredient, produce a
+one-day 99% VaR every day, out-of-sample. ✅ means the model passes Kupiec, Christoffersen and Berkowitz
+(all p > 0.05).
+
+{ladder}
+
+{gjr_line}
 
 {fig("var_breaches", "99% VaR breaches divided by expected, per model")}
 
 | Market | Model | Breaches | Expected | Rate | Kupiec p (right rate) | Christoffersen p (no clustering) |
 |---|---|---:|---:|---:|---:|---:|
 {chr(10).join(var_rows)}
+
+Full 99% results below; at the 95% level GJR-skew-t is closer but not perfect ({v95}).
 
 Where the breaches land in time shows why the unconditional models fail: they arrive in bursts
 during stress periods.
@@ -225,9 +324,9 @@ rejected for small deviations. Read the KS distance and the tail frequencies as 
 | | |
 |---|---|
 | Data | Yahoo Finance index closes (`^GSPC`, `^KS11`), daily log returns. Index levels, not total return. |
-| Cleaning | Weekend rows and unchanged-close zero-volume rows (stale holiday prints) dropped; any move above 15% flagged and excluded. Every dropped row is listed in `results/data_quality.csv`. |
+| Cleaning | Weekend rows and unchanged-close zero-volume rows (stale holiday prints) dropped. Moves above 10% are kept and listed in `results/data_quality.csv` for review. |
 | Static models | Normal and Student-t (MLE) on the trailing {st['window']} days; historical simulation on the trailing {st['hs_window']} days. |
-| GARCH | GARCH(1,1), constant mean, Normal or standardised-t shocks (`arch`). Re-estimated every {st['refit']} days on the trailing {st['window']} days; variance filtered forward daily with fixed parameters. |
+| GARCH | GARCH(1,1) with Normal or standardised-t shocks, and GJR-GARCH(1,1) with Hansen skewed-t shocks; constant mean (`arch`). Re-estimated every {st['refit']} days on the trailing {st['window']} days; variance filtered forward daily with fixed parameters. |
 | Point-in-time | Every forecast for day *t* uses returns dated *t*−1 or earlier. `tests/test_forecast.py` multiplies all returns after a cut-off by 5 and checks that earlier forecasts do not move. |
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
@@ -242,8 +341,10 @@ Last run: {s['generated_utc']}. All numbers above are read from [`results/summar
   which can truncate KOSPI index tails in the earlier years.
 - **Many tests, large samples.** Some p-values will be small by chance or for economically trivial
   deviations. The figures and effect sizes matter more than any single p-value.
-- **Model set is deliberately simple.** No asymmetric GARCH, no realised-volatility inputs, no
-  regime switching. The point is the chain of hypotheses, not the best VaR model.
+- **One passing model is not a proven model.** GJR-skew-t passing at 99% is one level, two markets,
+  and a handful of tests; it was added after the symmetric models failed, so treat it as the next
+  hypothesis, not a final answer. No realised-volatility inputs or regime switching are tried.
+{extremes_line}
 
 ## Reproduce
 
@@ -261,7 +362,7 @@ mdt/hypotheses.py    H1 to H5 tests, Kupiec, Christoffersen, Berkowitz
 mdt/data.py          download, cleaning audit, log returns
 scripts/             run_all, make_figures, build_readme
 docs/                GitHub Pages site (index.html + data.json)
-results/             summary.json, CSV outputs, run_log.csv
+results/             summary.json, CSV outputs, GJR-skew-t parameter paths, run_log.csv
 tests/               known-distribution simulations and the lookahead test
 ```
 
