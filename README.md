@@ -21,21 +21,33 @@ enforces it.
 |---|---|---|---|
 | **H1 Normal**: daily returns are Normal | Jarque-Bera, tail counts | excess kurtosis 10.9; 62 days beyond 4σ vs 0.6 expected<br>**rejected** | excess kurtosis 7.5; 54 days beyond 4σ vs 0.5 expected<br>**rejected** |
 | **H2 Student-t**: a fat-tailed t fits instead | MLE ν, AIC, VaR clustering | ν = 2.8; ΔAIC = 2,521 for t; static-t VaR breaches cluster (p = <0.0001)<br>**shape yes, timing no** | ν = 2.3; ΔAIC = 2,288 for t; static-t VaR breaches cluster (p = <0.0001)<br>**shape yes, timing no** |
-| **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.523 vs after down 0.553; Markov p = 0.0033<br>**statistically rejected, economically tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1482<br>**holds** |
-| **H4 Poisson**: >2.5σ days arrive independently | dispersion test on monthly counts | variance ÷ mean = 4.91 (Poisson: 1); after GARCH-t filtering 1.06<br>**rejected** | variance ÷ mean = 4.23 (Poisson: 1); after GARCH-t filtering 1.19<br>**rejected** |
-| **H5 Uniform**: forecast PITs are U(0,1) | KS, Berkowitz | KS distance: static Normal 0.072 → GARCH-t 0.017; Berkowitz p = 0.0008<br>**GARCH-t much closer, not perfect** | KS distance: static Normal 0.076 → GARCH-t 0.019; Berkowitz p = 0.0068<br>**GARCH-t much closer, not perfect** |
+| **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.523 vs after down 0.553; Markov p = 0.0033<br>**rejected, but the memory is tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1482<br>**memoryless (but biased toward up days)** |
+| **H4 Poisson**: >2.5σ days arrive independently | dispersion test on monthly counts | variance ÷ mean = 4.91 (Poisson: 1); after GARCH-t filtering 1.06<br>**rejected; clustering explains it** | variance ÷ mean = 4.23 (Poisson: 1); after GARCH-t filtering 1.19<br>**rejected; clustering explains it** |
+| **H5 Uniform**: forecast PITs are U(0,1) | Berkowitz + 99% VaR coverage and independence | GJR-skew-t: 100 breaches vs 83 expected, Berkowitz p = 0.0933<br>**calibrated: GJR-skew-t** | GJR-skew-t: 64 breaches vs 63 expected, Berkowitz p = 0.0675<br>**calibrated: GJR-skew-t** |
 
-
+**The chain of results.** Returns are **not Normal**: S&P 500 daily excess kurtosis is 10.9, with 62 days beyond 4σ where a Normal expects 0.6. A Student-t **fixes the shape** (KS distance 0.090 → 0.015), but a static t still breaches its 99% VaR on 1.53% of days, and in bunches. The cause is **clustering**: the direction of a day is close to a coin flip (lag-1 sign autocorrelation -0.031), its size is not (+0.274). Clustering also **breaks Poisson**: monthly counts of large moves have variance 4.9× their mean, and 1.06× once a GARCH-t filter takes the clustering out. Adding volatility dynamics removes most of the bunching but not the bias: GARCH-t still breaches on 1.63% of days, and its misses are one-sided (PIT below 1%: 1.63%, above 99%: 0.48%). The last rung, **GJR-GARCH with skewed-t shocks**, lets bad news raise volatility more than good news and gives the left tail more weight. It is the only model (GJR-skew-t) whose 99% VaR passes both the Kupiec and Christoffersen tests and whose PITs pass Berkowitz in both markets: S&P 500 100 breaches vs 83 expected; KOSPI 64 breaches vs 63 expected.
 
 ## H1 Normal and H2 Student-t: the tails
 
-- **S&P 500**: worst day 2020-03-16 at -12.8% (z = -11.3). Under a Normal, a day that bad should come once every 5.9e+26 years. Excess kurtosis falls from 10.9 (daily) to 4.9 (weekly) and 2.4 (monthly).
-- **KOSPI**: worst day 2026-03-04 at -12.8% (z = -7.5). Under a Normal, a day that bad should come once every 1.0e+11 years. Excess kurtosis falls from 7.5 (daily) to 3.6 (weekly) and 2.1 (monthly).
+- **S&P 500**: worst day 2020-03-16 at -12.0% (z = -11.3); best day 2008-10-13 at +11.6%. Under a Normal, a day as bad as the worst should come once every 5.9e+26 years. Excess kurtosis falls from 10.9 (daily) to 4.9 (weekly) and 2.4 (monthly).
+- **KOSPI**: worst day 2026-03-04 at -12.1% (z = -7.5); best day 2026-07-31 at +17.9%. Under a Normal, a day as bad as the worst should come once every 1.0e+11 years. Excess kurtosis falls from 7.5 (daily) to 3.6 (weekly) and 2.1 (monthly).
 
 Fat tails shrink as returns are aggregated, but a Student-t with ν around
 2.8 (S&P 500), 2.3 (KOSPI) describes the daily shape far
-better than the Normal. The real test is a forecast. Five models produce a one-day 99% VaR every day,
-out-of-sample:
+better than the Normal. The real test is a forecast. Six models, each adding one ingredient, produce a
+one-day 99% VaR every day, out-of-sample. ✅ means the model passes Kupiec, Christoffersen and Berkowitz
+(all p > 0.05).
+
+| Model | What it adds | S&P 500: 99% breach rate (target 1.00%) | KOSPI: 99% breach rate (target 1.00%) |
+|---|---|---:|---:|
+| Normal | baseline: Normal fitted to the last 1000 days | 2.45% ❌ | 2.17% ❌ |
+| Student-t | fat tails (shape) | 1.53% ❌ | 1.56% ❌ |
+| Hist. sim. | no shape assumption (last 250 days) | 1.68% ❌ | 1.72% ❌ |
+| GARCH-N | volatility clustering (timing) | 2.30% ❌ | 2.17% ❌ |
+| GARCH-t | clustering + fat tails | 1.63% ❌ | 1.61% ❌ |
+| GJR-skew-t | clustering + fat tails + asymmetry (bad news raises volatility more; heavier left tail) | 1.21% ✅ | 1.01% ✅ |
+
+Median GJR-skew-t parameters across monthly refits (S&P 500: α = 0.000, γ = 0.172, β = 0.892, skew λ = -0.132; KOSPI: α = 0.000, γ = 0.137, β = 0.875, skew λ = -0.132). α near zero with a large γ means volatility responds mainly to *down* days, and λ < 0 is a heavier left tail: the two asymmetries the symmetric models were missing.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/var_breaches-dark.png">
@@ -56,6 +68,8 @@ out-of-sample:
 | KOSPI | GARCH-N | 137 | 63 | 2.17% | <0.0001 | 0.0404 |
 | KOSPI | GARCH-t | 102 | 63 | 1.61% | <0.0001 | 0.0313 |
 | KOSPI | GJR-skew-t | 64 | 63 | 1.01% | 0.9266 | 0.1721 |
+
+Full 99% results below; at the 95% level GJR-skew-t is closer but not perfect (S&P 500 453 vs 413, Kupiec p = 0.0463; KOSPI 358 vs 316, Kupiec p = 0.0185).
 
 Where the breaches land in time shows why the unconditional models fail: they arrive in bursts
 during stress periods.
@@ -123,14 +137,14 @@ rejected for small deviations. Read the KS distance and the tail frequencies as 
 | | |
 |---|---|
 | Data | Yahoo Finance index closes (`^GSPC`, `^KS11`), daily log returns. Index levels, not total return. |
-| Cleaning | Weekend rows and unchanged-close zero-volume rows (stale holiday prints) dropped; any move above 15% flagged and excluded. Every dropped row is listed in `results/data_quality.csv`. |
+| Cleaning | Weekend rows and unchanged-close zero-volume rows (stale holiday prints) dropped. Moves above 10% are kept and listed in `results/data_quality.csv` for review. |
 | Static models | Normal and Student-t (MLE) on the trailing 1000 days; historical simulation on the trailing 250 days. |
-| GARCH | GARCH(1,1), constant mean, Normal or standardised-t shocks (`arch`). Re-estimated every 21 days on the trailing 1000 days; variance filtered forward daily with fixed parameters. |
+| GARCH | GARCH(1,1) with Normal or standardised-t shocks, and GJR-GARCH(1,1) with Hansen skewed-t shocks; constant mean (`arch`). Re-estimated every 21 days on the trailing 1000 days; variance filtered forward daily with fixed parameters. |
 | Point-in-time | Every forecast for day *t* uses returns dated *t*−1 or earlier. `tests/test_forecast.py` multiplies all returns after a cut-off by 5 and checks that earlier forecasts do not move. |
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
 
-Last run: 2026-10-09T07:45:14Z. All numbers above are read from [`results/summary.json`](results/summary.json).
+Last run: 2026-10-09T07:52:30Z. All numbers above are read from [`results/summary.json`](results/summary.json).
 
 ## Limitations
 
@@ -140,8 +154,10 @@ Last run: 2026-10-09T07:45:14Z. All numbers above are read from [`results/summar
   which can truncate KOSPI index tails in the earlier years.
 - **Many tests, large samples.** Some p-values will be small by chance or for economically trivial
   deviations. The figures and effect sizes matter more than any single p-value.
-- **Model set is deliberately simple.** No asymmetric GARCH, no realised-volatility inputs, no
-  regime switching. The point is the chain of hypotheses, not the best VaR model.
+- **One passing model is not a proven model.** GJR-skew-t passing at 99% is one level, two markets,
+  and a handful of tests; it was added after the symmetric models failed, so treat it as the next
+  hypothesis, not a final answer. No realised-volatility inputs or regime switching are tried.
+- **Extreme days are kept, not trimmed.** S&P 500 worst 2020-03-16 (-12.0%), best 2008-10-13 (+11.6%); KOSPI worst 2026-03-04 (-12.1%), best 2026-07-31 (+17.9%). `results/data_quality.csv` lists all 13 moves above 10%; 0 of them reverse the next day (the signature of a bad print). Recent extremes carry a lot of weight in tail statistics, so results can move when the weekly refresh adds a crisis.
 
 ## Reproduce
 
@@ -159,7 +175,7 @@ mdt/hypotheses.py    H1 to H5 tests, Kupiec, Christoffersen, Berkowitz
 mdt/data.py          download, cleaning audit, log returns
 scripts/             run_all, make_figures, build_readme
 docs/                GitHub Pages site (index.html + data.json)
-results/             summary.json, CSV outputs, run_log.csv
+results/             summary.json, CSV outputs, GJR-skew-t parameter paths, run_log.csv
 tests/               known-distribution simulations and the lookahead test
 ```
 

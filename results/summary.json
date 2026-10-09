@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-09T07:45:14Z",
+ "generated_utc": "2026-10-09T07:52:30Z",
  "synthetic": false,
  "settings": {
   "window": 1000,
@@ -57,6 +57,10 @@
     "worst_date": "2020-03-16",
     "worst_return": -0.12765219747281709,
     "worst_z": -11.298440164677507,
+    "worst_simple_return": -0.11984055240393413,
+    "best_date": "2008-10-13",
+    "best_simple_return": 0.11580036951513745,
+    "best_z": 9.64373210688802,
     "worst_normal_wait_years": 5.941862382068233e+26
    },
    "h2": {
@@ -759,6 +763,10 @@
     "worst_date": "2026-03-04",
     "worst_return": -0.1284890654335964,
     "worst_z": -7.476018892225848,
+    "worst_simple_return": -0.12057682152301598,
+    "best_date": "2026-07-31",
+    "best_simple_return": 0.1791149332846585,
+    "best_z": 9.5447771673874,
     "worst_normal_wait_years": 103599014349.67789
    },
    "h2": {
