@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -41,4 +41,6 @@ jobs:
           git add results docs/data.json figures README.md
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
           git commit -m "Weekly update: results through $(date -u +%Y-%m-%d)"
-          git push
+          # a code push may have landed while this job ran; generated files only, so rebase is safe
+          for i in 1 2 3; do git pull --rebase -X theirs origin main && git push && exit 0; sleep 5; done
+          exit 1
