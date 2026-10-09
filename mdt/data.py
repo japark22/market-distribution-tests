@@ -16,10 +16,12 @@ MARKETS = {
     "KOSPI": {"ticker": "^KS11", "name": "KOSPI", "start": "1997-01-01"},
 }
 
-# A one-day index move larger than this is treated as a data error unless it is
-# on the allow-list below. Neither index has a genuine close-to-close move this large
-# in the sample window.
-MAX_ABS_LOG_RETURN = 0.15
+# One-day index moves larger than this are listed in data_quality.csv for review but KEPT.
+# Extreme days are the subject of this project, and they are real: KOSPI fell 12.1% on
+# 2026-03-04 and rose 17.9% on 2026-07-31. A fixed cut-off would delete exactly the days
+# the tail tests are about. A spike undone the next day is labelled as a possible bad print.
+FLAG_ABS_MOVE = 0.10
+SPIKE_REVERSAL = 0.8
 
 
 def download(ticker: str, start: str, retries: int = 3) -> pd.DataFrame:
@@ -68,16 +70,18 @@ def clean(prices: pd.DataFrame, market: str) -> tuple[pd.DataFrame, list[dict]]:
     df = df[~stale]
 
     r = np.log(df["close"]).diff()
-    bad = r.abs() > MAX_ABS_LOG_RETURN
-    for d, v in r[bad].items():
-        log.append({"market": market, "date": d.date(), "action": "flag",
-                    "reason": f"abs log return {v:+.4f} exceeds {MAX_ABS_LOG_RETURN}"})
+    nxt = r.shift(-1)
+    big = r.abs() > FLAG_ABS_MOVE
+    spike = big & (np.sign(nxt) == -np.sign(r)) & (nxt.abs() >= SPIKE_REVERSAL * r.abs())
+    for d in df.index[big]:
+        tag = "possible bad print (reversed next day)" if spike[d] else "no next-day reversal"
+        log.append({"market": market, "date": d.date(), "action": "keep",
+                    "reason": f"move {r[d]:+.4f} > {FLAG_ABS_MOVE:.0%}; {tag}"})
     return df, log
 
 
 def log_returns(prices: pd.DataFrame) -> pd.Series:
     r = np.log(prices["close"]).diff().dropna()
-    r = r[r.abs() <= MAX_ABS_LOG_RETURN]
     r.name = "r"
     return r
 

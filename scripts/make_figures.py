@@ -25,7 +25,8 @@ THEMES = {
                  grid="#2c2c2a", axis="#383835", data="#3987e5", normal="#d95926",
                  t="#199e70", neutral="#5a5955"),
 }
-MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t"]
+MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t", "GJR-skew-t"]
+HIGHLIGHT = "GJR-skew-t"  # the last rung of the model ladder
 
 
 def style(th):
@@ -93,7 +94,7 @@ def fig_var(site, th, path):
         rows = {r["model"]: r for r in m["var"] if r["alpha"] == 0.01}
         ratio = [rows[k]["violations"] / rows[k]["expected"] for k in MODELS]
         y = np.arange(len(MODELS))[::-1]
-        ax.barh(y, ratio, height=0.5, color=[th["data"] if k == "GARCH-t" else th["neutral"]
+        ax.barh(y, ratio, height=0.5, color=[th["data"] if k == HIGHLIGHT else th["neutral"]
                                               for k in MODELS])
         ax.axvline(1.0, color=th["ink2"], lw=1)
         for yi, k, rt in zip(y, MODELS, ratio):
@@ -126,7 +127,7 @@ def fig_rug(site, th, path):
         for i, k in enumerate(MODELS[::-1]):
             q = np.array(tl[k])
             hit = r < q
-            col = th["data"] if k == "GARCH-t" else th["ink2"]
+            col = th["data"] if k == HIGHLIGHT else th["ink2"]
             ax.vlines(dates[hit], i - 0.32, i + 0.32, color=col, lw=0.9)
         ax.set_yticks(range(len(MODELS)), MODELS[::-1]); ax.set_ylim(-0.6, len(MODELS) - 0.4)
         ax.grid(axis="y", visible=False)
@@ -136,7 +137,7 @@ def fig_rug(site, th, path):
 
 def fig_pit(site, th, path):
     mk = site["markets"]
-    fig, axes = plt.subplots(len(mk), len(MODELS), figsize=(11, 2.3 * len(mk) + 0.4),
+    fig, axes = plt.subplots(len(mk), len(MODELS), figsize=(12.5, 2.3 * len(mk) + 0.4),
                              sharey=True)
     axes = np.atleast_2d(axes)
     for row, (code, m) in enumerate(mk.items()):
@@ -146,7 +147,7 @@ def fig_pit(site, th, path):
             h = np.array(pits[k]["hist"]); n = h.sum(); rel = h / (n / len(h))
             x = (np.arange(len(h)) + 0.5) / len(h)
             ax.bar(x, rel, width=1 / len(h) - 0.008,
-                   color=th["data"] if k == "GARCH-t" else th["neutral"])
+                   color=th["data"] if k == HIGHLIGHT else th["neutral"])
             ax.axhline(1.0, color=th["ink2"], lw=1)
             ax.set_xlim(0, 1); ax.set_ylim(0, 2.2); ax.set_xticks([0, 0.5, 1])
             ax.grid(axis="x", visible=False)
