@@ -1,0 +1,10 @@
+run_time,market,stage,status,count,error
+2026-10-09T07:40:48Z,SPX,prices,success,9259,
+2026-10-09T07:40:48Z,SPX,h1_h2_h3,success,9259,
+2026-10-09T07:40:48Z,SPX,forecasts,success,8259,
+2026-10-09T07:40:48Z,SPX,h4_h5_var,success,10,
+2026-10-09T07:40:48Z,KOSPI,prices,success,7326,
+2026-10-09T07:40:48Z,KOSPI,h1_h2_h3,success,7326,
+2026-10-09T07:40:48Z,KOSPI,forecasts,success,6326,
+2026-10-09T07:40:48Z,KOSPI,h4_h5_var,success,10,
+2026-10-09T07:40:48Z,ALL,write_outputs,success,2,
