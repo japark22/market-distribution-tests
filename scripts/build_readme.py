@@ -145,6 +145,7 @@ def build(s: dict) -> str:
         r = mk[c]["h4"]["raw"]
         sens.append(f"{names.get(c, c)}: " + ", ".join(f"{kk}σ → {v['dispersion']:.2f}" for kk, v in r.items()))
 
+    story = ""
     return f"""# market-distribution-tests
 
 **Five textbook distributions, each turned into a claim about markets and tested out-of-sample on
@@ -163,11 +164,7 @@ enforces it.
 
 {glance}
 
-The story in one paragraph: returns are **not Normal** (H1). A Student-t **fixes the shape** of the
-tails (H2) but a static t still breaches its VaR in bunches, because **big days come in clusters**:
-the direction of a day is close to a coin flip (H3), but its size is strongly autocorrelated,
-which is also why large moves are **far from Poisson** (H4). A GARCH model with t shocks handles
-both the shape and the clustering, and its **PIT values come closest to Uniform** (H5).
+{story}
 
 ## H1 Normal and H2 Student-t: the tails
 

@@ -176,12 +176,12 @@ footer a, p a { color: var(--s1); }
 <div class="tip" id="tip"></div>
 
 <script>
-const MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t"];
+const MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t", "GJR-skew-t"];
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const fmt = (x, d = 2) => x == null || !isFinite(x) ? "–" : d3.format(`,.${d}f`)(x);
 const pfmt = p => p == null ? "–" : p < 0.0001 ? "<0.0001" : d3.format(".4f")(p);
 const tip = d3.select("#tip");
-let DATA, M, state = { mkt: null, nu: null, varModel: "GARCH-t", zoom: "all", k: "2.5", pitModel: "GARCH-t" };
+let DATA, M, state = { mkt: null, nu: null, varModel: "GJR-skew-t", zoom: "all", k: "2.5", pitModel: "GJR-skew-t" };
 
 function showTip(ev, html) {
   tip.html(html).style("opacity", 1);

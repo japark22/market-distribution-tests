@@ -12,7 +12,7 @@ def test_no_lookahead_future_shock_does_not_move_past_forecasts():
     cut = 1250
     r2 = r.copy()
     r2.iloc[cut:] = r2.iloc[cut:] * 5 + 0.05
-    for name in ["Normal", "Student-t", "Hist. sim.", "GARCH-N"]:
+    for name in ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GJR-skew-t"]:
         a = F.MODELS[name](r).dropna()
         b = F.MODELS[name](r2).dropna()
         before = a.index[a.index < r.index[cut]]

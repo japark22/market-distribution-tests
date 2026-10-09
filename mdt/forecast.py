@@ -69,29 +69,47 @@ def historical_simulation(r: pd.Series, window: int = HS_WINDOW) -> pd.DataFrame
     return _frame(r.index[sl], pit[sl], q01[sl], q05[sl])
 
 
-def _fit_garch(x: np.ndarray, dist: str) -> dict:
-    """Fit constant-mean GARCH(1,1) on x (in percent). Returns parameters in percent units."""
+_DISTS = {"normal": "normal", "t": "t", "skewt": "skewt"}
+
+
+def _fit_garch(x: np.ndarray, dist: str, o: int = 0) -> dict:
+    """Fit constant-mean GARCH(1,1) (o=1 adds the GJR leverage term) on x in percent.
+
+    Returns parameters in percent units plus the standardised shape parameters
+    (`shape`: [] for normal, [nu] for t, [eta, lambda] for Hansen's skewed t).
+    """
     from arch import arch_model
 
-    am = arch_model(x, mean="Constant", vol="GARCH", p=1, q=1,
-                    dist="t" if dist == "t" else "normal", rescale=False)
+    am = arch_model(x, mean="Constant", vol="GARCH", p=1, o=o, q=1, dist=_DISTS[dist],
+                    rescale=False)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         res = am.fit(disp="off", show_warning=False, options={"maxiter": 500})
     p = res.params
-    out = {"mu": p["mu"], "omega": p["omega"], "alpha": p["alpha[1]"], "beta": p["beta[1]"]}
-    out["nu"] = p["nu"] if dist == "t" else np.inf
+    out = {"mu": p["mu"], "omega": p["omega"], "alpha": p["alpha[1]"], "beta": p["beta[1]"],
+           "gamma": p["gamma[1]"] if o else 0.0}
+    names = am.distribution.parameter_names()
+    out["shape"] = [float(p[n]) for n in names]
+    for n in names:
+        out[n] = float(p[n])
     return out
 
 
-def garch(r: pd.Series, dist: str, window: int = WINDOW, refit: int = REFIT,
+def _arch_dist(dist: str):
+    from arch.univariate import Normal, SkewStudent, StudentsT
+
+    return {"normal": Normal, "t": StudentsT, "skewt": SkewStudent}[dist]()
+
+
+def garch(r: pd.Series, dist: str, o: int = 0, window: int = WINDOW, refit: int = REFIT,
           return_params: bool = False):
-    """GARCH(1,1) with normal or standardised-t innovations, rolling refit.
+    """GARCH(1,1) / GJR-GARCH(1,1) with normal, t or skewed-t shocks, rolling refit.
 
     The conditional variance for day t is
-        sigma2_t = omega + alpha * (r_{t-1} - mu)^2 + beta * sigma2_{t-1},
-    started at the sample variance of the estimation window and filtered through the
-    window, so sigma2_t never sees r_t.
+        sigma2_t = omega + (alpha + gamma * 1[e_{t-1} < 0]) * e_{t-1}^2 + beta * sigma2_{t-1},
+    with e = r - mu, started at the sample variance of the estimation window and filtered
+    through the window, so sigma2_t never sees r_t. All shock distributions are
+    standardised to unit variance (arch's convention).
     """
     x = r.to_numpy() * 100.0
     n = len(x)
@@ -100,28 +118,25 @@ def garch(r: pd.Series, dist: str, window: int = WINDOW, refit: int = REFIT,
     q05 = np.full(n, np.nan)
     sig = np.full(n, np.nan)
     params = []
+    D = _arch_dist(dist)
     for s in range(window, n, refit):
         est = x[s - window:s]
-        p = _fit_garch(est, dist)
-        params.append({"date": r.index[s], **p})
+        p = _fit_garch(est, dist, o)
+        params.append({"date": r.index[s], **{k: v for k, v in p.items() if k != "shape"}})
         e = min(s + refit, n)
         eps = x[s - window:e] - p["mu"]
         s2 = np.empty(len(eps))
         s2[0] = np.var(est)
         for i in range(1, len(eps)):
-            s2[i] = p["omega"] + p["alpha"] * eps[i - 1] ** 2 + p["beta"] * s2[i - 1]
+            a = p["alpha"] + (p["gamma"] if eps[i - 1] < 0 else 0.0)
+            s2[i] = p["omega"] + a * eps[i - 1] ** 2 + p["beta"] * s2[i - 1]
         sd = np.sqrt(s2[window:])  # forecasts for days s .. e-1
         z = (x[s:e] - p["mu"]) / sd
-        if dist == "t":
-            nu = p["nu"]
-            k = np.sqrt((nu - 2.0) / nu)  # standardised t has unit variance
-            pit[s:e] = stats.t.cdf(z / k, nu)
-            q01[s:e] = (p["mu"] + sd * k * stats.t.ppf(0.01, nu)) / 100.0
-            q05[s:e] = (p["mu"] + sd * k * stats.t.ppf(0.05, nu)) / 100.0
-        else:
-            pit[s:e] = stats.norm.cdf(z)
-            q01[s:e] = (p["mu"] + sd * stats.norm.ppf(0.01)) / 100.0
-            q05[s:e] = (p["mu"] + sd * stats.norm.ppf(0.05)) / 100.0
+        shape = np.asarray(p["shape"]) if p["shape"] else None
+        pit[s:e] = D.cdf(z, shape)
+        zq = D.ppf(np.array([0.01, 0.05]), shape)
+        q01[s:e] = (p["mu"] + sd * zq[0]) / 100.0
+        q05[s:e] = (p["mu"] + sd * zq[1]) / 100.0
         sig[s:e] = sd / 100.0
     sl = slice(window, n)
     out = _frame(r.index[sl], pit[sl], q01[sl], q05[sl])
@@ -137,19 +152,20 @@ MODELS = {
     "Hist. sim.": historical_simulation,
     "GARCH-N": lambda r: garch(r, "normal"),
     "GARCH-t": lambda r: garch(r, "t"),
+    "GJR-skew-t": lambda r: garch(r, "skewt", o=1),
 }
 
 
 def all_forecasts(r: pd.Series) -> tuple[dict[str, pd.DataFrame], pd.DataFrame]:
     """Run every model, align them on the common out-of-sample dates.
 
-    Returns the forecasts and the GARCH-t parameter path (one row per refit).
+    Returns the forecasts and the GJR-skew-t parameter path (one row per refit).
     """
     out = {}
     params = None
     for name, f in MODELS.items():
-        if name == "GARCH-t":
-            out[name], params = garch(r, "t", return_params=True)
+        if name == "GJR-skew-t":
+            out[name], params = garch(r, "skewt", o=1, return_params=True)
         else:
             out[name] = f(r)
     common = None
