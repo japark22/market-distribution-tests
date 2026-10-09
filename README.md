@@ -17,24 +17,20 @@ enforces it.
 
 ## Research at a glance
 
-| Hypothesis | Test | S&P 500 (1990–2026, 9,259 days) | KOSPI (1997–2026, 7,326 days) |
+| Hypothesis | Test | S&P 500 (1990–2026, 9,259 days) | KOSPI (1997–2026, 7,327 days) |
 |---|---|---|---|
-| **H1 Normal**: daily returns are Normal | Jarque-Bera, tail counts | excess kurtosis 10.9; 62 days beyond 4σ vs 0.6 expected<br>**rejected** | excess kurtosis 6.6; 54 days beyond 4σ vs 0.5 expected<br>**rejected** |
-| **H2 Student-t**: a fat-tailed t fits instead | MLE ν, AIC, VaR clustering | ν = 2.8; ΔAIC = 2,521 for t; static-t VaR breaches cluster (p = <0.0001)<br>**shape yes, timing no** | ν = 2.3; ΔAIC = 2,212 for t; static-t VaR breaches cluster (p = <0.0001)<br>**shape yes, timing no** |
-| **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.523 vs after down 0.553; Markov p = 0.0033<br>**statistically rejected, economically tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1381<br>**holds** |
-| **H4 Poisson**: >2.5σ days arrive independently | dispersion test on monthly counts | variance ÷ mean = 4.91 (Poisson: 1); after GARCH-t filtering 1.06<br>**rejected** | variance ÷ mean = 4.16 (Poisson: 1); after GARCH-t filtering 1.18<br>**rejected** |
-| **H5 Uniform**: forecast PITs are U(0,1) | KS, Berkowitz | KS distance: static Normal 0.072 → GARCH-t 0.017; Berkowitz p = 0.0008<br>**GARCH-t much closer, not perfect** | KS distance: static Normal 0.076 → GARCH-t 0.019; Berkowitz p = 0.0059<br>**GARCH-t much closer, not perfect** |
+| **H1 Normal**: daily returns are Normal | Jarque-Bera, tail counts | excess kurtosis 10.9; 62 days beyond 4σ vs 0.6 expected<br>**rejected** | excess kurtosis 7.5; 54 days beyond 4σ vs 0.5 expected<br>**rejected** |
+| **H2 Student-t**: a fat-tailed t fits instead | MLE ν, AIC, VaR clustering | ν = 2.8; ΔAIC = 2,521 for t; static-t VaR breaches cluster (p = <0.0001)<br>**shape yes, timing no** | ν = 2.3; ΔAIC = 2,288 for t; static-t VaR breaches cluster (p = <0.0001)<br>**shape yes, timing no** |
+| **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.523 vs after down 0.553; Markov p = 0.0033<br>**statistically rejected, economically tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1482<br>**holds** |
+| **H4 Poisson**: >2.5σ days arrive independently | dispersion test on monthly counts | variance ÷ mean = 4.91 (Poisson: 1); after GARCH-t filtering 1.06<br>**rejected** | variance ÷ mean = 4.23 (Poisson: 1); after GARCH-t filtering 1.19<br>**rejected** |
+| **H5 Uniform**: forecast PITs are U(0,1) | KS, Berkowitz | KS distance: static Normal 0.072 → GARCH-t 0.017; Berkowitz p = 0.0008<br>**GARCH-t much closer, not perfect** | KS distance: static Normal 0.076 → GARCH-t 0.019; Berkowitz p = 0.0068<br>**GARCH-t much closer, not perfect** |
 
-The story in one paragraph: returns are **not Normal** (H1). A Student-t **fixes the shape** of the
-tails (H2) but a static t still breaches its VaR in bunches, because **big days come in clusters**:
-the direction of a day is close to a coin flip (H3), but its size is strongly autocorrelated,
-which is also why large moves are **far from Poisson** (H4). A GARCH model with t shocks handles
-both the shape and the clustering, and its **PIT values come closest to Uniform** (H5).
+
 
 ## H1 Normal and H2 Student-t: the tails
 
 - **S&P 500**: worst day 2020-03-16 at -12.8% (z = -11.3). Under a Normal, a day that bad should come once every 5.9e+26 years. Excess kurtosis falls from 10.9 (daily) to 4.9 (weekly) and 2.4 (monthly).
-- **KOSPI**: worst day 2026-03-04 at -12.8% (z = -7.5). Under a Normal, a day that bad should come once every 1.5e+11 years. Excess kurtosis falls from 6.6 (daily) to 3.6 (weekly) and 2.5 (monthly).
+- **KOSPI**: worst day 2026-03-04 at -12.8% (z = -7.5). Under a Normal, a day that bad should come once every 1.0e+11 years. Excess kurtosis falls from 7.5 (daily) to 3.6 (weekly) and 2.1 (monthly).
 
 Fat tails shrink as returns are aggregated, but a Student-t with ν around
 2.8 (S&P 500), 2.3 (KOSPI) describes the daily shape far
@@ -53,11 +49,13 @@ out-of-sample:
 | S&P 500 | Hist. sim. | 139 | 83 | 1.68% | <0.0001 | <0.0001 |
 | S&P 500 | GARCH-N | 190 | 83 | 2.30% | <0.0001 | 0.1098 |
 | S&P 500 | GARCH-t | 135 | 83 | 1.63% | <0.0001 | 0.0085 |
+| S&P 500 | GJR-skew-t | 100 | 83 | 1.21% | 0.0624 | 0.5064 |
 | KOSPI | Normal | 137 | 63 | 2.17% | <0.0001 | <0.0001 |
 | KOSPI | Student-t | 99 | 63 | 1.56% | <0.0001 | <0.0001 |
 | KOSPI | Hist. sim. | 109 | 63 | 1.72% | <0.0001 | 0.0001 |
-| KOSPI | GARCH-N | 137 | 63 | 2.17% | <0.0001 | 0.0405 |
+| KOSPI | GARCH-N | 137 | 63 | 2.17% | <0.0001 | 0.0404 |
 | KOSPI | GARCH-t | 102 | 63 | 1.61% | <0.0001 | 0.0313 |
+| KOSPI | GJR-skew-t | 64 | 63 | 1.01% | 0.9266 | 0.1721 |
 
 Where the breaches land in time shows why the unconditional models fail: they arrive in bursts
 during stress periods.
@@ -70,7 +68,7 @@ during stress periods.
 ## H3 Bernoulli: is each day a coin flip?
 
 - **S&P 500**: lag-1 autocorrelation of the sign is -0.031; of the absolute return it is +0.274. Ljung-Box(10) p-value: sign 0.0081, size <0.0001.
-- **KOSPI**: lag-1 autocorrelation of the sign is +0.017; of the absolute return it is +0.291. Ljung-Box(10) p-value: sign 0.1234, size <0.0001.
+- **KOSPI**: lag-1 autocorrelation of the sign is +0.017; of the absolute return it is +0.290. Ljung-Box(10) p-value: sign 0.1205, size <0.0001.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/bernoulli-dark.png">
@@ -82,9 +80,9 @@ during stress periods.
 Threshold fixed in advance at 2.5σ (full-sample σ). Counts are per calendar month.
 
 - **S&P 500**: 248 days beyond 2.5σ across 442 months. Months with none: 79% observed vs 57% under Poisson. Busiest month: 18 days (Poisson probability of that many or more: 2.8e-21). On the out-of-sample window the dispersion is 4.95 for raw σ-events and 1.06 for GARCH-t tail events (p = 0.1831).
-- **KOSPI**: 245 days beyond 2.5σ across 358 months. Months with none: 77% observed vs 50% under Poisson. Busiest month: 12 days (Poisson probability of that many or more: 1.2e-11). On the out-of-sample window the dispersion is 4.50 for raw σ-events and 1.18 for GARCH-t tail events (p = 0.0174).
+- **KOSPI**: 243 days beyond 2.5σ across 358 months. Months with none: 77% observed vs 51% under Poisson. Busiest month: 12 days (Poisson probability of that many or more: 1.1e-11). On the out-of-sample window the dispersion is 4.67 for raw σ-events and 1.19 for GARCH-t tail events (p = 0.0112).
 
-Sensitivity of the dispersion ratio to the threshold: S&P 500: 2.0σ → 4.54, 2.5σ → 4.91, 3.0σ → 5.43; KOSPI: 2.0σ → 4.50, 2.5σ → 4.16, 3.0σ → 3.75.
+Sensitivity of the dispersion ratio to the threshold: S&P 500: 2.0σ → 4.54, 2.5σ → 4.91, 3.0σ → 5.43; KOSPI: 2.0σ → 4.50, 2.5σ → 4.23, 3.0σ → 3.87.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/poisson-dark.png">
@@ -109,11 +107,13 @@ test checks mean, variance and autocorrelation of Φ<sup>−1</sup>(PIT) jointly
 | S&P 500 | Hist. sim. | 0.0068 | 0.0049 | 1.49% | 1.59% |
 | S&P 500 | GARCH-N | 0.0337 | 0.0002 | 2.30% | 0.85% |
 | S&P 500 | GARCH-t | 0.0173 | 0.0008 | 1.63% | 0.48% |
-| KOSPI | Normal | 0.0756 | 0.0003 | 2.17% | 1.20% |
-| KOSPI | Student-t | 0.0303 | 0.5893 | 1.56% | 0.84% |
-| KOSPI | Hist. sim. | 0.0102 | 0.5814 | 1.44% | 1.38% |
-| KOSPI | GARCH-N | 0.0409 | 0.0058 | 2.17% | 0.90% |
-| KOSPI | GARCH-t | 0.0188 | 0.0059 | 1.61% | 0.47% |
+| S&P 500 | GJR-skew-t | 0.0129 | 0.0933 | 1.21% | 0.81% |
+| KOSPI | Normal | 0.0757 | <0.0001 | 2.17% | 1.20% |
+| KOSPI | Student-t | 0.0304 | 0.6782 | 1.56% | 0.85% |
+| KOSPI | Hist. sim. | 0.0103 | 0.5726 | 1.44% | 1.39% |
+| KOSPI | GARCH-N | 0.0410 | 0.0066 | 2.17% | 0.92% |
+| KOSPI | GARCH-t | 0.0188 | 0.0068 | 1.61% | 0.49% |
+| KOSPI | GJR-skew-t | 0.0222 | 0.0675 | 1.01% | 1.06% |
 
 With several thousand out-of-sample days these tests have a lot of power, so even a good model can be
 rejected for small deviations. Read the KS distance and the tail frequencies as effect sizes.
@@ -130,7 +130,7 @@ rejected for small deviations. Read the KS distance and the tail frequencies as 
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
 
-Last run: 2026-10-09T07:40:48Z. All numbers above are read from [`results/summary.json`](results/summary.json).
+Last run: 2026-10-09T07:45:14Z. All numbers above are read from [`results/summary.json`](results/summary.json).
 
 ## Limitations
 
