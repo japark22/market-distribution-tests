@@ -17,19 +17,19 @@ enforces it.
 
 ## Research at a glance
 
-| Hypothesis | Test | S&P 500 (1990–2026, 9,259 days) | KOSPI (1997–2026, 7,327 days) |
+| Hypothesis | Test | S&P 500 (1990–2026, 9,260 days) | KOSPI (1997–2026, 7,327 days) |
 |---|---|---|---|
 | **H1 Normal**: daily returns are Normal | Jarque-Bera, tail counts | excess kurtosis 10.9; 62 days beyond 4σ vs 0.6 expected<br>**rejected** | excess kurtosis 7.5; 54 days beyond 4σ vs 0.5 expected<br>**rejected** |
 | **H2 Student-t**: a fat-tailed t fits instead | MLE ν, AIC, VaR clustering | ν = 2.8; AIC favours t by 2,521; static-t 99% VaR breaches 1.53% of days, clustered (Christoffersen p < 0.0001)<br>**shape yes, timing no** | ν = 2.3; AIC favours t by 2,288; static-t 99% VaR breaches 1.56% of days, clustered (Christoffersen p < 0.0001)<br>**shape yes, timing no** |
-| **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.523 vs after down 0.553; Markov p = 0.0033<br>**rejected, but the memory is tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1482<br>**memoryless (but biased toward up days)** |
+| **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.523 vs after down 0.553; Markov p = 0.0032<br>**rejected, but the memory is tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1482<br>**memoryless (but biased toward up days)** |
 | **H4 Poisson**: >2.5σ days arrive independently | dispersion test on monthly counts | variance ÷ mean = 4.91 (Poisson: 1); after GARCH-t filtering 1.06<br>**rejected; clustering explains it** | variance ÷ mean = 4.23 (Poisson: 1); after GARCH-t filtering 1.19<br>**rejected; clustering explains it** |
-| **H5 Uniform**: forecast PITs are U(0,1) | Berkowitz + 99% VaR coverage and independence | GJR-skew-t: 100 breaches vs 83 expected, Berkowitz p = 0.0933<br>**calibrated: GJR-skew-t** | GJR-skew-t: 64 breaches vs 63 expected, Berkowitz p = 0.0675<br>**calibrated: GJR-skew-t** |
+| **H5 Uniform**: forecast PITs are U(0,1) | Berkowitz + 99% VaR coverage and independence | GJR-skew-t: 100 breaches vs 83 expected, Berkowitz p = 0.0920<br>**calibrated: GJR-skew-t** | GJR-skew-t: 64 breaches vs 63 expected, Berkowitz p = 0.0675<br>**calibrated: GJR-skew-t** |
 
 **The chain of results.** Returns are **not Normal**: S&P 500 daily excess kurtosis is 10.9, with 62 days beyond 4σ where a Normal expects 0.6. A Student-t **fixes the shape** (KS distance 0.090 → 0.015), but a static t still breaches its 99% VaR on 1.53% of days, and in bunches. The cause is **clustering**: the direction of a day is close to a coin flip (lag-1 sign autocorrelation -0.031), its size is not (+0.274). Clustering also **breaks Poisson**: monthly counts of large moves have variance 4.9× their mean, and 1.06× once a GARCH-t filter takes the clustering out. Adding volatility dynamics reduces the bunching (most breaches in any 10 days: 6 for the static t, 4 for GARCH-t) but not the bias: GARCH-t still breaches on 1.63% of days, and its misses are one-sided (PIT below 1%: 1.63%, above 99%: 0.48%). The last rung, **GJR-GARCH with skewed-t shocks**, lets bad news raise volatility more than good news and gives the left tail more weight. It is the only model whose 99% VaR passes both the Kupiec and Christoffersen tests and whose PITs pass Berkowitz in both markets: S&P 500: 100 breaches vs 83 expected; KOSPI: 64 breaches vs 63 expected.
 
 ## H1 Normal and H2 Student-t: the tails
 
-- **S&P 500**: worst day 2020-03-16 at -12.0% (z = -11.3); best day 2008-10-13 at +11.6%. Under a Normal, a day as bad as the worst should come once every 5.9e+26 years. Excess kurtosis falls from 10.9 (daily) to 4.9 (weekly) and 2.4 (monthly).
+- **S&P 500**: worst day 2020-03-16 at -12.0% (z = -11.3); best day 2008-10-13 at +11.6%. Under a Normal, a day as bad as the worst should come once every 6.0e+26 years. Excess kurtosis falls from 10.9 (daily) to 4.9 (weekly) and 2.4 (monthly).
 - **KOSPI**: worst day 2026-03-04 at -12.1% (z = -7.5); best day 2026-07-31 at +17.9%. Under a Normal, a day as bad as the worst should come once every 1.0e+11 years. Excess kurtosis falls from 7.5 (daily) to 3.6 (weekly) and 2.1 (monthly).
 
 Fat tails shrink as returns are aggregated, but a Student-t with ν around
@@ -61,7 +61,7 @@ Median GJR-skew-t parameters across monthly refits (S&P 500: α = 0.000, γ = 0.
 | S&P 500 | Hist. sim. | 139 | 83 | 1.68% | <0.0001 | <0.0001 |
 | S&P 500 | GARCH-N | 190 | 83 | 2.30% | <0.0001 | 0.1098 |
 | S&P 500 | GARCH-t | 135 | 83 | 1.63% | <0.0001 | 0.0085 |
-| S&P 500 | GJR-skew-t | 100 | 83 | 1.21% | 0.0624 | 0.5064 |
+| S&P 500 | GJR-skew-t | 100 | 83 | 1.21% | 0.0625 | 0.5063 |
 | KOSPI | Normal | 137 | 63 | 2.17% | <0.0001 | <0.0001 |
 | KOSPI | Student-t | 99 | 63 | 1.56% | <0.0001 | <0.0001 |
 | KOSPI | Hist. sim. | 109 | 63 | 1.72% | <0.0001 | 0.0001 |
@@ -69,7 +69,7 @@ Median GJR-skew-t parameters across monthly refits (S&P 500: α = 0.000, γ = 0.
 | KOSPI | GARCH-t | 102 | 63 | 1.61% | <0.0001 | 0.0313 |
 | KOSPI | GJR-skew-t | 64 | 63 | 1.01% | 0.9266 | 0.1721 |
 
-At the 95% level the picture is different, because the fat tails matter less that close to the centre. Models with the right breach rate (Kupiec p > 0.05): S&P 500: Normal, Hist. sim.; KOSPI: Normal. Models that also pass Christoffersen: S&P 500: none; KOSPI: none. GJR-skew-t at 95%: S&P 500 453 vs 413, Kupiec p = 0.0463; KOSPI 358 vs 316, Kupiec p = 0.0185.
+At the 95% level the picture is different, because the fat tails matter less that close to the centre. Models with the right breach rate (Kupiec p > 0.05): S&P 500: Normal, Hist. sim.; KOSPI: Normal. Models that also pass Christoffersen: S&P 500: none; KOSPI: none. GJR-skew-t at 95%: S&P 500 453 vs 413, Kupiec p = 0.0466; KOSPI 358 vs 316, Kupiec p = 0.0185.
 
 Where the breaches land in time shows why the unconditional models fail: they arrive in bursts
 during stress periods.
@@ -81,7 +81,7 @@ during stress periods.
 
 ## H3 Bernoulli: is each day a coin flip?
 
-- **S&P 500**: lag-1 autocorrelation of the sign is -0.031; of the absolute return it is +0.274. Ljung-Box(10) p-value: sign 0.0081, size <0.0001.
+- **S&P 500**: lag-1 autocorrelation of the sign is -0.031; of the absolute return it is +0.274. Ljung-Box(10) p-value: sign 0.0079, size <0.0001.
 - **KOSPI**: lag-1 autocorrelation of the sign is +0.017; of the absolute return it is +0.290. Ljung-Box(10) p-value: sign 0.1205, size <0.0001.
 
 <picture>
@@ -117,11 +117,11 @@ test checks mean, variance and autocorrelation of Φ<sup>−1</sup>(PIT) jointly
 | Market | Model | KS distance | Berkowitz p | PIT < 1% | PIT > 99% |
 |---|---|---:|---:|---:|---:|
 | S&P 500 | Normal | 0.0720 | <0.0001 | 2.45% | 1.76% |
-| S&P 500 | Student-t | 0.0159 | <0.0001 | 1.53% | 1.02% |
-| S&P 500 | Hist. sim. | 0.0068 | 0.0049 | 1.49% | 1.59% |
-| S&P 500 | GARCH-N | 0.0337 | 0.0002 | 2.30% | 0.85% |
+| S&P 500 | Student-t | 0.0158 | <0.0001 | 1.53% | 1.02% |
+| S&P 500 | Hist. sim. | 0.0068 | 0.0048 | 1.49% | 1.59% |
+| S&P 500 | GARCH-N | 0.0337 | 0.0003 | 2.30% | 0.85% |
 | S&P 500 | GARCH-t | 0.0173 | 0.0008 | 1.63% | 0.48% |
-| S&P 500 | GJR-skew-t | 0.0129 | 0.0933 | 1.21% | 0.81% |
+| S&P 500 | GJR-skew-t | 0.0130 | 0.0920 | 1.21% | 0.81% |
 | KOSPI | Normal | 0.0757 | <0.0001 | 2.17% | 1.20% |
 | KOSPI | Student-t | 0.0304 | 0.6782 | 1.56% | 0.85% |
 | KOSPI | Hist. sim. | 0.0103 | 0.5726 | 1.44% | 1.39% |
@@ -147,7 +147,7 @@ its VaR is an interpolated quantile, so its two 1% rates differ slightly.)
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
 
-Last run: 2026-10-09T08:03:32Z. All numbers above are read from [`results/summary.json`](results/summary.json).
+Last run: 2026-10-10T08:31:20Z. All numbers above are read from [`results/summary.json`](results/summary.json).
 
 ## Limitations
 
