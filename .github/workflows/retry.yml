@@ -5,7 +5,7 @@ name: retry-once
 # left as a failure, so GitHub's failure e-mail and the daily health check see it.
 on:
   workflow_run:
-    workflows: ["weekly-update", "retry-selftest"]
+    workflows: ["weekly-update"]
     types: [completed]
 
 permissions:
