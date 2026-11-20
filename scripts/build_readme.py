@@ -341,6 +341,42 @@ def build(s: dict) -> str:
             "|---|---|---:|---:|---:|\n"
             + "\n".join(frows) + "\n\n" + fz_note + "\n")
 
+    murphy_section = ""
+    if all("murphy" in mk[c] for c in codes):
+        def mu99(m, model):
+            return next(r for r in m["murphy"] if r["model"] == model and r["alpha"] == 0.01)
+        best_by = {c: next(r["best_model"] for r in mk[c]["murphy"] if r["alpha"] == 0.01)
+                   for c in codes}
+        lines = []
+        for c in codes:
+            best = best_by[c]
+            dominated = [r["model"] for r in mk[c]["murphy"]
+                         if r["alpha"] == 0.01 and r["dominated_by_best"]]
+            # where the best model is itself beaten: the largest adverse gap among non-best models
+            beaten = [(r["model"], -r["min_gap"]) for r in mk[c]["murphy"]
+                      if r["alpha"] == 0.01 and r["model"] != best and r["min_gap"] < 0]
+            dom_txt = (f"it dominates {', '.join(dominated)} outright (its curve is below theirs at "
+                       "every threshold)" if dominated
+                       else "no model is dominated outright -- every model, the winner included, "
+                       "is the sharpest choice at some thresholds")
+            worst = max(beaten, key=lambda t: t[1])[0] if beaten else None
+            beat_txt = (f" {best} itself is beaten at some moderate thresholds, most by {worst}," 
+                        f" which is why the average ranking is not a clean sweep." if worst else "")
+            lines.append(f"- **{names.get(c, c)}**: lowest pinball loss is **{best}**; {dom_txt}.{beat_txt}")
+        murphy_section = (
+            "### Robust or just lucky? Murphy diagrams\n\n"
+            "A ranking by one loss (above) can flip under another. Ehm, Gneiting, Jordan & Kruger "
+            "(2016) show every consistent scoring function for a quantile is a mixture of **elementary "
+            "scores**, one per threshold. Plotting the mean elementary score against the threshold (the "
+            "Murphy diagram) settles it: if one forecast's curve lies below another's *everywhere*, it "
+            "wins under every reasonable loss, not just the one chosen. The chart shows each model's "
+            "score minus the best model's.\n\n"
+            + fig("murphy", "Murphy diagram of the 99% VaR forecasts") + "\n\n"
+            + "\n".join(lines) + "\n\n"
+            "The honest reading is that dominance is rare: the volatility models win on average and in "
+            "the deep tail, but the unconditional models are often sharper around the body of the "
+            "distribution. A single risk number hides that trade-off; the diagram makes it explicit.\n")
+
     return f"""# market-distribution-tests
 
 **Five textbook distributions, each turned into a claim about markets and tested out-of-sample on
@@ -391,6 +427,7 @@ during stress periods.
 
 {es_section}
 {fz_section}
+{murphy_section}
 ## H3 Bernoulli: is each day a coin flip?
 
 {h3_line(codes[0])}
@@ -438,7 +475,7 @@ its VaR is an interpolated quantile, so its two 1% rates differ slightly.)
 | Point-in-time | Every forecast for day *t* uses returns dated *t*−1 or earlier. `tests/test_forecast.py` multiplies all returns after a cut-off by 5 and checks that earlier forecasts do not move. |
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | ES backtest | Acerbi-Szekely (2014) Z2 statistic with bootstrap p-values; ES read off the same predictive law as the VaR. |
-| Model ranking | Fissler-Ziegel 0-homogeneous joint (VaR, ES) loss, Diebold-Mariano (1995) tests, and the Hansen-Lunde-Nason (2011) Model Confidence Set (moving-block bootstrap). |
+| Model ranking | Fissler-Ziegel 0-homogeneous joint (VaR, ES) loss, Diebold-Mariano (1995) tests, and the Hansen-Lunde-Nason (2011) Model Confidence Set (moving-block bootstrap); Murphy diagrams (Ehm et al. 2016) for threshold-wise dominance. |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
 
 Last run: {s['generated_utc']}. All numbers above are read from [`results/summary.json`](results/summary.json).
@@ -484,6 +521,7 @@ tests/               known-distribution simulations and the lookahead test
 - Cont, R. (2001). Empirical properties of asset returns: stylized facts and statistical issues. *Quantitative Finance*.
 - Diebold, F., Gunther, T., Tay, A. (1998). Evaluating density forecasts. *International Economic Review*.
 - Diebold, F., Mariano, R. (1995). Comparing predictive accuracy. *Journal of Business & Economic Statistics*.
+- Ehm, W., Gneiting, T., Jordan, A., Kruger, F. (2016). Of quantiles and expectiles: consistent scoring functions, Choquet representations and forecast rankings. *JRSS-B*.
 - Fissler, T., Ziegel, J. (2016). Higher order elicitability and Osband's principle. *Annals of Statistics*.
 - Hansen, P., Lunde, A., Nason, J. (2011). The model confidence set. *Econometrica*.
 - Kupiec, P. (1995). Techniques for verifying the accuracy of risk measurement models. *Journal of Derivatives*.

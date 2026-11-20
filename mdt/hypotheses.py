@@ -510,3 +510,66 @@ def fz_ranking(r: pd.Series, forecasts: dict, alpha_levels=VAR_LEVELS, n_boot: i
                 "mcs_rank": mcs[name]["rank"],
             })
     return pd.DataFrame(rows)
+
+
+# ----------------------------------------- Murphy diagrams: robust dominance in the tail
+def elementary_quantile_score(theta, x, y, alpha: float):
+    """Ehm, Gneiting, Jordan & Kruger (2016) elementary score for the alpha-quantile.
+
+    S_theta(x, y) = (1{y<=theta} - alpha)(1{theta<x} - 1{theta<y}) is non-negative and
+    integrates over theta to the pinball (check) loss. A forecast x whose mean elementary
+    score is lower than another's at *every* threshold theta is better under every
+    consistent scoring function for the quantile, not just the pinball loss -- the Murphy
+    diagram's whole point. `x`, `y` are (T,) and `theta` is (G,); returns a (T, G) array.
+    """
+    x = np.asarray(x)[:, None]
+    y = np.asarray(y)[:, None]
+    th = np.asarray(theta, dtype=float)[None, :]
+    a = (np.asarray(y <= th, dtype=float)) - alpha
+    b = np.asarray(th < x, dtype=float) - np.asarray(th < y, dtype=float)
+    return a * b
+
+
+def murphy_quantile(r: pd.Series, forecasts: dict, alpha_levels=VAR_LEVELS,
+                    n_grid: int = 160):
+    """Mean elementary-score curves and pairwise dominance for the VaR forecasts.
+
+    For each tail level the models are scored over a grid of thresholds spanning the
+    return range; the lowest-pinball model is the reference, and each other model is
+    checked for Murphy dominance (its curve at or above the reference everywhere within
+    tolerance). Returns (curves, dominance_df): `curves` holds the per-model mean score
+    at each threshold for the figure; `dominance_df` the summary per model and level.
+    """
+    rows = []
+    curves = {}
+    y_all = r.to_numpy()
+    for a in alpha_levels:
+        col = "01" if a == 0.01 else "05"
+        lo, hi = np.quantile(y_all, 0.001), np.quantile(y_all, 0.60)
+        grid = np.linspace(lo, hi, n_grid)
+        mean_scores = {}
+        pinball = {}
+        for name, f in forecasts.items():
+            y = r.loc[f.index].to_numpy()
+            x = f[f"q{col}"].to_numpy()
+            S = elementary_quantile_score(grid, x, y, a)
+            ms = S.mean(axis=0)
+            mean_scores[name] = ms
+            # pinball loss = integral of the elementary score over theta
+            pinball[name] = float(np.sum((ms[:-1] + ms[1:]) / 2.0 * np.diff(grid)))
+        best = min(pinball, key=pinball.get)
+        tol = 1e-12 + 1e-6 * abs(pinball[best])
+        base = mean_scores[best]
+        curves[f"{int(round((1 - a) * 100))}%"] = {
+            "theta": grid.tolist(), "best": best,
+            **{name: np.round(mean_scores[name], 10).tolist() for name in forecasts}}
+        for name in forecasts:
+            diff = mean_scores[name] - base          # >=0 everywhere  <=>  best dominates name
+            rows.append({
+                "model": name, "var_level": f"{int(round((1 - a) * 100))}%", "alpha": a,
+                "pinball": pinball[name], "best_model": best,
+                "dominated_by_best": bool(np.all(diff >= -tol)) and name != best,
+                "max_gap": float(diff.max()), "min_gap": float(diff.min()),
+                "frac_theta_best_better": float(np.mean(diff > tol)),
+            })
+    return curves, pd.DataFrame(rows)

@@ -73,7 +73,7 @@ def synthetic_prices(seed: int) -> pd.DataFrame:
     return pd.DataFrame({"close": close, "volume": 1.0}, index=r.index.rename("date"))
 
 
-def site_payload(market, r, h1, h2, h3, h4, fc, var_df, pit_df) -> dict:
+def site_payload(market, r, h1, h2, h3, h4, fc, var_df, pit_df, murphy=None) -> dict:
     mu, sd = h1["mean_daily"], h1["std_daily"]
     z = ((r - mu) / sd).to_numpy()
     edges = np.arange(-12, 12.0001, 0.25)
@@ -93,6 +93,7 @@ def site_payload(market, r, h1, h2, h3, h4, fc, var_df, pit_df) -> dict:
         "var": var_df.to_dict(orient="records"),
         "pit": pit_df.to_dict(orient="records"),
         "timeline": timeline,
+        "murphy": murphy or {},
     }
 
 
@@ -127,6 +128,7 @@ def run_market(market, args, log, out_dir) -> dict | None:
     pit_df = H.h5_uniform(fc); pit_df.insert(0, "market", market)
     es_df = H.es_backtest(r, fc); es_df.insert(0, "market", market)
     fz_df = H.fz_ranking(r, fc); fz_df.insert(0, "market", market)
+    mur_curves, mur_df = H.murphy_quantile(r, fc); mur_df.insert(0, "market", market)
     res["h4"] = H.h4_poisson(r, fc["GARCH-t"])
     log.add(market, "h4_h5_var", "success", len(var_df))
 
@@ -135,9 +137,9 @@ def run_market(market, args, log, out_dir) -> dict | None:
     wide.insert(0, "r", r.loc[wide.index])
     wide.round(7).to_csv(out_dir / f"forecasts_{market}.csv.gz", compression="gzip")
     params.round(6).to_csv(out_dir / f"gjr_skewt_params_{market}.csv")
-    res.update(var=var_df, pit=pit_df, es=es_df, fz=fz_df, params=params,
+    res.update(var=var_df, pit=pit_df, es=es_df, fz=fz_df, murphy=mur_df, params=params,
                site=site_payload(market, r, res["h1"], res["h2"], res["h3"], res["h4"],
-                                 fc, var_df, pit_df))
+                                 fc, var_df, pit_df, mur_curves))
     return res
 
 
@@ -161,6 +163,7 @@ def main():
         pd.concat([v["var"] for v in ok.values()]).to_csv(out_dir / "var_backtest.csv", index=False)
         pd.concat([v["es"] for v in ok.values()]).to_csv(out_dir / "es_backtest.csv", index=False)
         pd.concat([v["fz"] for v in ok.values()]).to_csv(out_dir / "fz_ranking.csv", index=False)
+        pd.concat([v["murphy"] for v in ok.values()]).to_csv(out_dir / "murphy_dominance.csv", index=False)
         pit = pd.concat([v["pit"] for v in ok.values()])
         pit.drop(columns="hist").to_csv(out_dir / "pit_tests.csv", index=False)
         dq = [row for v in ok.values() for row in v["dq"]]
@@ -176,6 +179,7 @@ def main():
                             "var": v["var"].to_dict(orient="records"),
                             "es": v["es"].to_dict(orient="records"),
                             "fz": v["fz"].to_dict(orient="records"),
+                            "murphy": v["murphy"].to_dict(orient="records"),
                             "pit": v["pit"].drop(columns="hist").to_dict(orient="records")}
                         for m, v in ok.items()},
         }

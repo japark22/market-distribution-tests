@@ -207,8 +207,41 @@ def fig_bernoulli(site, th, path):
     fig.tight_layout(); fig.savefig(path, dpi=160); plt.close(fig)
 
 
+def fig_murphy(site, th, path):
+    """Murphy diagram: mean elementary score vs threshold, each model minus the best,
+    for the 99% VaR. A curve above zero everywhere means the best model dominates that
+    model under every consistent scoring function; where a curve dips below zero that
+    model is the better forecast at that threshold."""
+    mk = site["markets"]
+    fig, axes = plt.subplots(1, len(mk), figsize=(11, 3.9), sharey=False)
+    axes = np.atleast_1d(axes)
+    for ax, (code, m) in zip(axes, mk.items()):
+        mur = m.get("murphy", {}).get("99%")
+        if not mur:
+            continue
+        theta = np.array(mur["theta"]) * 100.0  # percent returns
+        best = mur["best"]
+        base = np.array(mur[best])
+        for k in MODELS:
+            if k == best:
+                continue
+            diff = (np.array(mur[k]) - base) * 1e4  # basis points of score
+            col = th["data"] if k == HIGHLIGHT else th["neutral"]
+            lw = 2.0 if k == HIGHLIGHT else 1.3
+            ax.plot(theta, diff, color=col, lw=lw)
+            j = int(np.argmax(diff))
+            ax.text(theta[j], diff[j] + 0.4, k, fontsize=8, color=th["ink2"],
+                    ha="center", va="bottom")
+        ax.axhline(0, color=th["ink2"], lw=1)
+        ax.set_xlabel("threshold return r (%)")
+        ax.set_title(f"{m['name']}  ·  score minus best model ({best})")
+        ax.grid(axis="x", visible=False)
+    axes[0].set_ylabel("mean elementary score gap\n(>0: best model wins here)")
+    fig.tight_layout(); fig.savefig(path, dpi=160); plt.close(fig)
+
+
 FIGS = {"hero": fig_hero, "var_breaches": fig_var, "breach_timeline": fig_rug,
-        "pit": fig_pit, "poisson": fig_poisson, "bernoulli": fig_bernoulli}
+        "pit": fig_pit, "poisson": fig_poisson, "bernoulli": fig_bernoulli, "murphy": fig_murphy}
 
 
 def main():
