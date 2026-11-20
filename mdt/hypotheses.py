@@ -570,6 +570,32 @@ def murphy_quantile(r: pd.Series, forecasts: dict, alpha_levels=VAR_LEVELS,
                 "pinball": pinball[name], "best_model": best,
                 "dominated_by_best": bool(np.all(diff >= -tol)) and name != best,
                 "max_gap": float(diff.max()), "min_gap": float(diff.min()),
-                "frac_theta_best_better": float(np.mean(diff > tol)),
+                # among thresholds where the two forecasts actually differ
+                "frac_theta_best_better": (float(np.mean(diff[np.abs(diff) > tol] > 0))
+                                           if np.any(np.abs(diff) > tol) else float("nan")),
+                # share of the total absolute score gap that lies in the best model's favour
+                "gap_share_best": (float(diff[diff > 0].sum() / np.abs(diff).sum())
+                                   if np.abs(diff).sum() > 0 else float("nan")),
             })
     return curves, pd.DataFrame(rows)
+
+
+def fz_by_year(r: pd.Series, forecasts: dict, alpha: float = 0.01) -> pd.DataFrame:
+    """Calendar-year mean Fissler-Ziegel loss per model, to check that a full-sample
+    ranking is not carried by a few crisis years. One row per (year, model) with the
+    year's mean loss, the number of days, and whether the model was that year's best."""
+    col = "01" if alpha == 0.01 else "05"
+    rows = []
+    idx = next(iter(forecasts.values())).index
+    x = r.loc[idx].to_numpy()
+    L = {name: fz0_loss(x, f[f"q{col}"].to_numpy(), f[f"es{col}"].to_numpy(), alpha)
+         for name, f in forecasts.items()}
+    years = idx.year
+    for y in sorted(set(years)):
+        m = years == y
+        means = {k: float(v[m].mean()) for k, v in L.items()}
+        best = min(means, key=means.get)
+        for k, v in means.items():
+            rows.append({"year": int(y), "model": k, "alpha": alpha, "days": int(m.sum()),
+                         "fz_loss": v, "year_best": k == best})
+    return pd.DataFrame(rows)

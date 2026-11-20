@@ -135,7 +135,7 @@ def _arch_dist(dist: str):
 
 
 def garch(r: pd.Series, dist: str, o: int = 0, window: int = WINDOW, refit: int = REFIT,
-          return_params: bool = False):
+          return_params: bool = False, fhs: bool = False):
     """GARCH(1,1) / GJR-GARCH(1,1) with normal, t or skewed-t shocks, rolling refit.
 
     The conditional variance for day t is
@@ -144,6 +144,11 @@ def garch(r: pd.Series, dist: str, o: int = 0, window: int = WINDOW, refit: int 
     through the window, so sigma2_t never sees r_t. All shock distributions are
     standardised to unit variance (arch's convention). ES uses the same standardised-shock
     tail mean scaled by the day's sigma, mirroring the quantile.
+
+    With fhs=True the fitted dynamics are kept but the parametric shock law is replaced by
+    the empirical distribution of the estimation window's standardised residuals
+    (filtered historical simulation, Barone-Adesi et al. 1999). Those residuals are dated
+    before the forecast block, so the point-in-time rule is unchanged.
     """
     x = r.to_numpy() * 100.0
     n = len(x)
@@ -168,13 +173,22 @@ def garch(r: pd.Series, dist: str, o: int = 0, window: int = WINDOW, refit: int 
             s2[i] = p["omega"] + a * eps[i - 1] ** 2 + p["beta"] * s2[i - 1]
         sd = np.sqrt(s2[window:])  # forecasts for days s .. e-1
         z = (x[s:e] - p["mu"]) / sd
-        shape = np.asarray(p["shape"]) if p["shape"] else None
-        pit[s:e] = D.cdf(z, shape)
-        zq = D.ppf(np.array([0.01, 0.05]), shape)
+        if fhs:
+            zw = np.sort(eps[:window] / np.sqrt(s2[:window]))  # in-window residuals only
+            lo = np.searchsorted(zw, z, side="left")
+            hi = np.searchsorted(zw, z, side="right")
+            pit[s:e] = (lo + 0.5 * (hi - lo) + 0.5) / (window + 1)
+            zq = np.quantile(zw, [0.01, 0.05])
+            ez01 = float(zw[zw <= zq[0]].mean())
+            ez05 = float(zw[zw <= zq[1]].mean())
+        else:
+            shape = np.asarray(p["shape"]) if p["shape"] else None
+            pit[s:e] = D.cdf(z, shape)
+            zq = D.ppf(np.array([0.01, 0.05]), shape)
+            ez01 = float(np.mean(D.ppf(_ES_GRID * 0.01, shape)))
+            ez05 = float(np.mean(D.ppf(_ES_GRID * 0.05, shape)))
         q01[s:e] = (p["mu"] + sd * zq[0]) / 100.0
         q05[s:e] = (p["mu"] + sd * zq[1]) / 100.0
-        ez01 = float(np.mean(D.ppf(_ES_GRID * 0.01, shape)))
-        ez05 = float(np.mean(D.ppf(_ES_GRID * 0.05, shape)))
         es01[s:e] = (p["mu"] + sd * ez01) / 100.0
         es05[s:e] = (p["mu"] + sd * ez05) / 100.0
         sig[s:e] = sd / 100.0
@@ -193,6 +207,7 @@ MODELS = {
     "GARCH-N": lambda r: garch(r, "normal"),
     "GARCH-t": lambda r: garch(r, "t"),
     "GJR-skew-t": lambda r: garch(r, "skewt", o=1),
+    "GJR-FHS": lambda r: garch(r, "skewt", o=1, fhs=True),
 }
 
 

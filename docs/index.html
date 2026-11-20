@@ -176,7 +176,7 @@ footer a, p a { color: var(--s1); }
 <div class="tip" id="tip"></div>
 
 <script>
-const MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t", "GJR-skew-t"];
+const MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t", "GJR-skew-t", "GJR-FHS"];
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const fmt = (x, d = 2) => x == null || !isFinite(x) ? "–" : d3.format(`,.${d}f`)(x);
 const pfmt = p => p == null ? "–" : p < 0.0001 ? "<0.0001" : d3.format(".4f")(p);

@@ -40,6 +40,7 @@ LADDER = [  # model, what it adds over the rung before
     ("GARCH-N", "volatility clustering (timing)"),
     ("GARCH-t", "clustering + fat tails"),
     ("GJR-skew-t", "clustering + fat tails + asymmetry (bad news raises volatility more; heavier left tail)"),
+    ("GJR-FHS", "challenger: same GJR dynamics, but shocks drawn from the empirical residuals instead of a skewed-t"),
 ]
 
 
@@ -287,10 +288,25 @@ def build(s: dict) -> str:
                              f"{p(r['z2_p'])} {flag} |")
         models_es = [x["model"] for x in mk[codes[0]]["es"] if x["alpha"] == 0.01]
         passed = [m for m in models_es if all(es1(mk[c], m)["z2_p"] > 0.05 for c in codes)]
+        def count_ok_size_bad(c):
+            return [r["model"] for r in mk[c]["es"] if r["alpha"] == 0.01 and r["z2_p"] <= 0.05
+                    and r["z2"] > 0 and var_pass(mk[c], r["model"])]
+        gap = {c: count_ok_size_bad(c) for c in codes}
+        allr = [(r["model"], r["es_ratio"]) for c in codes for r in mk[c]["es"] if r["alpha"] == 0.01]
+        worst_r = max(allr, key=lambda t: abs(t[1] - 1))
+        best_r = min(allr, key=lambda t: abs(t[1] - 1))
+        ratios = "; ".join(
+            f"{names.get(c, c)} " + ", ".join(f"{r['model']} {r['es_ratio']:.2f}" for r in mk[c]["es"]
+                                              if r["alpha"] == 0.01) for c in codes)
         es_note = ("Models whose 99% ES is not rejected in either market: "
                    + (", ".join(passed) if passed else "none")
-                   + ". Several models that passed the VaR *count* still understate the tail's "
-                   "*size* (Z2 > 0), which is the gap Expected Shortfall is meant to close.")
+                   + ". Models that pass the 99% VaR count and independence tests but whose ES is "
+                   "still rejected (realised tail deeper than forecast): "
+                   + "; ".join(f"{names.get(c, c)}: {', '.join(gap[c]) or 'none'}" for c in codes)
+                   + ". Realised ÷ forecast ES at 99% (1.00 = right): " + ratios + ". "
+                   "With several thousand out-of-sample days the Z2 test can reject small, persistent "
+                   "shortfalls, so read the ratio as the effect size: across both markets it runs from "
+                   f"{worst_r[1]:.2f} ({worst_r[0]}) to {best_r[1]:.2f} ({best_r[0]}).")
         es_section = (
             "## Expected Shortfall: how deep the tail is, not just how often\n\n"
             "Passing a VaR test means the *number* of breaches is right; it says nothing about how "
@@ -324,9 +340,34 @@ def build(s: dict) -> str:
             + ". The 90% Model Confidence Set -- the models that cannot be told apart from the best -- is "
             + "; ".join(f"{names.get(c, c)}: {{{', '.join(mcs_set(c, 0.01)) or 'none'}}} at 99%, "
                         f"{{{', '.join(mcs_set(c, 0.05)) or 'none'}}} at 95%" for c in codes)
-            + ". The unconditional models are the ones the set discards, so the ranking agrees with the "
-            "coverage and ES backtests while adding what they omit: a statistically graded ordering, not "
-            "a list of passes.")
+            + ".")
+        if all("fz_by_year" in mk[c] for c in codes):
+            stab = []
+            sps = []
+            for c in codes:
+                yrs = mk[c]["fz_by_year"]
+                b = best_by[c]
+                order = sorted({r["model"]: r["fz_loss"] for r in mk[c]["fz"] if r["alpha"] == 0.01}.items(),
+                               key=lambda t: t[1])
+                ru = order[1][0]
+                by_y = {}
+                for r in yrs:
+                    by_y.setdefault(r["year"], {})[r["model"]] = r["fz_loss"]
+                ny = len(by_y)
+                top = sum(1 for v in by_y.values() if min(v, key=v.get) == b)
+                beat = sum(1 for v in by_y.values() if v[b] < v[ru])
+                from scipy.stats import binomtest
+                sp = binomtest(beat, ny, 0.5).pvalue
+                sps.append(sp)
+                stab.append(f"{names.get(c, c)}: {b} is the best model in {top} of {ny} calendar years "
+                            f"and beats the runner-up ({ru}) in {beat} of {ny} (sign test {peq(sp)})")
+            fz_note += (" **Is it stable, or carried by a few crises?** Scoring each calendar year "
+                        "separately: " + "; ".join(stab) + " (`results/fz_by_year.csv`)."
+                        + (" Year by year the best model and the runner-up trade places often enough "
+                           "that a single year of data would not separate them; the full-sample gap is "
+                           "a modest edge that only becomes significant over decades."
+                           if all(v > 0.05 for v in sps) else
+                           " The best model also wins a significant majority of individual years."))
         fz_section = (
             "## Which forecast is sharpest: a graded ranking, not pass/fail\n\n"
             "A VaR test and an ES test each give a verdict per model; neither says which calibrated model "
@@ -348,21 +389,29 @@ def build(s: dict) -> str:
         best_by = {c: next(r["best_model"] for r in mk[c]["murphy"] if r["alpha"] == 0.01)
                    for c in codes}
         lines = []
+        share_min = {}
         for c in codes:
             best = best_by[c]
-            dominated = [r["model"] for r in mk[c]["murphy"]
-                         if r["alpha"] == 0.01 and r["dominated_by_best"]]
-            # where the best model is itself beaten: the largest adverse gap among non-best models
-            beaten = [(r["model"], -r["min_gap"]) for r in mk[c]["murphy"]
-                      if r["alpha"] == 0.01 and r["model"] != best and r["min_gap"] < 0]
-            dom_txt = (f"it dominates {', '.join(dominated)} outright (its curve is below theirs at "
-                       "every threshold)" if dominated
-                       else "no model is dominated outright -- every model, the winner included, "
-                       "is the sharpest choice at some thresholds")
-            worst = max(beaten, key=lambda t: t[1])[0] if beaten else None
-            beat_txt = (f" {best} itself is beaten at some moderate thresholds, most by {worst}," 
-                        f" which is why the average ranking is not a clean sweep." if worst else "")
-            lines.append(f"- **{names.get(c, c)}**: lowest pinball loss is **{best}**; {dom_txt}.{beat_txt}")
+            rows = [r for r in mk[c]["murphy"] if r["alpha"] == 0.01 and r["model"] != best]
+            fr = [r["frac_theta_best_better"] for r in rows]
+            gs = [r["gap_share_best"] for r in rows]
+            dominated = [r["model"] for r in rows if r["dominated_by_best"]]
+            share_min[c] = min(gs)
+            lines.append(
+                f"- **{names.get(c, c)}**: lowest pinball loss is **{best}**. Against each rival it has the "
+                f"lower elementary score at {min(fr) * 100:.0f}–{max(fr) * 100:.0f}% of the thresholds where "
+                f"the two differ, and {min(gs) * 100:.0f}–{max(gs) * 100:.0f}% of the total score gap is in "
+                f"its favour"
+                + (f"; it dominates {', '.join(dominated)} outright." if dominated else "."))
+        if all(v >= 0.8 for v in share_min.values()):
+            murphy_note = ("Strict dominance at every threshold does not hold, so a loss that weighted only "
+                           "the few thresholds where a rival wins could prefer it. But at least four-fifths "
+                           "of every score gap favours the winner, so the ranking is not an artefact of "
+                           "choosing one scoring function.")
+        else:
+            murphy_note = ("For at least one rival a large share of the score gap lies on the other side, so "
+                           "which model is 'best' depends on which part of the tail a loss emphasises. The "
+                           "average ranking above should be read with that caveat.")
         murphy_section = (
             "### Robust or just lucky? Murphy diagrams\n\n"
             "A ranking by one loss (above) can flip under another. Ehm, Gneiting, Jordan & Kruger "
@@ -372,10 +421,7 @@ def build(s: dict) -> str:
             "wins under every reasonable loss, not just the one chosen. The chart shows each model's "
             "score minus the best model's.\n\n"
             + fig("murphy", "Murphy diagram of the 99% VaR forecasts") + "\n\n"
-            + "\n".join(lines) + "\n\n"
-            "The honest reading is that dominance is rare: the volatility models win on average and in "
-            "the deep tail, but the unconditional models are often sharper around the body of the "
-            "distribution. A single risk number hides that trade-off; the diagram makes it explicit.\n")
+            + "\n".join(lines) + "\n\n" + murphy_note + "\n")
 
     return f"""# market-distribution-tests
 
@@ -404,7 +450,7 @@ enforces it.
 
 Fat tails shrink as returns are aggregated, but a Student-t with ν around
 {', '.join(f"{mk[c]['h2']['nu']:.1f} ({names.get(c, c)})" for c in codes)} describes the daily shape far
-better than the Normal. {nu_note} The real test is a forecast. Six models, each adding one ingredient, produce a
+better than the Normal. {nu_note} The real test is a forecast. Six models, each adding one ingredient, plus one challenger, produce a
 one-day 99% VaR every day, out-of-sample. ✅ means the model passes Kupiec, Christoffersen and Berkowitz
 (all p > 0.05).
 
@@ -471,7 +517,7 @@ its VaR is an interpolated quantile, so its two 1% rates differ slightly.)
 | Data | Yahoo Finance index closes (`^GSPC`, `^KS11`), daily log returns. Index levels, not total return. |
 | Cleaning | Weekend rows and unchanged-close zero-volume rows (stale holiday prints) dropped. Moves above 10% are kept and listed in `results/data_quality.csv` for review. |
 | Static models | Normal and Student-t (MLE) on the trailing {st['window']} days; historical simulation on the trailing {st['hs_window']} days. |
-| GARCH | GARCH(1,1) with Normal or standardised-t shocks, and GJR-GARCH(1,1) with Hansen skewed-t shocks; constant mean (`arch`). Re-estimated every {st['refit']} days on the trailing {st['window']} days; variance filtered forward daily with fixed parameters. |
+| GARCH | GARCH(1,1) with Normal or standardised-t shocks, and GJR-GARCH(1,1) with Hansen skewed-t shocks; constant mean (`arch`). GJR-FHS keeps the GJR fit but takes the shock quantiles and ES from the window's own standardised residuals (filtered historical simulation). Re-estimated every {st['refit']} days on the trailing {st['window']} days; variance filtered forward daily with fixed parameters. |
 | Point-in-time | Every forecast for day *t* uses returns dated *t*−1 or earlier. `tests/test_forecast.py` multiplies all returns after a cut-off by 5 and checks that earlier forecasts do not move. |
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | ES backtest | Acerbi-Szekely (2014) Z2 statistic with bootstrap p-values; ES read off the same predictive law as the VaR. |
@@ -504,7 +550,7 @@ pytest -q                             # simulation-based tests, including the no
 ```
 
 ```
-mdt/forecast.py      rolling out-of-sample predictive distributions (6 models)
+mdt/forecast.py      rolling out-of-sample predictive distributions (7 models)
 mdt/hypotheses.py    H1 to H5 tests, Kupiec, Christoffersen, Berkowitz
 mdt/data.py          download, cleaning audit, log returns
 scripts/             run_all, make_figures, build_readme
@@ -516,6 +562,7 @@ tests/               known-distribution simulations and the lookahead test
 ## References
 
 - Acerbi, C., Szekely, B. (2014). Backtesting expected shortfall. *Risk*.
+- Barone-Adesi, G., Giannopoulos, K., Vosper, L. (1999). VaR without correlations for portfolios of derivative securities. *Journal of Futures Markets*.
 - Berkowitz, J. (2001). Testing density forecasts, with applications to risk management. *JBES*.
 - Christoffersen, P. (1998). Evaluating interval forecasts. *International Economic Review*.
 - Cont, R. (2001). Empirical properties of asset returns: stylized facts and statistical issues. *Quantitative Finance*.

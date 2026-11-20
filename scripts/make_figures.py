@@ -25,7 +25,7 @@ THEMES = {
                  grid="#2c2c2a", axis="#383835", data="#3987e5", normal="#d95926",
                  t="#199e70", neutral="#5a5955"),
 }
-MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t", "GJR-skew-t"]
+MODELS = ["Normal", "Student-t", "Hist. sim.", "GARCH-N", "GARCH-t", "GJR-skew-t", "GJR-FHS"]
 HIGHLIGHT = "GJR-skew-t"  # the last rung of the model ladder
 
 
@@ -139,7 +139,7 @@ def fig_rug(site, th, path):
 
 def fig_pit(site, th, path):
     mk = site["markets"]
-    fig, axes = plt.subplots(len(mk), len(MODELS), figsize=(12.5, 2.3 * len(mk) + 0.4),
+    fig, axes = plt.subplots(len(mk), len(MODELS), figsize=(14.5, 2.3 * len(mk) + 0.4),
                              sharey=True)
     axes = np.atleast_2d(axes)
     for row, (code, m) in enumerate(mk.items()):
