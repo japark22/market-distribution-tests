@@ -304,6 +304,43 @@ def build(s: dict) -> str:
             "|---|---|---:|---:|---:|---:|---:|\n"
             + "\n".join(erows) + "\n\n" + es_note + "\n")
 
+    fz_section = ""
+    if all("fz" in mk[c] for c in codes):
+        frows = []
+        for c in codes:
+            for r in mk[c]["fz"]:
+                if r["alpha"] != 0.01:
+                    continue
+                mark = "\u2705" if r["in_mcs"] else "\u274c"
+                dm = "best" if r["model"] == r["best_model"] else f"{r['dm_vs_best']:+.2f} ({peq(r['dm_p'])})"
+                frows.append(f"| {names.get(c, c)} | {r['model']} | {r['fz_loss']:.4f} | {dm} | "
+                             f"{p(r['mcs_p'])} {mark} |")
+        best_by = {c: next(r["best_model"] for r in mk[c]["fz"] if r["alpha"] == 0.01) for c in codes}
+        def mcs_set(c, a):
+            return [r["model"] for r in mk[c]["fz"] if r["alpha"] == a and r["in_mcs"]]
+        fz_note = (
+            "Lowest average loss (the sharpest joint VaR/ES forecast) at 99%: "
+            + "; ".join(f"{names.get(c, c)} **{best_by[c]}**" for c in codes)
+            + ". The 90% Model Confidence Set -- the models that cannot be told apart from the best -- is "
+            + "; ".join(f"{names.get(c, c)}: {{{', '.join(mcs_set(c, 0.01)) or 'none'}}} at 99%, "
+                        f"{{{', '.join(mcs_set(c, 0.05)) or 'none'}}} at 95%" for c in codes)
+            + ". The unconditional models are the ones the set discards, so the ranking agrees with the "
+            "coverage and ES backtests while adding what they omit: a statistically graded ordering, not "
+            "a list of passes.")
+        fz_section = (
+            "## Which forecast is sharpest: a graded ranking, not pass/fail\n\n"
+            "A VaR test and an ES test each give a verdict per model; neither says which calibrated model "
+            "is *better*, nor whether a gap between two models is real or noise. The 2016 result that "
+            "resolves ES's non-elicitability is that the pair (VaR, ES) is **jointly** elicitable: there is "
+            "a strictly consistent scoring function for the two together even though ES has none alone. "
+            "Scoring every model each day with the Fissler-Ziegel 0-homogeneous loss (lower = sharper), "
+            "comparing each with the best by a Diebold-Mariano test, and running Hansen-Lunde-Nason's "
+            "Model Confidence Set turns the ladder into an ordering with error control. The loss is "
+            "scale-invariant, so days of calm and crisis contribute on the same footing.\n\n"
+            "| Market | Model | FZ loss (99%) | DM vs best | MCS p-value |\n"
+            "|---|---|---:|---:|---:|\n"
+            + "\n".join(frows) + "\n\n" + fz_note + "\n")
+
     return f"""# market-distribution-tests
 
 **Five textbook distributions, each turned into a claim about markets and tested out-of-sample on
@@ -353,6 +390,7 @@ during stress periods.
 {fig("breach_timeline", "Timeline of VaR breaches per model")}
 
 {es_section}
+{fz_section}
 ## H3 Bernoulli: is each day a coin flip?
 
 {h3_line(codes[0])}
@@ -399,6 +437,8 @@ its VaR is an interpolated quantile, so its two 1% rates differ slightly.)
 | GARCH | GARCH(1,1) with Normal or standardised-t shocks, and GJR-GARCH(1,1) with Hansen skewed-t shocks; constant mean (`arch`). Re-estimated every {st['refit']} days on the trailing {st['window']} days; variance filtered forward daily with fixed parameters. |
 | Point-in-time | Every forecast for day *t* uses returns dated *t*−1 or earlier. `tests/test_forecast.py` multiplies all returns after a cut-off by 5 and checks that earlier forecasts do not move. |
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
+| ES backtest | Acerbi-Szekely (2014) Z2 statistic with bootstrap p-values; ES read off the same predictive law as the VaR. |
+| Model ranking | Fissler-Ziegel 0-homogeneous joint (VaR, ES) loss, Diebold-Mariano (1995) tests, and the Hansen-Lunde-Nason (2011) Model Confidence Set (moving-block bootstrap). |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
 
 Last run: {s['generated_utc']}. All numbers above are read from [`results/summary.json`](results/summary.json).
@@ -438,11 +478,17 @@ tests/               known-distribution simulations and the lookahead test
 
 ## References
 
+- Acerbi, C., Szekely, B. (2014). Backtesting expected shortfall. *Risk*.
 - Berkowitz, J. (2001). Testing density forecasts, with applications to risk management. *JBES*.
 - Christoffersen, P. (1998). Evaluating interval forecasts. *International Economic Review*.
 - Cont, R. (2001). Empirical properties of asset returns: stylized facts and statistical issues. *Quantitative Finance*.
 - Diebold, F., Gunther, T., Tay, A. (1998). Evaluating density forecasts. *International Economic Review*.
+- Diebold, F., Mariano, R. (1995). Comparing predictive accuracy. *Journal of Business & Economic Statistics*.
+- Fissler, T., Ziegel, J. (2016). Higher order elicitability and Osband's principle. *Annals of Statistics*.
+- Hansen, P., Lunde, A., Nason, J. (2011). The model confidence set. *Econometrica*.
 - Kupiec, P. (1995). Techniques for verifying the accuracy of risk measurement models. *Journal of Derivatives*.
+- Nolde, N., Ziegel, J. (2017). Elicitability and backtesting: perspectives for banking regulation. *Annals of Applied Statistics*.
+- Patton, A., Ziegel, J., Chen, R. (2019). Dynamic semiparametric models for expected shortfall (and value-at-risk). *Journal of Econometrics*.
 """
 
 

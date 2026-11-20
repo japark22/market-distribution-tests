@@ -126,6 +126,7 @@ def run_market(market, args, log, out_dir) -> dict | None:
     var_df = H.var_backtest(r, fc); var_df.insert(0, "market", market)
     pit_df = H.h5_uniform(fc); pit_df.insert(0, "market", market)
     es_df = H.es_backtest(r, fc); es_df.insert(0, "market", market)
+    fz_df = H.fz_ranking(r, fc); fz_df.insert(0, "market", market)
     res["h4"] = H.h4_poisson(r, fc["GARCH-t"])
     log.add(market, "h4_h5_var", "success", len(var_df))
 
@@ -134,7 +135,7 @@ def run_market(market, args, log, out_dir) -> dict | None:
     wide.insert(0, "r", r.loc[wide.index])
     wide.round(7).to_csv(out_dir / f"forecasts_{market}.csv.gz", compression="gzip")
     params.round(6).to_csv(out_dir / f"gjr_skewt_params_{market}.csv")
-    res.update(var=var_df, pit=pit_df, es=es_df, params=params,
+    res.update(var=var_df, pit=pit_df, es=es_df, fz=fz_df, params=params,
                site=site_payload(market, r, res["h1"], res["h2"], res["h3"], res["h4"],
                                  fc, var_df, pit_df))
     return res
@@ -159,6 +160,7 @@ def main():
     if ok:
         pd.concat([v["var"] for v in ok.values()]).to_csv(out_dir / "var_backtest.csv", index=False)
         pd.concat([v["es"] for v in ok.values()]).to_csv(out_dir / "es_backtest.csv", index=False)
+        pd.concat([v["fz"] for v in ok.values()]).to_csv(out_dir / "fz_ranking.csv", index=False)
         pit = pd.concat([v["pit"] for v in ok.values()])
         pit.drop(columns="hist").to_csv(out_dir / "pit_tests.csv", index=False)
         dq = [row for v in ok.values() for row in v["dq"]]
@@ -173,6 +175,7 @@ def main():
                             "data_quality_rows": len(v["dq"]),
                             "var": v["var"].to_dict(orient="records"),
                             "es": v["es"].to_dict(orient="records"),
+                            "fz": v["fz"].to_dict(orient="records"),
                             "pit": v["pit"].drop(columns="hist").to_dict(orient="records")}
                         for m, v in ok.items()},
         }
