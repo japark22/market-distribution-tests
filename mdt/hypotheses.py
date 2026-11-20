@@ -301,3 +301,55 @@ def h5_uniform(forecasts: dict[str, pd.DataFrame], bins: int = 20) -> pd.DataFra
             "hist": hist.tolist(),
         })
     return pd.DataFrame(rows)
+
+
+# ----------------------------------------------------------- Expected Shortfall
+def _z2_bootstrap(contrib: np.ndarray, alpha: float, n_boot: int, seed: int):
+    """Acerbi-Szekely (2014) Z2 statistic and a percentile-bootstrap p-value.
+
+    Z2 = mean_t[ r_t * 1{r_t <= VaR_t} / ES_t ] / alpha - 1, which has expectation 0
+    when the reported ES is correct. Z2 > 0 means realised tail losses are larger than
+    the model's ES (risk understated); Z2 < 0 means the ES is conservative. The null is
+    not analytically tractable, so the two-sided p-value is taken from the bootstrap
+    distribution of Z2 over the per-day contributions.
+    """
+    z2 = float(contrib.mean() / alpha - 1.0)
+    rng = np.random.default_rng(seed)
+    n = len(contrib)
+    boot = contrib[rng.integers(0, n, size=(n_boot, n))].mean(axis=1) / alpha - 1.0
+    se = float(boot.std(ddof=1))
+    p = 2.0 * min(float((boot <= 0).mean()), float((boot >= 0).mean()))
+    return z2, se, min(p, 1.0)
+
+
+def es_backtest(r: pd.Series, forecasts: dict[str, pd.DataFrame], n_boot: int = 2000,
+                seed: int = 0) -> pd.DataFrame:
+    """Expected-Shortfall calibration for every model at the 99% and 95% levels.
+
+    For each model the breach days (r_t below the VaR quantile) are collected, the mean
+    realised return on those days is compared with the mean forecast ES, and the
+    Acerbi-Szekely Z2 statistic is tested against zero by bootstrap. ES is the Basel/FRTB
+    tail measure; unlike VaR it is not elicitable, so a dedicated backtest is needed.
+    """
+    rows = []
+    for name, f in forecasts.items():
+        x = r.loc[f.index].to_numpy()
+        for a in VAR_LEVELS:
+            col = "01" if a == 0.01 else "05"
+            q = f[f"q{col}"].to_numpy()
+            e = f[f"es{col}"].to_numpy()
+            breach = x < q
+            nb = int(breach.sum())
+            with np.errstate(divide="ignore", invalid="ignore"):
+                contrib = np.where(breach & (e < 0), x / e, 0.0)
+            z2, se, p = _z2_bootstrap(contrib, a, n_boot, seed)
+            realized = float(x[breach].mean()) if nb else float("nan")
+            predicted = float(e[breach].mean()) if nb else float("nan")
+            ratio = float(realized / predicted) if nb and predicted != 0 else float("nan")
+            rows.append({
+                "model": name, "var_level": f"{int(round((1 - a) * 100))}%", "alpha": a,
+                "n": len(x), "violations": nb, "expected": a * len(x),
+                "es_realized": realized, "es_predicted": predicted, "es_ratio": ratio,
+                "z2": z2, "z2_se": se, "z2_p": p,
+            })
+    return pd.DataFrame(rows)

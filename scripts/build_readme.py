@@ -271,6 +271,39 @@ def build(s: dict) -> str:
                     f"Kupiec p = {p(next(x for x in mk[c]['var'] if x['model'] == 'GJR-skew-t' and x['alpha'] == 0.05)['kupiec_p'])}"
                     for c in codes)
     v95_line += v95 + "."
+    es_section = ""
+    if all("es" in mk[c] for c in codes):
+        espct = lambda x: f"{x * 100:+.2f}%"
+        def es1(m, model):
+            return next(r for r in m["es"] if r["model"] == model and r["alpha"] == 0.01)
+        erows = []
+        for c in codes:
+            for r in mk[c]["es"]:
+                if r["alpha"] != 0.01:
+                    continue
+                flag = "\u2705" if r["z2_p"] > 0.05 else "\u274c"
+                erows.append(f"| {names.get(c, c)} | {r['model']} | {espct(r['es_predicted'])} | "
+                             f"{espct(r['es_realized'])} | {r['es_ratio']:.2f} | {r['z2']:+.2f} | "
+                             f"{p(r['z2_p'])} {flag} |")
+        models_es = [x["model"] for x in mk[codes[0]]["es"] if x["alpha"] == 0.01]
+        passed = [m for m in models_es if all(es1(mk[c], m)["z2_p"] > 0.05 for c in codes)]
+        es_note = ("Models whose 99% ES is not rejected in either market: "
+                   + (", ".join(passed) if passed else "none")
+                   + ". Several models that passed the VaR *count* still understate the tail's "
+                   "*size* (Z2 > 0), which is the gap Expected Shortfall is meant to close.")
+        es_section = (
+            "## Expected Shortfall: how deep the tail is, not just how often\n\n"
+            "Passing a VaR test means the *number* of breaches is right; it says nothing about how "
+            "bad they are. Expected Shortfall -- the average loss on a breach day -- is the measure "
+            "Basel III / FRTB now mandates, and because it is not elicitable it needs its own "
+            "backtest. Each model's ES is read off the same predictive distribution as its VaR and "
+            "tested with the Acerbi-Szekely (2014) Z2 statistic (E[Z2] = 0 when the ES is right; "
+            "Z2 > 0 means realised losses exceed the model's ES), with bootstrap p-values. The "
+            "realised column averages the actual return on the model's own breach days.\n\n"
+            "| Market | Model | Forecast ES | Realised ES | Realised / forecast | Z2 | Z2 p |\n"
+            "|---|---|---:|---:|---:|---:|---:|\n"
+            + "\n".join(erows) + "\n\n" + es_note + "\n")
+
     return f"""# market-distribution-tests
 
 **Five textbook distributions, each turned into a claim about markets and tested out-of-sample on
@@ -319,6 +352,7 @@ during stress periods.
 
 {fig("breach_timeline", "Timeline of VaR breaches per model")}
 
+{es_section}
 ## H3 Bernoulli: is each day a coin flip?
 
 {h3_line(codes[0])}

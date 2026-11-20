@@ -9,6 +9,9 @@ perturbing future returns and checking that earlier forecasts do not change.
 Each model returns a DataFrame indexed by forecast date with:
     pit  - predictive CDF evaluated at the realised return, F_{t|t-1}(r_t)
     q01, q05 - predictive 1% and 5% quantiles (the 99% / 95% one-day VaR, as returns)
+    es01, es05 - the matching Expected Shortfall E[r_t | r_t <= VaR], as returns.
+                 ES is read off the same predictive distribution as the quantile, so
+                 it inherits the point-in-time guarantee and is at least as extreme.
 """
 from __future__ import annotations
 
@@ -22,9 +25,24 @@ WINDOW = 1000   # trading days in each estimation window (about four years)
 REFIT = 21      # re-estimate parameters about once a month
 HS_WINDOW = 250  # historical-simulation lookback (one trading year, the Basel convention)
 
+# 100 midpoints of the unit interval, used to average the quantile function over a tail.
+_ES_GRID = (np.arange(1, 101) - 0.5) / 100.0
 
-def _frame(index, pit, q01, q05) -> pd.DataFrame:
-    return pd.DataFrame({"pit": pit, "q01": q01, "q05": q05}, index=index)
+
+def _frame(index, pit, q01, q05, es01=None, es05=None) -> pd.DataFrame:
+    d = {"pit": pit, "q01": q01, "q05": q05}
+    if es01 is not None:
+        d["es01"], d["es05"] = es01, es05
+    return pd.DataFrame(d, index=index)
+
+
+def _tail_mean(ppf, alpha):
+    """Expected shortfall E[X | X <= q_alpha] as the mean of the quantile function over
+    the lowest `alpha` of the distribution. `ppf(u)` is evaluated on an array of
+    probabilities; it may return a 1-D array (scalar parameters) or a (len(u), n) matrix
+    (per-day parameters), in which case the tail is averaged along the probability axis."""
+    v = np.asarray(ppf(_ES_GRID * alpha))
+    return v.mean(axis=0) if v.ndim > 1 else float(v.mean())
 
 
 def static_normal(r: pd.Series, window: int = WINDOW) -> pd.DataFrame:
@@ -33,8 +51,11 @@ def static_normal(r: pd.Series, window: int = WINDOW) -> pd.DataFrame:
     sd = r.rolling(window).std(ddof=1).shift(1)
     ok = mu.notna()
     mu, sd, x = mu[ok], sd[ok], r[ok]
+    mv, sv = mu.to_numpy(), sd.to_numpy()
+    ppf = lambda u: stats.norm.ppf(u[:, None], mv[None, :], sv[None, :])
     return _frame(x.index, stats.norm.cdf(x, mu, sd),
-                  stats.norm.ppf(0.01, mu, sd), stats.norm.ppf(0.05, mu, sd))
+                  stats.norm.ppf(0.01, mu, sd), stats.norm.ppf(0.05, mu, sd),
+                  _tail_mean(ppf, 0.01), _tail_mean(ppf, 0.05))
 
 
 def static_t(r: pd.Series, window: int = WINDOW, refit: int = REFIT) -> pd.DataFrame:
@@ -44,29 +65,41 @@ def static_t(r: pd.Series, window: int = WINDOW, refit: int = REFIT) -> pd.DataF
     pit = np.full(n, np.nan)
     q01 = np.full(n, np.nan)
     q05 = np.full(n, np.nan)
+    es01 = np.full(n, np.nan)
+    es05 = np.full(n, np.nan)
     for s in range(window, n, refit):
         df_, loc, scale = stats.t.fit(vals[s - window:s])
         e = min(s + refit, n)
         pit[s:e] = stats.t.cdf(vals[s:e], df_, loc, scale)
         q01[s:e] = stats.t.ppf(0.01, df_, loc, scale)
         q05[s:e] = stats.t.ppf(0.05, df_, loc, scale)
+        es01[s:e] = _tail_mean(lambda u: stats.t.ppf(u, df_, loc, scale), 0.01)
+        es05[s:e] = _tail_mean(lambda u: stats.t.ppf(u, df_, loc, scale), 0.05)
     sl = slice(window, n)
-    return _frame(r.index[sl], pit[sl], q01[sl], q05[sl])
+    return _frame(r.index[sl], pit[sl], q01[sl], q05[sl], es01[sl], es05[sl])
 
 
 def historical_simulation(r: pd.Series, window: int = HS_WINDOW) -> pd.DataFrame:
-    """Empirical distribution of the trailing window. PIT is the mid-rank of r_t in it."""
+    """Empirical distribution of the trailing window. PIT is the mid-rank of r_t in it.
+    ES is the mean of the worst alpha-fraction of the window (the historical-simulation ES)."""
     vals = r.to_numpy()
     n = len(vals)
     pit = np.full(n, np.nan)
     q01 = np.full(n, np.nan)
     q05 = np.full(n, np.nan)
+    es01 = np.full(n, np.nan)
+    es05 = np.full(n, np.nan)
+    k01 = max(1, int(0.01 * window))
+    k05 = max(1, int(0.05 * window))
     for t in range(window, n):
         past = vals[t - window:t]
         pit[t] = (np.sum(past < vals[t]) + 0.5 * np.sum(past == vals[t]) + 0.5) / (window + 1)
         q01[t], q05[t] = np.quantile(past, [0.01, 0.05])
+        sp = np.sort(past)
+        es01[t] = sp[:k01].mean()
+        es05[t] = sp[:k05].mean()
     sl = slice(window, n)
-    return _frame(r.index[sl], pit[sl], q01[sl], q05[sl])
+    return _frame(r.index[sl], pit[sl], q01[sl], q05[sl], es01[sl], es05[sl])
 
 
 _DISTS = {"normal": "normal", "t": "t", "skewt": "skewt"}
@@ -109,13 +142,16 @@ def garch(r: pd.Series, dist: str, o: int = 0, window: int = WINDOW, refit: int 
         sigma2_t = omega + (alpha + gamma * 1[e_{t-1} < 0]) * e_{t-1}^2 + beta * sigma2_{t-1},
     with e = r - mu, started at the sample variance of the estimation window and filtered
     through the window, so sigma2_t never sees r_t. All shock distributions are
-    standardised to unit variance (arch's convention).
+    standardised to unit variance (arch's convention). ES uses the same standardised-shock
+    tail mean scaled by the day's sigma, mirroring the quantile.
     """
     x = r.to_numpy() * 100.0
     n = len(x)
     pit = np.full(n, np.nan)
     q01 = np.full(n, np.nan)
     q05 = np.full(n, np.nan)
+    es01 = np.full(n, np.nan)
+    es05 = np.full(n, np.nan)
     sig = np.full(n, np.nan)
     params = []
     D = _arch_dist(dist)
@@ -137,9 +173,13 @@ def garch(r: pd.Series, dist: str, o: int = 0, window: int = WINDOW, refit: int 
         zq = D.ppf(np.array([0.01, 0.05]), shape)
         q01[s:e] = (p["mu"] + sd * zq[0]) / 100.0
         q05[s:e] = (p["mu"] + sd * zq[1]) / 100.0
+        ez01 = float(np.mean(D.ppf(_ES_GRID * 0.01, shape)))
+        ez05 = float(np.mean(D.ppf(_ES_GRID * 0.05, shape)))
+        es01[s:e] = (p["mu"] + sd * ez01) / 100.0
+        es05[s:e] = (p["mu"] + sd * ez05) / 100.0
         sig[s:e] = sd / 100.0
     sl = slice(window, n)
-    out = _frame(r.index[sl], pit[sl], q01[sl], q05[sl])
+    out = _frame(r.index[sl], pit[sl], q01[sl], q05[sl], es01[sl], es05[sl])
     out["sigma"] = sig[sl]
     if return_params:
         return out, pd.DataFrame(params).set_index("date")
