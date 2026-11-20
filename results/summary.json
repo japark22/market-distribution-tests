@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-20T06:40:08Z",
+ "generated_utc": "2026-11-20T07:15:57Z",
  "synthetic": false,
  "settings": {
   "window": 1000,
@@ -108,76 +108,76 @@
     "markov_chi2": 8.437187931368065,
     "markov_p": 0.0036762429462952762,
     "acf_sign": [
-     -0.030143963655354808,
-     -0.01684109164089261,
-     -0.03169265894504324,
-     -0.00039849089140570965,
-     0.0033751862767567426,
-     -0.004546057502812268,
-     -0.015034633809515842,
-     0.0013002547469507754,
-     0.00747200002397997,
-     0.006512618563576086,
-     0.0172166192563202,
-     0.017989818677061724,
-     0.0018703545066355834,
-     0.002612015132793567,
-     -0.019803824129076407,
-     0.012990582798271574,
-     -0.0029280781593031403,
-     0.0006447957960078884,
-     -0.00661096075583985,
-     0.003226749496331563
+     -0.030143963655354957,
+     -0.016841091640892737,
+     -0.03169265894504341,
+     -0.00039849089140578007,
+     0.003375186276756661,
+     -0.004546057502812333,
+     -0.015034633809515916,
+     0.0013002547469507361,
+     0.007472000023979946,
+     0.006512618563576101,
+     0.01721661925632019,
+     0.017989818677061748,
+     0.001870354506635532,
+     0.0026120151327935167,
+     -0.01980382412907654,
+     0.012990582798271571,
+     -0.0029280781593032166,
+     0.0006447957960078703,
+     -0.006610960755839861,
+     0.003226749496331513
     ],
     "acf_abs": [
-     0.2731631852667469,
-     0.34254734995851693,
-     0.3017197860430081,
-     0.3102108012896131,
-     0.3220287917402827,
-     0.3029622789519139,
-     0.2950325949799127,
+     0.27316318526674693,
+     0.3425473499585168,
+     0.30171978604300803,
+     0.31021080128961304,
+     0.32202879174028276,
+     0.30296227895191385,
+     0.2950325949799126,
      0.2846577001591109,
      0.2725220761005299,
-     0.2786352746176304,
-     0.2767337656370265,
-     0.25500522735068865,
+     0.2786352746176303,
+     0.2767337656370264,
+     0.25500522735068853,
      0.23815512553057655,
-     0.2163177924426371,
-     0.2280757432104125,
-     0.23469536684663142,
-     0.22456305509361288,
-     0.22511414883540595,
-     0.20558889271899938,
-     0.21685201948479685
+     0.21631779244263707,
+     0.22807574321041255,
+     0.23469536684663128,
+     0.22456305509361282,
+     0.2251141488354059,
+     0.20558889271899936,
+     0.21685201948479688
     ],
     "acf_band": 0.020341759036685888,
-    "ljung_box10_sign_p": 0.008344456435673732,
+    "ljung_box10_sign_p": 0.00834445643567302,
     "ljung_box10_abs_p": 0.0,
     "by_decade": [
      {
       "decade": "1990s",
       "n": 2525,
       "p_up": 0.5362376237623763,
-      "sign_acf1": 0.027364240853507943
+      "sign_acf1": 0.027364240853507978
      },
      {
       "decade": "2000s",
       "n": 2513,
       "p_up": 0.5224830879426979,
-      "sign_acf1": -0.08818990879313836
+      "sign_acf1": -0.08818990879313826
      },
      {
       "decade": "2010s",
       "n": 2515,
       "p_up": 0.5487077534791253,
-      "sign_acf1": -0.02957748624133381
+      "sign_acf1": -0.029577486241333807
      },
      {
       "decade": "2020s",
       "n": 1731,
       "p_up": 0.5389948006932409,
-      "sign_acf1": -0.03169752106558845
+      "sign_acf1": -0.03169752106558846
      }
     ]
    },
@@ -247,7 +247,7 @@
       "dispersion": 4.890730342183213,
       "dispersion_p": 5.76443401156756e-224,
       "zero_months_observed": 0.7923250564334086,
-      "zero_months_poisson": 0.5700240366759832,
+      "zero_months_poisson": 0.5700240366759833,
       "max_month": 18,
       "p_max_or_more_poisson": 2.8767019060437194e-21,
       "count_hist_observed": [
@@ -272,12 +272,12 @@
        1
       ],
       "count_hist_poisson": [
-       252.52064824746057,
+       252.52064824746063,
        141.93598513231981,
        39.88945857556167,
        7.47364573763345,
        1.0501906256606819,
-       0.11805754663183278,
+       0.11805754663183281,
        0.011059567009528357,
        0.0008880464964116607,
        6.239378600634971e-05,
@@ -286,7 +286,7 @@
        1.1191621324348826e-08,
        5.242125112420735e-10,
        2.2665204948650174e-11,
-       9.099703373450258e-13,
+       9.09970337345026e-13,
        3.409821128651775e-14,
        1.1978632350935306e-15,
        3.9605357261756644e-17,
@@ -334,12 +334,12 @@
        2.4350861779351434e-05,
        9.89425535052655e-07,
        3.573545950528777e-08,
-       1.1616041013005482e-09,
+       1.1616041013005484e-09,
        3.4326080563775724e-11,
        9.29826110079705e-13,
        2.3249689156359954e-14,
        5.39818645358889e-16,
-       1.1940388277741317e-17
+       1.1940388277741318e-17
       ],
       "gap_cv": 2.98661524807677
      }
@@ -392,10 +392,10 @@
       1.2758287582719285e-09,
       6.022268614220653e-11,
       2.6396307237655304e-12,
-      1.0798489324495287e-13,
+      1.0798489324495288e-13,
       4.141466076155868e-15,
       1.494914225350389e-16,
-      5.266093686213206e-18
+      5.266093686213207e-18
      ],
      "gap_cv": 3.267668126176521
     },
@@ -553,15 +553,15 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 8289,
-     "violations": 496,
+     "violations": 497,
      "expected": 414.45000000000005,
-     "rate": 0.05983833996863313,
-     "kupiec_lr": 15.934072406470023,
-     "kupiec_p": 6.55873455896455e-05,
-     "christoffersen_lr": 0.014939862677721294,
-     "christoffersen_p": 0.9027178730106781,
-     "cc_lr": 15.949012269147744,
-     "cc_p": 0.00034412481414764607,
+     "rate": 0.059958981783086014,
+     "kupiec_lr": 16.316282971812143,
+     "kupiec_p": 5.36013841922966e-05,
+     "christoffersen_lr": 0.02117048664081267,
+     "christoffersen_p": 0.8843154737449461,
+     "cc_lr": 16.337453458452956,
+     "cc_p": 0.00028337860452745005,
      "max_cluster": 4
     },
     {
@@ -631,6 +631,40 @@
      "cc_lr": 7.507693977594471,
      "cc_p": 0.023427447151580263,
      "max_cluster": 4
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "n": 8289,
+     "violations": 107,
+     "expected": 82.89,
+     "rate": 0.012908674146459163,
+     "kupiec_lr": 6.488189042298927,
+     "kupiec_p": 0.010859354742964846,
+     "christoffersen_lr": 0.250311361671983,
+     "christoffersen_p": 0.6168559234323487,
+     "cc_lr": 6.73850040397091,
+     "cc_p": 0.034415432294566825,
+     "max_cluster": 3
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "n": 8289,
+     "violations": 433,
+     "expected": 414.45000000000005,
+     "rate": 0.052237905658101096,
+     "kupiec_lr": 0.8618783837359842,
+     "kupiec_p": 0.353213572626337,
+     "christoffersen_lr": 0.679030557530325,
+     "christoffersen_p": 0.40992074811933266,
+     "cc_lr": 1.5409089412663093,
+     "cc_p": 0.4628026902778539,
+     "max_cluster": 4
     }
    ],
    "es": [
@@ -661,7 +695,7 @@
      "es_predicted": -0.02029246022534226,
      "es_ratio": 1.2763022955329835,
      "z2": 0.4133146466466677,
-     "z2_se": 0.07362984077910528,
+     "z2_se": 0.07362984077910527,
      "z2_p": 0.0
     },
     {
@@ -733,10 +767,10 @@
      "violations": 192,
      "expected": 82.89,
      "es_realized": -0.02708435252214501,
-     "es_predicted": -0.023676077263749803,
-     "es_ratio": 1.1439543899281652,
-     "z2": 1.686875701982252,
-     "z2_se": 0.20097141816621464,
+     "es_predicted": -0.02367609056753087,
+     "es_ratio": 1.1439537471312173,
+     "z2": 1.6868738445695226,
+     "z2_se": 0.20097135401466676,
      "z2_p": 0.0
     },
     {
@@ -745,13 +779,13 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 8289,
-     "violations": 496,
+     "violations": 497,
      "expected": 414.45000000000005,
-     "es_realized": -0.022180914760395836,
-     "es_predicted": -0.019519872813466333,
-     "es_ratio": 1.1363247584837597,
-     "z2": 0.3852473932665472,
-     "z2_se": 0.06323617633508345,
+     "es_realized": -0.022153934383979546,
+     "es_predicted": -0.019502074034740212,
+     "es_ratio": 1.1359783756597077,
+     "z2": 0.3872451135651036,
+     "z2_se": 0.06325497881755343,
      "z2_p": 0.0
     },
     {
@@ -763,10 +797,10 @@
      "violations": 137,
      "expected": 82.89,
      "es_realized": -0.02785095804499411,
-     "es_predicted": -0.027442709182429786,
-     "es_ratio": 1.0148764052357377,
-     "z2": 0.6981427744267155,
-     "z2_se": 0.14968090600173745,
+     "es_predicted": -0.02744203280170566,
+     "es_ratio": 1.0149014195210435,
+     "z2": 0.6981706508243883,
+     "z2_se": 0.1496791908838292,
      "z2_p": 0.0
     },
     {
@@ -778,10 +812,10 @@
      "violations": 535,
      "expected": 414.45000000000005,
      "es_realized": -0.021598079907565917,
-     "es_predicted": -0.020989857901705843,
-     "es_ratio": 1.0289769472813175,
-     "z2": 0.3586538161596442,
-     "z2_se": 0.05970051589118412,
+     "es_predicted": -0.020990026143498163,
+     "es_ratio": 1.0289686997010294,
+     "z2": 0.35863224559510853,
+     "z2_se": 0.059699231460677384,
      "z2_p": 0.0
     },
     {
@@ -793,10 +827,10 @@
      "violations": 101,
      "expected": 82.89,
      "es_realized": -0.028267719345349267,
-     "es_predicted": -0.027244149445396937,
-     "es_ratio": 1.0375702644710485,
-     "z2": 0.29659952544988943,
-     "z2_se": 0.1341341706193821,
+     "es_predicted": -0.027243431306727316,
+     "es_ratio": 1.0375976148925492,
+     "z2": 0.29670558670883396,
+     "z2_se": 0.13415134969800693,
      "z2_p": 0.021
     },
     {
@@ -808,11 +842,41 @@
      "violations": 456,
      "expected": 414.45000000000005,
      "es_realized": -0.02205497934448958,
-     "es_predicted": -0.021989398128988168,
-     "es_ratio": 1.0029824015699165,
-     "z2": 0.14158339387769736,
-     "z2_se": 0.054662211123752955,
+     "es_predicted": -0.02198937791748991,
+     "es_ratio": 1.0029833234594367,
+     "z2": 0.14159446961266386,
+     "z2_se": 0.05466285445929111,
      "z2_p": 0.01
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "n": 8289,
+     "violations": 107,
+     "expected": 82.89,
+     "es_realized": -0.02831249381982784,
+     "es_predicted": -0.02911735309840146,
+     "es_ratio": 0.9723580891486387,
+     "z2": 0.2932701178662078,
+     "z2_se": 0.13078342206997412,
+     "z2_p": 0.021
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "n": 8289,
+     "violations": 433,
+     "expected": 414.45000000000005,
+     "es_realized": -0.02214983111238331,
+     "es_predicted": -0.022466270879420727,
+     "es_ratio": 0.9859148957681588,
+     "z2": 0.06378379081653329,
+     "z2_se": 0.0520011720814345,
+     "z2_p": 0.215
     }
    ],
    "fz": [
@@ -823,9 +887,9 @@
      "alpha": 0.01,
      "n": 8289,
      "fz_loss": -2.5684807972829122,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.2192542890833336,
-     "dm_p": 2.4511169225723064e-05,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.230582832813829,
+     "dm_p": 2.3308659107166128e-05,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 1
@@ -837,9 +901,9 @@
      "alpha": 0.01,
      "n": 8289,
      "fz_loss": -2.8669504424573864,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.449510757019544,
-     "dm_p": 8.606611941221098e-06,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.4945767635298015,
+     "dm_p": 6.97084538958583e-06,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 2
@@ -851,10 +915,10 @@
      "alpha": 0.01,
      "n": 8289,
      "fz_loss": -3.152583909891592,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 3.270304372355441,
-     "dm_p": 0.0010743182110856506,
-     "mcs_p": 0.006,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 3.3379849311455345,
+     "dm_p": 0.000843883257796432,
+     "mcs_p": 0.0075,
      "in_mcs": false,
      "mcs_rank": 4
     },
@@ -864,10 +928,10 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 8289,
-     "fz_loss": -3.194630571788884,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.8690493797784296,
-     "dm_p": 1.1213638622131147e-06,
+     "fz_loss": -3.1945942088189407,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.778182669670244,
+     "dm_p": 1.7688664959329064e-06,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 3
@@ -878,12 +942,12 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 8289,
-     "fz_loss": -3.348979022862342,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 1.6697828297828496,
-     "dm_p": 0.09496233872999457,
-     "mcs_p": 0.098,
-     "in_mcs": false,
+     "fz_loss": -3.3489859232788146,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 1.749120975416999,
+     "dm_p": 0.08027011020029472,
+     "mcs_p": 1.0,
+     "in_mcs": true,
      "mcs_rank": 5
     },
     {
@@ -892,13 +956,27 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 8289,
-     "fz_loss": -3.3889720663596945,
-     "best_model": "GJR-skew-t",
+     "fz_loss": -3.388900400612024,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 0.15828471834813912,
+     "dm_p": 0.8742324493328396,
+     "mcs_p": 1.0,
+     "in_mcs": true,
+     "mcs_rank": 6
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "n": 8289,
+     "fz_loss": -3.3899416337217945,
+     "best_model": "GJR-FHS",
      "dm_vs_best": 0.0,
      "dm_p": 1.0,
      "mcs_p": 1.0,
      "in_mcs": true,
-     "mcs_rank": 6
+     "mcs_rank": 7
     },
     {
      "market": "SPX",
@@ -907,9 +985,9 @@
      "alpha": 0.05,
      "n": 8289,
      "fz_loss": -3.497081270236169,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 5.88978313550745,
-     "dm_p": 3.86702740437328e-09,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 5.9161556527451395,
+     "dm_p": 3.295533571250157e-09,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 2
@@ -921,9 +999,9 @@
      "alpha": 0.05,
      "n": 8289,
      "fz_loss": -3.4891534653824348,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 5.837162063980619,
-     "dm_p": 5.309744344525099e-09,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 5.868713326571731,
+     "dm_p": 4.391900518701781e-09,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 1
@@ -935,9 +1013,9 @@
      "alpha": 0.05,
      "n": 8289,
      "fz_loss": -3.6681459222391695,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.957487656045794,
-     "dm_p": 7.141057780108574e-07,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 5.037688294337255,
+     "dm_p": 4.711879488789995e-07,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 3
@@ -948,10 +1026,10 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 8289,
-     "fz_loss": -3.772322556650624,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.968850289303797,
-     "dm_p": 6.735104332778536e-07,
+     "fz_loss": -3.7721946467490763,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.9211755145771825,
+     "dm_p": 8.602593799969599e-07,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 4
@@ -962,10 +1040,10 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 8289,
-     "fz_loss": -3.7818759435420843,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.228375571487161,
-     "dm_p": 2.3538463389739612e-05,
+     "fz_loss": -3.781891105266589,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.244611958429868,
+     "dm_p": 2.1897201819574833e-05,
      "mcs_p": 0.0,
      "in_mcs": false,
      "mcs_rank": 5
@@ -976,13 +1054,27 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 8289,
-     "fz_loss": -3.821662210915442,
-     "best_model": "GJR-skew-t",
+     "fz_loss": -3.821652431621818,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 1.4412270071168833,
+     "dm_p": 0.1495205608902832,
+     "mcs_p": 1.0,
+     "in_mcs": true,
+     "mcs_rank": 6
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "n": 8289,
+     "fz_loss": -3.8245364999931732,
+     "best_model": "GJR-FHS",
      "dm_vs_best": 0.0,
      "dm_p": 1.0,
      "mcs_p": 1.0,
      "in_mcs": true,
-     "mcs_rank": 6
+     "mcs_rank": 7
     }
    ],
    "murphy": [
@@ -996,7 +1088,8 @@
      "dominated_by_best": false,
      "max_gap": 0.007606466401256413,
      "min_gap": -0.0004548196404876685,
-     "frac_theta_best_better": 0.7875
+     "frac_theta_best_better": 0.9473684210526315,
+     "gap_share_best": 0.9947578823811358
     },
     {
      "market": "SPX",
@@ -1007,8 +1100,9 @@
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.0069356979128972285,
-     "min_gap": -0.0007202316322840827,
-     "frac_theta_best_better": 0.75625
+     "min_gap": -0.0007238508867176714,
+     "frac_theta_best_better": 0.9097744360902256,
+     "gap_share_best": 0.9874898042414303
     },
     {
      "market": "SPX",
@@ -1020,43 +1114,60 @@
      "dominated_by_best": false,
      "max_gap": 0.0035927132344067848,
      "min_gap": -0.0004234527687299143,
-     "frac_theta_best_better": 0.75625
+     "frac_theta_best_better": 0.9097744360902256,
+     "gap_share_best": 0.9882793390226604
     },
     {
      "market": "SPX",
      "model": "GARCH-N",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0003456627915141172,
+     "pinball": 0.00034566714093382355,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
-     "max_gap": 0.0023102907467732192,
+     "max_gap": 0.00230787791048416,
      "min_gap": -0.0001375316684763218,
-     "frac_theta_best_better": 0.74375
+     "frac_theta_best_better": 0.8880597014925373,
+     "gap_share_best": 0.9886301933360747
     },
     {
      "market": "SPX",
      "model": "GARCH-t",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0003255902195694427,
+     "pinball": 0.0003256032678285617,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
-     "max_gap": 0.0011617806731816331,
+     "max_gap": 0.001162987091326161,
      "min_gap": -0.00035106768005807067,
-     "frac_theta_best_better": 0.75
+     "frac_theta_best_better": 0.8955223880597015,
+     "gap_share_best": 0.9368654452094627
     },
     {
      "market": "SPX",
      "model": "GJR-skew-t",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.00031337405880804383,
+     "pinball": 0.0003133756898404337,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.0,
      "min_gap": 0.0,
-     "frac_theta_best_better": 0.0
+     "frac_theta_best_better": null,
+     "gap_share_best": null
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "pinball": 0.00031429858233436846,
+     "best_model": "GJR-skew-t",
+     "dominated_by_best": false,
+     "max_gap": 0.0004379297864639262,
+     "min_gap": -0.00040656291470625005,
+     "frac_theta_best_better": 0.5639097744360902,
+     "gap_share_best": 0.5826010544815113
     },
     {
      "market": "SPX",
@@ -1068,7 +1179,8 @@
      "dominated_by_best": false,
      "max_gap": 0.016232356134638068,
      "min_gap": -0.0003016045361322328,
-     "frac_theta_best_better": 0.86875
+     "frac_theta_best_better": 0.9858156028368794,
+     "gap_share_best": 0.999357228456259
     },
     {
      "market": "SPX",
@@ -1080,7 +1192,8 @@
      "dominated_by_best": false,
      "max_gap": 0.018584871516469162,
      "min_gap": -0.0003016045361322328,
-     "frac_theta_best_better": 0.86875
+     "frac_theta_best_better": 0.9858156028368794,
+     "gap_share_best": 0.9994103066405469
     },
     {
      "market": "SPX",
@@ -1092,43 +1205,2204 @@
      "dominated_by_best": false,
      "max_gap": 0.007642658945590776,
      "min_gap": -0.0003257328990229,
-     "frac_theta_best_better": 0.8875
+     "frac_theta_best_better": 0.993006993006993,
+     "gap_share_best": 0.9991092048828766
     },
     {
      "market": "SPX",
      "model": "GARCH-N",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0010545752531249096,
+     "pinball": 0.0010546404944205045,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.002792858004584342,
-     "min_gap": -0.0005006635299793991,
-     "frac_theta_best_better": 0.65
+     "min_gap": -0.0004705030763662507,
+     "frac_theta_best_better": 0.7428571428571429,
+     "gap_share_best": 0.9233658302700972
     },
     {
      "market": "SPX",
      "model": "GARCH-t",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0010564645323098399,
+     "pinball": 0.0010565270552181183,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
-     "max_gap": 0.0033659066232351598,
+     "max_gap": 0.003359874532512512,
      "min_gap": -0.0005851128000964774,
-     "frac_theta_best_better": 0.675
+     "frac_theta_best_better": 0.7605633802816901,
+     "gap_share_best": 0.9284846644397119
     },
     {
      "market": "SPX",
      "model": "GJR-skew-t",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0010258745198378242,
+     "pinball": 0.0010258799566124572,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.0,
      "min_gap": 0.0,
-     "frac_theta_best_better": 0.0
+     "frac_theta_best_better": null,
+     "gap_share_best": null
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "pinball": 0.0010268096450746845,
+     "best_model": "GJR-skew-t",
+     "dominated_by_best": false,
+     "max_gap": 0.0008022680661117741,
+     "min_gap": -0.0007298829774399357,
+     "frac_theta_best_better": 0.6857142857142857,
+     "gap_share_best": 0.547691457008637
+    }
+   ],
+   "fz_by_year": [
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -4.0071185301539805,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -3.8159145750897427,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -4.25419183113783,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -4.580845831863717,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -4.491896950287802,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -4.463246547300891,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1993,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 12,
+     "fz_loss": -4.422498205635235,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.9090587512837933,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7774681727467354,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7600016649536063,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2710309273791998,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.6337830884055435,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.574764070184248,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1994,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.5998689834118807,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.18490108514704,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.9619288234286905,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.061389820218296,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.170568169238988,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.145426152887247,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.131421360494142,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1995,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.115601863922449,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -2.5867254608980375,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -3.203240947830053,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -3.159931151884534,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -2.8907097405881386,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -3.373913105875871,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -3.418024645274425,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1996,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 254,
+     "fz_loss": -3.4684165342740996,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -1.4244044878212863,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.339064411472208,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.776293945936997,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.4684878260399175,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.8454063394048354,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.8857992236124868,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1997,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.9279078339416347,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -1.3032581554890068,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.1506907642769217,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.8725780344927037,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.687097969111254,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.9611051855084294,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1287276891109803,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1998,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.132327012833236,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.608744938249802,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.5539397458340027,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3530679538917747,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.527654904076275,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.535353363858141,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.4757653266769757,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 1999,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.4368989463081085,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.7470269085907786,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.0045323346342205,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.775688346736526,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.68411727461637,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.8863378947720495,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.8994835154283534,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2000,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.923878420331087,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.0071297199678604,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.078933768904833,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.0274198360154556,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.095954661559886,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.096136000596083,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.272080933730698,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2001,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.2559498582022544,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.160426493590225,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.237927287006311,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1671108788430775,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.197473553142613,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.216038262796355,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2161830924752923,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2002,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.220830246567858,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3769647065352517,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.302684049992251,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.425750299304002,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.602353791113894,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.5532837772568495,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.483926353100532,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2003,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.491956459597932,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.478179537389184,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3433356922750144,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.021987946891082,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.967265871374083,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.9400256754278593,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.965139253567806,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2004,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.015921023686176,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.609537348180274,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.4334407819705772,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.079606921387404,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.109208338970911,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.1031756898067755,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.098966477199931,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2005,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -4.1223453850539515,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.8060287140307136,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.6058463008576442,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.9071452514384215,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.93908228338068,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.938966561781776,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.888207831301185,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2006,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.8571047644341747,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -1.4430745962923808,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.1174017701716408,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.907478920569624,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.153403906966163,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.5050119519686564,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.7738492853137036,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2007,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.674084246626445,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": 6.101864408203696,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": 1.4235307778485873,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -1.773599810391978,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.223865374166934,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.6687156102253895,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.7714254871972037,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2008,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.7451868188969617,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.5835500641571185,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.6242525106095136,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.5582993573391204,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1732179263419984,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1635491115569145,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1436484743235638,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2009,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1430895168108717,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2120491898602817,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.6779572269236946,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.185477440494308,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.288245144395679,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3618636425918433,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.38636046761087,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2010,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3754318627799824,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.797635784455348,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.690587013408772,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.212490987082645,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.746919862624639,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.907827484701851,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1316987105686653,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2011,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1009675683107627,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.2354319276927574,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -2.7569621449244304,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.287059678311717,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.702106052495961,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.718674112595302,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.7693364889824643,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2012,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.7653913464300035,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.6457197831283903,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.320969370698505,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7518132480033084,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.818042555946946,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.816436564140839,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7710304755907993,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2013,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7641534466710596,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.762473927100248,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.458042053672522,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7266342492852256,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.611765507557919,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.7585047705685537,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.814603646230422,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2014,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.8326090192249986,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.9434181386151312,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.1958203621311974,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.073124915633758,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.234106795822257,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.4450894462561736,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.6567515406809514,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2015,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.6688006934143353,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2243046911821556,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.4258525363698973,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.482887802958464,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.237992741690999,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3568684122949173,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.0958515797837785,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2016,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.0724790469706216,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -4.009255366350836,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.6411891913573724,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -4.027895563166663,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -4.000539051863028,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -4.001603477267746,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -4.003589190587889,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2017,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -4.009363969481972,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -1.5033395781166887,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.94940578328035,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.4906046449693875,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.408606543798432,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.9585895278009384,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.2215531224815095,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2018,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.251339154023462,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2678624523322406,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.418821046513672,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.499429529462611,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.525220766685357,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.625266958542106,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.6891150910162853,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2019,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.6861357449543406,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": 3.996015168167442,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": 0.8549683856451937,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -1.112236863187076,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.0478522022423293,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.5521854008396834,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.2201150222755848,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2020,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.3369841511360008,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.486680568516406,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.0462498273271814,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3602831902061063,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -2.87230756567324,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2401973948680585,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3063380199217116,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2021,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3560322066912227,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.9739283900093993,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.0347416436956296,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.6051741100131913,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.922697503889036,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.0467091814083855,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.0365057245410143,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2022,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.9867952138009994,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.3864498471518645,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.14318503860331,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.535804924797283,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.836522407303627,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.7783126966175904,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.7229272439601737,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2023,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.678458897571426,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.467738406017512,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.4035261199037214,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.299063763147246,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.2721682184814305,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.3449471487281026,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.477389640514635,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2024,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 252,
+     "fz_loss": -3.454350137052264,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -2.5486215180896528,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -2.7681345623519364,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -2.659690144153311,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -2.7299711020462754,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -2.878498515919655,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.142373096235066,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2025,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 250,
+     "fz_loss": -3.1369711266907654,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -3.2621289717763755,
+     "year_best": true
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -3.2610393927452295,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -3.047620988076895,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -2.9231960576984557,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -3.078240289744963,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -3.198297988681799,
+     "year_best": false
+    },
+    {
+     "market": "SPX",
+     "year": 2026,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 223,
+     "fz_loss": -3.197534991373665,
+     "year_best": false
     }
    ],
    "pit": [
@@ -1166,8 +3440,8 @@
      "ks_p": 0.7863484572948802,
      "chi2_20bin": 19.00579080709374,
      "chi2_p": 0.45646469050199,
-     "berkowitz_lr": 13.388158251276764,
-     "berkowitz_p": 0.0038681392747604033,
+     "berkowitz_lr": 13.388158251273126,
+     "berkowitz_p": 0.003868139274766981,
      "below_1pct": 0.01508022680661117,
      "above_99pct": 0.015924719507781397
     },
@@ -1175,12 +3449,12 @@
      "market": "SPX",
      "model": "GARCH-N",
      "n": 8289,
-     "ks_stat": 0.03340070855855182,
-     "ks_p": 1.8092694290340402e-08,
-     "chi2_20bin": 215.96079141030285,
-     "chi2_p": 2.2221388064382045e-35,
-     "berkowitz_lr": 21.229059578639863,
-     "berkowitz_p": 9.435167931857086e-05,
+     "ks_stat": 0.03351872642257825,
+     "ks_p": 1.5870148445439344e-08,
+     "chi2_20bin": 217.08999879358188,
+     "chi2_p": 1.3201695180338633e-35,
+     "berkowitz_lr": 21.251449157949537,
+     "berkowitz_p": 9.334642656347397e-05,
      "below_1pct": 0.02316322837495476,
      "above_99pct": 0.008444927011702257
     },
@@ -1188,12 +3462,12 @@
      "market": "SPX",
      "model": "GARCH-t",
      "n": 8289,
-     "ks_stat": 0.017831804881338842,
-     "ks_p": 0.010149470784823941,
-     "chi2_20bin": 91.5549523464833,
-     "chi2_p": 1.7568574394813928e-11,
-     "berkowitz_lr": 17.80636396146656,
-     "berkowitz_p": 0.000482202726234201,
+     "ks_stat": 0.017811644986335126,
+     "ks_p": 0.01027125066319353,
+     "chi2_20bin": 91.63216310773316,
+     "chi2_p": 1.702173323729889e-11,
+     "berkowitz_lr": 17.79594313893176,
+     "berkowitz_p": 0.0004845936470568491,
      "below_1pct": 0.016527928580045845,
      "above_99pct": 0.004825672578115575
     },
@@ -1201,14 +3475,27 @@
      "market": "SPX",
      "model": "GJR-skew-t",
      "n": 8289,
-     "ks_stat": 0.012730971268856028,
-     "ks_p": 0.13498446539011733,
-     "chi2_20bin": 45.07407407407407,
-     "chi2_p": 0.0006692175838823508,
-     "berkowitz_lr": 6.614493976689118,
-     "berkowitz_p": 0.08525487307950194,
+     "ks_stat": 0.012683411661553179,
+     "ks_p": 0.1377183999332443,
+     "chi2_20bin": 45.38774279165159,
+     "chi2_p": 0.0006047008469127766,
+     "berkowitz_lr": 6.6216233599006955,
+     "berkowitz_p": 0.0849874281883303,
      "below_1pct": 0.012184823259741826,
      "above_99pct": 0.008083001568343589
+    },
+    {
+     "market": "SPX",
+     "model": "GJR-FHS",
+     "n": 8289,
+     "ks_stat": 0.009409278138919897,
+     "ks_p": 0.4525248635769602,
+     "chi2_20bin": 8.466521896489324,
+     "chi2_p": 0.9813298297376108,
+     "berkowitz_lr": 5.111782002735708,
+     "berkowitz_p": 0.16379253801599386,
+     "below_1pct": 0.011822897816383158,
+     "above_99pct": 0.010375196042948487
     }
    ]
   },
@@ -1217,12 +3504,12 @@
     "n": 7357,
     "start": "1997-01-06",
     "end": "2026-11-20",
-    "mean_daily": 0.0002729179952174795,
-    "std_daily": 0.01734734773057414,
-    "ann_vol": 0.2753806080099593,
-    "skew": -0.2638150037798508,
-    "excess_kurtosis": 7.383617403047239,
-    "jb_stat": 16797.318284778485,
+    "mean_daily": 0.00027294479123307413,
+    "std_daily": 0.017347264417347543,
+    "ann_vol": 0.27537928545348833,
+    "skew": -0.26377864511531574,
+    "excess_kurtosis": 7.383632826353631,
+    "jb_stat": 16797.364581589492,
     "jb_p": 0.0,
     "tails": [
      {
@@ -1245,7 +3532,7 @@
      {
       "horizon_days": 1,
       "n": 7357,
-      "excess_kurtosis": 7.383617403047239
+      "excess_kurtosis": 7.383632826353631
      },
      {
       "horizon_days": 5,
@@ -1260,41 +3547,41 @@
     ],
     "worst_date": "2026-03-04",
     "worst_return": -0.1284890654335964,
-    "worst_z": -7.422574645337572,
+    "worst_z": -7.422611838213833,
     "worst_simple_return": -0.12057682152301598,
     "best_date": "2026-07-31",
     "best_simple_return": 0.1791149332846585,
-    "best_z": 9.48220933052948,
-    "worst_normal_wait_years": 69094095030.1352
+    "best_z": 9.482253325791248,
+    "worst_normal_wait_years": 69113507052.77902
    },
    "h2": {
-    "nu": 2.3099020894473403,
-    "loc": 0.0008798178390256337,
-    "scale": 0.009313779036135558,
-    "loglik_normal": 19388.969503065367,
-    "loglik_t": 20537.594836713743,
-    "aic_normal": -38773.939006130735,
-    "aic_t": -41069.189673427485,
-    "ks_normal": 0.09724138490953818,
-    "ks_t": 0.017566859426954726,
+    "nu": 2.3099083503063067,
+    "loc": 0.0008798147857289581,
+    "scale": 0.009313775954850523,
+    "loglik_normal": 19389.004836240758,
+    "loglik_t": 20537.606046299872,
+    "aic_normal": -38774.009672481516,
+    "aic_t": -41069.212092599744,
+    "ks_normal": 0.09723995108102382,
+    "ks_t": 0.017567034067665216,
     "tails": [
      {
       "k": 3,
       "observed": 158,
       "expected_normal": 19.862399637405193,
-      "expected_t": 161.29539364216006
+      "expected_t": 161.2959212441859
      },
      {
       "k": 4,
       "observed": 54,
       "expected_normal": 0.46601065233252564,
-      "expected_t": 85.26710177816808
+      "expected_t": 85.26726149594658
      },
      {
       "k": 5,
       "observed": 19,
       "expected_normal": 0.00421779122863045,
-      "expected_t": 51.580171859088274
+      "expected_t": 51.58020642310084
      }
     ]
    },
@@ -1312,76 +3599,76 @@
     "markov_chi2": 2.048230275181904,
     "markov_p": 0.15238323042511562,
     "acf_sign": [
-     0.01668856516733886,
-     0.0069820836261385915,
-     0.01670675588475724,
-     0.005906665404311662,
-     -0.018016732347079244,
-     -0.01897434237431597,
-     0.014516729184678473,
-     0.01877335674706997,
-     0.011000285977761669,
-     -9.280186570772939e-05,
-     -0.010346087876530687,
-     0.0064478522307585065,
-     0.008224264551635366,
-     0.012988506327224791,
-     -0.014469525348501227,
-     0.005605241576524179,
-     0.015290723578718022,
-     -0.002324827643799225,
-     0.02599119658199187,
-     0.0015209943609782583
+     0.016688565167338788,
+     0.006982083626138494,
+     0.01670675588475699,
+     0.0059066654043116885,
+     -0.018016732347079092,
+     -0.018974342374315698,
+     0.014516729184678428,
+     0.01877335674706983,
+     0.011000285977761577,
+     -9.280186570762766e-05,
+     -0.01034608787653063,
+     0.006447852230758607,
+     0.008224264551635463,
+     0.01298850632722491,
+     -0.01446952534850122,
+     0.005605241576524107,
+     0.015290723578718154,
+     -0.0023248276437991175,
+     0.025991196581991626,
+     0.0015209943609783947
     ],
     "acf_abs": [
-     0.2904462411517391,
-     0.30818202977382037,
-     0.31518365847846963,
-     0.31623604874678346,
-     0.297572959536631,
-     0.2712158337021943,
-     0.28347676858923426,
-     0.27004614346441685,
-     0.2627101013405378,
-     0.28821285336343583,
-     0.2655290639821307,
-     0.257635279213944,
-     0.24793026505604887,
-     0.2643428351182016,
-     0.2549127828114193,
-     0.23296146034279683,
-     0.25277389807674366,
-     0.2479079130434899,
-     0.23499269276141074,
-     0.2337235448009892
+     0.2904496934970872,
+     0.30818479260683773,
+     0.3151854984277432,
+     0.31623628557882477,
+     0.29757712656304,
+     0.27122023489778946,
+     0.2834782747281619,
+     0.2700447739756696,
+     0.26271407390047,
+     0.2882087361921129,
+     0.2655258734594012,
+     0.25763948250193974,
+     0.24792959946171142,
+     0.2643446339773089,
+     0.25491237765405955,
+     0.23296434767364216,
+     0.25276897339446613,
+     0.24790820413697257,
+     0.23499526926611142,
+     0.23372792871323347
     ],
     "acf_band": 0.02285723999901644,
-    "ljung_box10_sign_p": 0.13972915375979128,
+    "ljung_box10_sign_p": 0.13972915375980172,
     "ljung_box10_abs_p": 0.0,
     "by_decade": [
      {
       "decade": "1990s",
       "n": 737,
       "p_up": 0.5251017639077341,
-      "sign_acf1": 0.07092495841541305
+      "sign_acf1": 0.07092495841541308
      },
      {
       "decade": "2000s",
       "n": 2466,
       "p_up": 0.5433901054339011,
-      "sign_acf1": 0.022307108281009715
+      "sign_acf1": 0.02230710828100977
      },
      {
       "decade": "2010s",
       "n": 2462,
       "p_up": 0.5219333874898456,
-      "sign_acf1": -0.00721922741185605
+      "sign_acf1": -0.007219227411856047
      },
      {
       "decade": "2020s",
       "n": 1688,
       "p_up": 0.5497630331753555,
-      "sign_acf1": 0.015599222869233877
+      "sign_acf1": 0.015599222869233872
      }
     ]
    },
@@ -1507,7 +3794,7 @@
        101.74641725138301,
        22.389880119385126,
        3.284680648897722,
-       0.3614063666614486,
+       0.36140636666144865,
        0.03181181388997707,
        0.002333457100564708,
        0.00014671158849551268,
@@ -1556,7 +3843,7 @@
       2.631986122722957e-06,
       1.1320370420313831e-07,
       4.382078872379553e-09,
-      1.5420805415998374e-10,
+      1.5420805415998377e-10,
       5.12677990706856e-12
      ],
      "gap_cv": 3.6571689326795536
@@ -1793,6 +4080,40 @@
      "cc_lr": 9.32052536031756,
      "cc_p": 0.009463976076432009,
      "max_cluster": 4
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "n": 6357,
+     "violations": 72,
+     "expected": 63.57,
+     "rate": 0.011326097215667769,
+     "kupiec_lr": 1.0828189256608312,
+     "kupiec_p": 0.2980677979567074,
+     "christoffersen_lr": 1.258951423149334,
+     "christoffersen_p": 0.26184966522624,
+     "cc_lr": 2.341770348810165,
+     "cc_p": 0.31009233394850755,
+     "max_cluster": 2
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "n": 6357,
+     "violations": 339,
+     "expected": 317.85,
+     "rate": 0.053327041057102405,
+     "kupiec_lr": 1.451279111334543,
+     "kupiec_p": 0.22832281914235028,
+     "christoffersen_lr": 2.0208231185934835,
+     "christoffersen_p": 0.15515501640089577,
+     "cc_lr": 3.4721022299280264,
+     "cc_p": 0.17621488080926426,
+     "max_cluster": 4
     }
    ],
    "es": [
@@ -1804,11 +4125,11 @@
      "n": 6357,
      "violations": 142,
      "expected": 63.57,
-     "es_realized": -0.04549173816443944,
+     "es_realized": -0.04549034986664557,
      "es_predicted": -0.03367173220466787,
-     "es_ratio": 1.3510364684515095,
-     "z2": 2.0316201376484413,
-     "z2_se": 0.26981919689373446,
+     "es_ratio": 1.3509952380869583,
+     "z2": 2.0315624750568975,
+     "z2_se": 0.2698168493985846,
      "z2_p": 0.0
     },
     {
@@ -1819,11 +4140,11 @@
      "n": 6357,
      "violations": 303,
      "expected": 317.85,
-     "es_realized": -0.034554177312600826,
+     "es_realized": -0.03455352669119247,
      "es_predicted": -0.02634603494879148,
-     "es_ratio": 1.3115513351349997,
-     "z2": 0.260700077256911,
-     "z2_se": 0.0777457311724734,
+     "es_ratio": 1.3115266399044034,
+     "z2": 0.26068510614192153,
+     "z2_se": 0.07774540985867863,
      "z2_p": 0.0
     },
     {
@@ -1849,11 +4170,11 @@
      "n": 6357,
      "violations": 380,
      "expected": 317.85,
-     "es_realized": -0.03156477194866952,
+     "es_realized": -0.03156425316370444,
      "es_predicted": -0.029185896586129984,
-     "es_ratio": 1.0815077020340726,
-     "z2": 0.3202664764884964,
-     "z2_se": 0.07556520414475297,
+     "es_ratio": 1.0814899268403741,
+     "z2": 0.32025432264799525,
+     "z2_se": 0.0755649509619803,
      "z2_p": 0.0
     },
     {
@@ -1895,10 +4216,10 @@
      "violations": 139,
      "expected": 63.57,
      "es_realized": -0.038491367584084134,
-     "es_predicted": -0.033739613581187704,
-     "es_ratio": 1.1408360528926116,
-     "z2": 1.4967616994561883,
-     "z2_se": 0.2164263295351724,
+     "es_predicted": -0.03374031196507129,
+     "es_ratio": 1.1408124389582184,
+     "z2": 1.4966814563468902,
+     "z2_se": 0.21641750856198416,
      "z2_p": 0.0
     },
     {
@@ -1909,11 +4230,11 @@
      "n": 6357,
      "violations": 404,
      "expected": 317.85,
-     "es_realized": -0.028243989851497436,
-     "es_predicted": -0.024930478441439433,
-     "es_ratio": 1.1329100609858447,
-     "z2": 0.4310389871540097,
-     "z2_se": 0.07187158593803568,
+     "es_realized": -0.028243501885441172,
+     "es_predicted": -0.024930905045815643,
+     "es_ratio": 1.1328711024945928,
+     "z2": 0.4309917275013966,
+     "z2_se": 0.07186919445543948,
      "z2_p": 0.0
     },
     {
@@ -1925,10 +4246,10 @@
      "violations": 104,
      "expected": 63.57,
      "es_realized": -0.04213171314560652,
-     "es_predicted": -0.04165458895415715,
-     "es_ratio": 1.0114543007968335,
-     "z2": 0.6534696879452639,
-     "z2_se": 0.1651156624362752,
+     "es_predicted": -0.041654666971237556,
+     "es_ratio": 1.011452406394183,
+     "z2": 0.6534668240253358,
+     "z2_se": 0.16511535250231363,
      "z2_p": 0.0
     },
     {
@@ -1939,11 +4260,11 @@
      "n": 6357,
      "violations": 431,
      "expected": 317.85,
-     "es_realized": -0.028028550249800745,
-     "es_predicted": -0.026737735555408027,
-     "es_ratio": 1.0482768891074485,
-     "z2": 0.4118484957956938,
-     "z2_se": 0.06845791891942389,
+     "es_realized": -0.028028092852383737,
+     "es_predicted": -0.02673773927656028,
+     "es_ratio": 1.0482596364066818,
+     "z2": 0.4118379459705559,
+     "z2_se": 0.06845756519572234,
      "z2_p": 0.0
     },
     {
@@ -1955,10 +4276,10 @@
      "violations": 64,
      "expected": 63.57,
      "es_realized": -0.04539576436616555,
-     "es_predicted": -0.04284259875206449,
-     "es_ratio": 1.059594088324953,
-     "z2": 0.06403980110298524,
-     "z2_se": 0.13663604531026163,
+     "es_predicted": -0.04284257638435494,
+     "es_ratio": 1.0595946415291442,
+     "z2": 0.06404099762571303,
+     "z2_se": 0.13663625552470454,
      "z2_p": 0.655
     },
     {
@@ -1969,12 +4290,42 @@
      "n": 6357,
      "violations": 364,
      "expected": 317.85,
-     "es_realized": -0.02961498470106821,
-     "es_predicted": -0.02931652515185207,
-     "es_ratio": 1.0101805909012136,
-     "z2": 0.1537543985181602,
-     "z2_se": 0.06142367129632394,
+     "es_realized": -0.029614443112368403,
+     "es_predicted": -0.029316537669488055,
+     "es_ratio": 1.0101616857433475,
+     "z2": 0.15374501437171495,
+     "z2_se": 0.061423240891418235,
      "z2_p": 0.013
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "n": 6357,
+     "violations": 72,
+     "expected": 63.57,
+     "es_realized": -0.04306628174092096,
+     "es_predicted": -0.04156722153849552,
+     "es_ratio": 1.0360635170440045,
+     "z2": 0.19142600993454595,
+     "z2_se": 0.14355857825150956,
+     "z2_p": 0.18
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "n": 6357,
+     "violations": 339,
+     "expected": 317.85,
+     "es_realized": -0.030215570451524572,
+     "es_predicted": -0.02978389641931879,
+     "es_ratio": 1.0144935379215791,
+     "z2": 0.08107640292870899,
+     "z2_se": 0.0595817215305109,
+     "z2_p": 0.163
     }
    ],
    "fz": [
@@ -1984,10 +4335,10 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 6357,
-     "fz_loss": -2.382859845391479,
+     "fz_loss": -2.3829175079830227,
      "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.349463131730629,
-     "dm_p": 1.3647122439750297e-05,
+     "dm_vs_best": 4.349157106000004,
+     "dm_p": 1.366617847622417e-05,
      "mcs_p": 0.001,
      "in_mcs": false,
      "mcs_rank": 1
@@ -2000,8 +4351,8 @@
      "n": 6357,
      "fz_loss": -2.6224059163209947,
      "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.4718986633857405,
-     "dm_p": 7.752816621825992e-06,
+     "dm_vs_best": 4.471892517830836,
+     "dm_p": 7.75303947723238e-06,
      "mcs_p": 0.001,
      "in_mcs": false,
      "mcs_rank": 2
@@ -2014,8 +4365,8 @@
      "n": 6357,
      "fz_loss": -2.9586067280936006,
      "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.03298369798575,
-     "dm_p": 5.507310155422636e-05,
+     "dm_vs_best": 4.032971398156628,
+     "dm_p": 5.507598531522495e-05,
      "mcs_p": 0.001,
      "in_mcs": false,
      "mcs_rank": 3
@@ -2026,10 +4377,10 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 6357,
-     "fz_loss": -3.0161670164672216,
+     "fz_loss": -3.016241900716268,
      "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.18044048092092,
-     "dm_p": 2.9094495964919026e-05,
+     "dm_vs_best": 4.18172726676284,
+     "dm_p": 2.893028751182997e-05,
      "mcs_p": 0.001,
      "in_mcs": false,
      "mcs_rank": 4
@@ -2040,11 +4391,11 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 6357,
-     "fz_loss": -3.1559236547694387,
+     "fz_loss": -3.1559262222524116,
      "best_model": "GJR-skew-t",
-     "dm_vs_best": 2.0247005061221897,
-     "dm_p": 0.04289812663434333,
-     "mcs_p": 0.0365,
+     "dm_vs_best": 2.0245711878602366,
+     "dm_p": 0.04291141528060257,
+     "mcs_p": 0.0625,
      "in_mcs": false,
      "mcs_rank": 5
     },
@@ -2054,12 +4405,26 @@
      "var_level": "99%",
      "alpha": 0.01,
      "n": 6357,
-     "fz_loss": -3.1943893909331016,
+     "fz_loss": -3.194388302538978,
      "best_model": "GJR-skew-t",
      "dm_vs_best": 0.0,
      "dm_p": 1.0,
      "mcs_p": 1.0,
      "in_mcs": true,
+     "mcs_rank": 7
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "n": 6357,
+     "fz_loss": -3.179213478038327,
+     "best_model": "GJR-skew-t",
+     "dm_vs_best": 2.1923138591997544,
+     "dm_p": 0.028356851710741572,
+     "mcs_p": 0.0625,
+     "in_mcs": false,
      "mcs_rank": 6
     },
     {
@@ -2068,10 +4433,10 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 6357,
-     "fz_loss": -3.299555014846738,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 5.274801348836975,
-     "dm_p": 1.3289996783244494e-07,
+     "fz_loss": -3.2995699859617273,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 5.265497126286456,
+     "dm_p": 1.39810506716774e-07,
      "mcs_p": 0.0005,
      "in_mcs": false,
      "mcs_rank": 2
@@ -2082,10 +4447,10 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 6357,
-     "fz_loss": -3.2879904530081303,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 5.244125694566355,
-     "dm_p": 1.5702512964304416e-07,
+     "fz_loss": -3.288002606848632,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 5.232269309786994,
+     "dm_p": 1.6744155627518555e-07,
      "mcs_p": 0.0005,
      "in_mcs": false,
      "mcs_rank": 1
@@ -2097,9 +4462,9 @@
      "alpha": 0.05,
      "n": 6357,
      "fz_loss": -3.445180368858602,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 5.040575413119097,
-     "dm_p": 4.6413418187383734e-07,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 5.024337927699858,
+     "dm_p": 5.05172196977945e-07,
      "mcs_p": 0.0005,
      "in_mcs": false,
      "mcs_rank": 3
@@ -2110,10 +4475,10 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 6357,
-     "fz_loss": -3.524803614677726,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.726980959518336,
-     "dm_p": 2.2788262435743964e-06,
+     "fz_loss": -3.5248454246595986,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.4509517309508775,
+     "dm_p": 8.54905579105526e-06,
      "mcs_p": 0.0005,
      "in_mcs": false,
      "mcs_rank": 4
@@ -2124,10 +4489,10 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 6357,
-     "fz_loss": -3.5346282098904176,
-     "best_model": "GJR-skew-t",
-     "dm_vs_best": 4.5295103516077,
-     "dm_p": 5.91205378768717e-06,
+     "fz_loss": -3.5346388900646466,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 4.205506198381433,
+     "dm_p": 2.6049844887012258e-05,
      "mcs_p": 0.0005,
      "in_mcs": false,
      "mcs_rank": 5
@@ -2138,13 +4503,27 @@
      "var_level": "95%",
      "alpha": 0.05,
      "n": 6357,
-     "fz_loss": -3.579274747259393,
-     "best_model": "GJR-skew-t",
+     "fz_loss": -3.579284310852122,
+     "best_model": "GJR-FHS",
+     "dm_vs_best": 1.0032394176217245,
+     "dm_p": 0.31574535859938635,
+     "mcs_p": 1.0,
+     "in_mcs": true,
+     "mcs_rank": 6
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "n": 6357,
+     "fz_loss": -3.5819069558449503,
+     "best_model": "GJR-FHS",
      "dm_vs_best": 0.0,
      "dm_p": 1.0,
      "mcs_p": 1.0,
      "in_mcs": true,
-     "mcs_rank": 6
+     "mcs_rank": 7
     }
    ],
    "murphy": [
@@ -2153,144 +4532,1822 @@
      "model": "Normal",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0006433212305429985,
+     "pinball": 0.0006432227862946162,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.006556551832625117,
      "min_gap": -5.0338209847464524e-05,
-     "frac_theta_best_better": 0.825
+     "frac_theta_best_better": 0.9850746268656716,
+     "gap_share_best": 0.9997373604727511
     },
     {
      "market": "KOSPI",
      "model": "Student-t",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0006176839617369786,
+     "pinball": 0.0006176849561233259,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.00525090451470793,
      "min_gap": -5.0338209847464524e-05,
-     "frac_theta_best_better": 0.81875
+     "frac_theta_best_better": 0.9776119402985075,
+     "gap_share_best": 0.9995580793081325
     },
     {
      "market": "KOSPI",
      "model": "Hist. sim.",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0005001544561908703,
+     "pinball": 0.0005001554505772175,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.0023454459650778135,
      "min_gap": -3.14613811559436e-06,
-     "frac_theta_best_better": 0.83125
+     "frac_theta_best_better": 0.9925373134328358,
+     "gap_share_best": 0.9999782865952286
     },
     {
      "market": "KOSPI",
      "model": "GARCH-N",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0004489554919412325,
+     "pinball": 0.00044895549194123245,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.003174453358502855,
      "min_gap": -0.00011011483404126544,
-     "frac_theta_best_better": 0.83125
+     "frac_theta_best_better": 0.9851851851851852,
+     "gap_share_best": 0.9977665423129775
     },
     {
      "market": "KOSPI",
      "model": "GARCH-t",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0004236215109711383,
+     "pinball": 0.0004236225053574856,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.0010696869592574949,
      "min_gap": -0.00042315557652982836,
-     "frac_theta_best_better": 0.675
+     "frac_theta_best_better": 0.8059701492537313,
+     "gap_share_best": 0.8538168477493927
     },
     {
      "market": "KOSPI",
      "model": "GJR-skew-t",
      "var_level": "99%",
      "alpha": 0.01,
-     "pinball": 0.0004087052185685061,
+     "pinball": 0.0004087042241821588,
      "best_model": "GJR-skew-t",
      "dominated_by_best": false,
      "max_gap": 0.0,
      "min_gap": 0.0,
-     "frac_theta_best_better": 0.0
+     "frac_theta_best_better": null,
+     "gap_share_best": null
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "99%",
+     "alpha": 0.01,
+     "pinball": 0.00041146861822764563,
+     "best_model": "GJR-skew-t",
+     "dominated_by_best": false,
+     "max_gap": 0.0005395626868019594,
+     "min_gap": -0.00032405222589262754,
+     "frac_theta_best_better": 0.4740740740740741,
+     "gap_share_best": 0.636398763523978
     },
     {
      "market": "KOSPI",
      "model": "Normal",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0016367897592417483,
-     "best_model": "GJR-skew-t",
+     "pinball": 0.001636695292538755,
+     "best_model": "GJR-FHS",
      "dominated_by_best": false,
-     "max_gap": 0.011971055529338064,
-     "min_gap": -0.0003775365738545311,
-     "frac_theta_best_better": 0.6
+     "max_gap": 0.012324996067327725,
+     "min_gap": -0.0002516910492370663,
+     "frac_theta_best_better": 0.7266187050359713,
+     "gap_share_best": 0.9918261636236742
     },
     {
      "market": "KOSPI",
      "model": "Student-t",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0016659700266031783,
-     "best_model": "GJR-skew-t",
+     "pinball": 0.001665875559900185,
+     "best_model": "GJR-FHS",
      "dominated_by_best": false,
-     "max_gap": 0.014220544281894513,
-     "min_gap": -0.00035394053798944863,
-     "frac_theta_best_better": 0.60625
+     "max_gap": 0.013835142362750314,
+     "min_gap": -0.0002516910492370663,
+     "frac_theta_best_better": 0.7266187050359713,
+     "gap_share_best": 0.9926215781532399
     },
     {
      "market": "KOSPI",
      "model": "Hist. sim.",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0015297540128186664,
-     "best_model": "GJR-skew-t",
+     "pinball": 0.0015297589847504027,
+     "best_model": "GJR-FHS",
      "dominated_by_best": false,
-     "max_gap": 0.006834985055844539,
-     "min_gap": -0.00020449897750511722,
-     "frac_theta_best_better": 0.6375
+     "max_gap": 0.0073540978448960355,
+     "min_gap": -0.00031461381154636314,
+     "frac_theta_best_better": 0.7394366197183099,
+     "gap_share_best": 0.9858390442112923
     },
     {
      "market": "KOSPI",
      "model": "GARCH-N",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0014145792141429562,
-     "best_model": "GJR-skew-t",
+     "pinball": 0.001414484747439963,
+     "best_model": "GJR-FHS",
      "dominated_by_best": false,
-     "max_gap": 0.002902312411514646,
-     "min_gap": -0.0003146138115463241,
-     "frac_theta_best_better": 0.7
+     "max_gap": 0.0024146610036180696,
+     "min_gap": -0.00025169104923706154,
+     "frac_theta_best_better": 0.8333333333333334,
+     "gap_share_best": 0.9695910150455591
     },
     {
      "market": "KOSPI",
      "model": "GARCH-t",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0014193771282686634,
-     "best_model": "GJR-skew-t",
+     "pinball": 0.0014192776896339335,
+     "best_model": "GJR-FHS",
      "dominated_by_best": false,
-     "max_gap": 0.003004561900267398,
-     "min_gap": -0.00014944156048450662,
-     "frac_theta_best_better": 0.74375
+     "max_gap": 0.003098946043730552,
+     "min_gap": -0.00016517225106182313,
+     "frac_theta_best_better": 0.8759124087591241,
+     "gap_share_best": 0.9943644963268585
     },
     {
      "market": "KOSPI",
      "model": "GJR-skew-t",
      "var_level": "95%",
      "alpha": 0.05,
-     "pinball": 0.0013731083315289244,
-     "best_model": "GJR-skew-t",
+     "pinball": 0.0013730188367576677,
+     "best_model": "GJR-FHS",
+     "dominated_by_best": false,
+     "max_gap": 0.0010539562686802395,
+     "min_gap": -0.0011798017932990804,
+     "frac_theta_best_better": 0.4696969696969697,
+     "gap_share_best": 0.5813953488371413
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "var_level": "95%",
+     "alpha": 0.05,
+     "pinball": 0.0013704533199816427,
+     "best_model": "GJR-FHS",
      "dominated_by_best": false,
      "max_gap": 0.0,
      "min_gap": 0.0,
-     "frac_theta_best_better": 0.0
+     "frac_theta_best_better": null,
+     "gap_share_best": null
+    }
+   ],
+   "fz_by_year": [
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.3433934648241026,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.305447138612943,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.2910999060525237,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.2446822288035104,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.2812401947558376,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.271856521040101,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2001,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 224,
+     "fz_loss": -2.262210720531002,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.7109035240817034,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.6398967318871143,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.663706772049339,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.7053038907451445,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.695295982243205,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.714319695710389,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2002,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.7129150895173972,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.903412826168269,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.7879137093382793,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.0479133917824623,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.0088938149732454,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.9604028648933514,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.9312614370513455,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2003,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.935090304313884,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -2.946122433063708,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -2.8715124791793953,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -2.7820554674049456,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -2.474416721265905,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -2.9806650285555847,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.068210556378335,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2004,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.0611868406463656,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.2220361215083013,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.0864438778164742,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.4080239524664546,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.5716805739303297,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.526851901518288,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.4551670634257663,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2005,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 249,
+     "fz_loss": -3.4745045667750563,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.368881433046049,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.2336362011191055,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.350577541230542,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.462342315889257,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.4932288305331087,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.4638837250529275,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2006,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.4493216826316604,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -2.1408640656413414,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -2.5602771929853043,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -2.439281074277805,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -2.789589414553935,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -2.975074653193436,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.1858406415417457,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2007,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.202575615656051,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": 1.2994870553831877,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -0.1654432176982078,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -1.806384144582697,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.4554760102135034,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.6253771095368608,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.629871828742442,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2008,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.6063050801417007,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.8681484013036944,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.8595099440550436,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.5754927638219303,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.5466508411209947,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.7172639699624246,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.6518340733355825,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2009,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 253,
+     "fz_loss": -2.6219495333081326,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.2229113041164177,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -2.9479063304984567,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.4618991116714124,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.5298486148525203,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.5555520717500957,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.4482768547047193,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2010,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 251,
+     "fz_loss": -3.4536058316424136,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.5249939981945566,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.714813246023666,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -2.223865630870313,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.096030292873114,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.1623197747046903,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.0742395125376967,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2011,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.043050670814808,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.2624690997520376,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.97503474035117,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.053807185833698,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.4639074689016853,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.482144963810441,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.5592336382345726,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2012,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.543147401301044,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.579617184955392,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.3798328654671415,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.8354325743021533,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.9520284989073655,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.864918217035483,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.790121504225319,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2013,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 247,
+     "fz_loss": -3.815137489156044,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.65125798180646,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.4362402136442682,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.9548482249183956,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.882645871749876,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.8983320952259977,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.851907226328081,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2014,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.8681495081571278,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.7350743945486653,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.4652551806008534,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.535354857240182,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.6691481806235506,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.72888163092859,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.7957871922922277,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2015,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.7743875355635734,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.131882661418946,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.418947683647445,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.420098080890689,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.039006786273008,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.30489117025387,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.367817648787436,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2016,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.22862417180674,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.9437308034533616,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.8416447099271265,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.7578450292695167,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.8369039523220834,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.9139353643009605,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.9534600044441808,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2017,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 241,
+     "fz_loss": -3.9709340740097243,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.486235498710101,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.987287779600659,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.959246042796922,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.662404345105767,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.120852308887137,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.223376130449255,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2018,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.192427387173335,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.4747896634710647,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.492110885934683,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.535361277838752,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.2310412314224966,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.5088148584662204,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.6197278861902342,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2019,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 246,
+     "fz_loss": -3.617167265716877,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": 2.017901847324116,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": 0.23934731960681546,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -1.8723960311940568,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -1.909066800243909,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.590627011693903,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.850572463038722,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2020,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -2.853939236192959,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.520566723072973,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.3835773954429875,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.432000753045571,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.767601548930839,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.667284745257911,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.5820560524361778,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2021,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 248,
+     "fz_loss": -3.5967634055742175,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.331844485407838,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.3085236556359927,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.222309258353875,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.2930233850257133,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.3794228236900383,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.404244229257988,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2022,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -3.4313194563757157,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.5294066503676214,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.3881345872629125,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.506282072239887,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.678649677367249,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.674887213541082,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.6519902413317764,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2023,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 245,
+     "fz_loss": -3.7067115946526346,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.3218181692156783,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.4382939553835024,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.441759076434463,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.5192164792981293,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.6469010523254544,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.912426360297285,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2024,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 244,
+     "fz_loss": -2.787154393581633,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.354733115039643,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.6350662743529973,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.9493764524915353,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.332955528442449,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.642422373924702,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.838054340879416,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2025,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 242,
+     "fz_loss": -2.7278453240818945,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "Normal",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": 6.29929908190857,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "Student-t",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": 2.495519628120174,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "Hist. sim.",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": -1.143152042542409,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "GARCH-N",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": -0.9910486109431893,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "GARCH-t",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": -1.3685968861986995,
+     "year_best": false
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "GJR-skew-t",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": -1.4878078674530784,
+     "year_best": true
+    },
+    {
+     "market": "KOSPI",
+     "year": 2026,
+     "model": "GJR-FHS",
+     "alpha": 0.01,
+     "days": 217,
+     "fz_loss": -1.4481062354293013,
+     "year_best": false
     }
    ],
    "pit": [
@@ -2302,8 +6359,8 @@
      "ks_p": 4.332526630897723e-31,
      "chi2_20bin": 541.540191914425,
      "chi2_p": 1.0479319404983586e-102,
-     "berkowitz_lr": 27.308768455586687,
-     "berkowitz_p": 5.071971500790728e-06,
+     "berkowitz_lr": 27.30435931339889,
+     "berkowitz_p": 5.082782174792239e-06,
      "below_1pct": 0.02233758061978921,
      "above_99pct": 0.012112631744533585
     },
@@ -2315,8 +6372,8 @@
      "ks_p": 3.9926738729260425e-05,
      "chi2_20bin": 89.01856221488123,
      "chi2_p": 4.9482882729840915e-11,
-     "berkowitz_lr": 1.9984002701785357,
-     "berkowitz_p": 0.5727388007781564,
+     "berkowitz_lr": 1.998307644007582,
+     "berkowitz_p": 0.5727580335967921,
      "below_1pct": 0.015887997483089507,
      "above_99pct": 0.008651879817523989
     },
@@ -2337,12 +6394,12 @@
      "market": "KOSPI",
      "model": "GARCH-N",
      "n": 6357,
-     "ks_stat": 0.04022008731938931,
-     "ks_p": 2.2615151208309472e-09,
+     "ks_stat": 0.04022011255019653,
+     "ks_p": 2.261456687457476e-09,
      "chi2_20bin": 225.0324052225892,
      "chi2_p": 3.3676660939969934e-37,
-     "berkowitz_lr": 13.720829920137476,
-     "berkowitz_p": 0.0033108630471760034,
+     "berkowitz_lr": 13.714086171385134,
+     "berkowitz_p": 0.003321328072291057,
      "below_1pct": 0.02186565990246972,
      "above_99pct": 0.00912380053484348
     },
@@ -2350,12 +6407,12 @@
      "market": "KOSPI",
      "model": "GARCH-t",
      "n": 6357,
-     "ks_stat": 0.019371495266348543,
-     "ks_p": 0.016722678852577538,
+     "ks_stat": 0.019371681704336077,
+     "ks_p": 0.016721140901600352,
      "chi2_20bin": 100.57118137486235,
      "chi2_p": 4.220087826221903e-13,
-     "berkowitz_lr": 13.620591630839044,
-     "berkowitz_p": 0.003469835067600929,
+     "berkowitz_lr": 13.619952460976492,
+     "berkowitz_p": 0.0034708726312599725,
      "below_1pct": 0.016359918200409,
      "above_99pct": 0.004876514078968067
     },
@@ -2363,14 +6420,27 @@
      "market": "KOSPI",
      "model": "GJR-skew-t",
      "n": 6357,
-     "ks_stat": 0.021471482133344655,
-     "ks_p": 0.0056109751504518635,
+     "ks_stat": 0.02147255755382821,
+     "ks_p": 0.0056076769427384696,
      "chi2_20bin": 54.3229510775523,
      "chi2_p": 2.9493790443805476e-05,
-     "berkowitz_lr": 7.603508305171999,
-     "berkowitz_p": 0.05495768531930557,
+     "berkowitz_lr": 7.6033211648136785,
+     "berkowitz_p": 0.05496228281499975,
      "below_1pct": 0.01006764196948246,
      "above_99pct": 0.010539562686801951
+    },
+    {
+     "market": "KOSPI",
+     "model": "GJR-FHS",
+     "n": 6357,
+     "ks_stat": 0.009768350259147851,
+     "ks_p": 0.5754770886522285,
+     "chi2_20bin": 9.333176026427559,
+     "chi2_p": 0.9675268115971353,
+     "berkowitz_lr": 6.640544269095699,
+     "berkowitz_p": 0.08428155958468041,
+     "below_1pct": 0.010696869592575113,
+     "above_99pct": 0.011326097215667769
     }
    ]
   }
