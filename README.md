@@ -20,10 +20,10 @@ enforces it.
 | Hypothesis | Test | S&P 500 (1990–2026, 9,289 days) | KOSPI (1997–2026, 7,357 days) |
 |---|---|---|---|
 | **H1 Normal**: daily returns are Normal | Jarque-Bera, tail counts | excess kurtosis 10.9; 62 days beyond 4σ vs 0.6 expected<br>**rejected** | excess kurtosis 7.4; 54 days beyond 4σ vs 0.5 expected<br>**rejected** |
-| **H2 Student-t**: a fat-tailed t fits instead | MLE ν, AIC, VaR clustering | ν = 2.8; AIC favours t by 2,525; static-t 99% VaR breaches 1.53% of days, clustered (Christoffersen p < 0.0001)<br>**shape yes, timing no** | ν = 2.3; AIC favours t by 2,296; static-t 99% VaR breaches 1.59% of days, clustered (Christoffersen p < 0.0001)<br>**shape yes, timing no** |
+| **H2 Student-t**: a fat-tailed t fits instead | MLE ν, AIC, VaR clustering | ν = 2.8; AIC favours t by 2,525; static-t 99% VaR breaches 1.53% of days, clustered (Christoffersen p < 0.0001)<br>**shape yes, timing no** | ν = 2.3; AIC favours t by 2,295; static-t 99% VaR breaches 1.59% of days, clustered (Christoffersen p < 0.0001)<br>**shape yes, timing no** |
 | **H3 Bernoulli**: up/down is a memoryless coin | runs test, Markov χ² | P(up after up) 0.522 vs after down 0.553; Markov p = 0.0037<br>**rejected, but the memory is tiny** | P(up after up) 0.544 vs after down 0.527; Markov p = 0.1524<br>**memoryless (but biased toward up days)** |
 | **H4 Poisson**: >2.5σ days arrive independently | dispersion test on monthly counts | variance ÷ mean = 4.89 (Poisson: 1); after GARCH-t filtering 1.06<br>**rejected; clustering explains it** | variance ÷ mean = 4.14 (Poisson: 1); after GARCH-t filtering 1.19<br>**rejected; clustering explains it** |
-| **H5 Uniform**: forecast PITs are U(0,1) | Berkowitz + 99% VaR coverage and independence | GJR-skew-t: 101 breaches vs 83 expected, Berkowitz p = 0.0850<br>**calibrated: GJR-skew-t** | GJR-skew-t: 64 breaches vs 64 expected, Berkowitz p = 0.0549<br>**calibrated: GJR-skew-t** |
+| **H5 Uniform**: forecast PITs are U(0,1) | Berkowitz + 99% VaR coverage and independence | GJR-skew-t: 101 breaches vs 83 expected, Berkowitz p = 0.0853<br>**calibrated: GJR-skew-t** | GJR-skew-t: 64 breaches vs 64 expected, Berkowitz p = 0.0550<br>**calibrated: GJR-skew-t** |
 
 **The chain of results.** Returns are **not Normal**: S&P 500 daily excess kurtosis is 10.9, with 62 days beyond 4σ where a Normal expects 0.6. A Student-t **fixes the shape** (KS distance 0.090 → 0.015), but a static t still breaches its 99% VaR on 1.53% of days, and in bunches. The cause is **clustering**: the direction of a day is close to a coin flip (lag-1 sign autocorrelation -0.030), its size is not (+0.273). Clustering also **breaks Poisson**: monthly counts of large moves have variance 4.9× their mean, and 1.06× once a GARCH-t filter takes the clustering out. Adding volatility dynamics reduces the bunching (most breaches in any 10 days: 6 for the static t, 4 for GARCH-t) but not the bias: GARCH-t still breaches on 1.65% of days, and its misses are one-sided (PIT below 1%: 1.65%, above 99%: 0.48%). The last rung, **GJR-GARCH with skewed-t shocks**, lets bad news raise volatility more than good news and gives the left tail more weight. It is the only model whose 99% VaR passes both the Kupiec and Christoffersen tests and whose PITs pass Berkowitz in both markets: S&P 500: 101 breaches vs 83 expected; KOSPI: 64 breaches vs 64 expected.
 
@@ -110,9 +110,9 @@ A VaR test and an ES test each give a verdict per model; neither says which cali
 | S&P 500 | Student-t | -2.8670 | +4.45 (p < 0.0001) | <0.0001 ❌ |
 | S&P 500 | Hist. sim. | -3.1526 | +3.27 (p = 0.0011) | 0.0060 ❌ |
 | S&P 500 | GARCH-N | -3.1946 | +4.87 (p < 0.0001) | <0.0001 ❌ |
-| S&P 500 | GARCH-t | -3.3490 | +1.67 (p = 0.0957) | 0.0980 ❌ |
-| S&P 500 | GJR-skew-t | -3.3889 | best | 1.0000 ✅ |
-| KOSPI | Normal | -2.3825 | +4.35 (p < 0.0001) | 0.0010 ❌ |
+| S&P 500 | GARCH-t | -3.3490 | +1.67 (p = 0.0950) | 0.0980 ❌ |
+| S&P 500 | GJR-skew-t | -3.3890 | best | 1.0000 ✅ |
+| KOSPI | Normal | -2.3829 | +4.35 (p < 0.0001) | 0.0010 ❌ |
 | KOSPI | Student-t | -2.6224 | +4.47 (p < 0.0001) | 0.0010 ❌ |
 | KOSPI | Hist. sim. | -2.9586 | +4.03 (p < 0.0001) | 0.0010 ❌ |
 | KOSPI | GARCH-N | -3.0162 | +4.18 (p < 0.0001) | 0.0010 ❌ |
@@ -120,6 +120,20 @@ A VaR test and an ES test each give a verdict per model; neither says which cali
 | KOSPI | GJR-skew-t | -3.1944 | best | 1.0000 ✅ |
 
 Lowest average loss (the sharpest joint VaR/ES forecast) at 99%: S&P 500 **GJR-skew-t**; KOSPI **GJR-skew-t**. The 90% Model Confidence Set -- the models that cannot be told apart from the best -- is S&P 500: {GJR-skew-t} at 99%, {GJR-skew-t} at 95%; KOSPI: {GJR-skew-t} at 99%, {GJR-skew-t} at 95%. The unconditional models are the ones the set discards, so the ranking agrees with the coverage and ES backtests while adding what they omit: a statistically graded ordering, not a list of passes.
+
+### Robust or just lucky? Murphy diagrams
+
+A ranking by one loss (above) can flip under another. Ehm, Gneiting, Jordan & Kruger (2016) show every consistent scoring function for a quantile is a mixture of **elementary scores**, one per threshold. Plotting the mean elementary score against the threshold (the Murphy diagram) settles it: if one forecast's curve lies below another's *everywhere*, it wins under every reasonable loss, not just the one chosen. The chart shows each model's score minus the best model's.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="figures/murphy-dark.png">
+  <img src="figures/murphy.png" alt="Murphy diagram of the 99% VaR forecasts" width="100%">
+</picture>
+
+- **S&P 500**: lowest pinball loss is **GJR-skew-t**; no model is dominated outright -- every model, the winner included, is the sharpest choice at some thresholds. GJR-skew-t itself is beaten at some moderate thresholds, most by Student-t, which is why the average ranking is not a clean sweep.
+- **KOSPI**: lowest pinball loss is **GJR-skew-t**; no model is dominated outright -- every model, the winner included, is the sharpest choice at some thresholds. GJR-skew-t itself is beaten at some moderate thresholds, most by GARCH-t, which is why the average ranking is not a clean sweep.
+
+The honest reading is that dominance is rare: the volatility models win on average and in the deep tail, but the unconditional models are often sharper around the body of the distribution. A single risk number hides that trade-off; the diagram makes it explicit.
 
 ## H3 Bernoulli: is each day a coin flip?
 
@@ -161,15 +175,15 @@ test checks mean, variance and autocorrelation of Φ<sup>−1</sup>(PIT) jointly
 | S&P 500 | Normal | 0.0714 | <0.0001 | 2.45% | 1.76% |
 | S&P 500 | Student-t | 0.0161 | <0.0001 | 1.53% | 1.01% |
 | S&P 500 | Hist. sim. | 0.0072 | 0.0039 | 1.51% | 1.59% |
-| S&P 500 | GARCH-N | 0.0335 | <0.0001 | 2.32% | 0.84% |
+| S&P 500 | GARCH-N | 0.0334 | <0.0001 | 2.32% | 0.84% |
 | S&P 500 | GARCH-t | 0.0178 | 0.0005 | 1.65% | 0.48% |
-| S&P 500 | GJR-skew-t | 0.0127 | 0.0850 | 1.22% | 0.81% |
+| S&P 500 | GJR-skew-t | 0.0127 | 0.0853 | 1.22% | 0.81% |
 | KOSPI | Normal | 0.0745 | <0.0001 | 2.23% | 1.21% |
-| KOSPI | Student-t | 0.0291 | 0.5726 | 1.59% | 0.87% |
-| KOSPI | Hist. sim. | 0.0093 | 0.5606 | 1.43% | 1.38% |
+| KOSPI | Student-t | 0.0291 | 0.5727 | 1.59% | 0.87% |
+| KOSPI | Hist. sim. | 0.0093 | 0.5610 | 1.43% | 1.38% |
 | KOSPI | GARCH-N | 0.0402 | 0.0033 | 2.19% | 0.91% |
 | KOSPI | GARCH-t | 0.0194 | 0.0035 | 1.64% | 0.49% |
-| KOSPI | GJR-skew-t | 0.0215 | 0.0549 | 1.01% | 1.05% |
+| KOSPI | GJR-skew-t | 0.0215 | 0.0550 | 1.01% | 1.05% |
 
 With several thousand out-of-sample days these tests have a lot of power, so even a good model can be
 rejected for small deviations. Read the KS distance and the tail frequencies as effect sizes.
@@ -188,10 +202,10 @@ its VaR is an interpolated quantile, so its two 1% rates differ slightly.)
 | Point-in-time | Every forecast for day *t* uses returns dated *t*−1 or earlier. `tests/test_forecast.py` multiplies all returns after a cut-off by 5 and checks that earlier forecasts do not move. |
 | VaR tests | Kupiec (1995) unconditional coverage, Christoffersen (1998) independence. |
 | ES backtest | Acerbi-Szekely (2014) Z2 statistic with bootstrap p-values; ES read off the same predictive law as the VaR. |
-| Model ranking | Fissler-Ziegel 0-homogeneous joint (VaR, ES) loss, Diebold-Mariano (1995) tests, and the Hansen-Lunde-Nason (2011) Model Confidence Set (moving-block bootstrap). |
+| Model ranking | Fissler-Ziegel 0-homogeneous joint (VaR, ES) loss, Diebold-Mariano (1995) tests, and the Hansen-Lunde-Nason (2011) Model Confidence Set (moving-block bootstrap); Murphy diagrams (Ehm et al. 2016) for threshold-wise dominance. |
 | Refresh | GitHub Actions re-downloads prices, reruns the tests, and regenerates this README, the figures and the site every week. |
 
-Last run: 2026-11-20T06:27:17Z. All numbers above are read from [`results/summary.json`](results/summary.json).
+Last run: 2026-11-20T06:40:08Z. All numbers above are read from [`results/summary.json`](results/summary.json).
 
 ## Limitations
 
@@ -234,6 +248,7 @@ tests/               known-distribution simulations and the lookahead test
 - Cont, R. (2001). Empirical properties of asset returns: stylized facts and statistical issues. *Quantitative Finance*.
 - Diebold, F., Gunther, T., Tay, A. (1998). Evaluating density forecasts. *International Economic Review*.
 - Diebold, F., Mariano, R. (1995). Comparing predictive accuracy. *Journal of Business & Economic Statistics*.
+- Ehm, W., Gneiting, T., Jordan, A., Kruger, F. (2016). Of quantiles and expectiles: consistent scoring functions, Choquet representations and forecast rankings. *JRSS-B*.
 - Fissler, T., Ziegel, J. (2016). Higher order elicitability and Osband's principle. *Annals of Statistics*.
 - Hansen, P., Lunde, A., Nason, J. (2011). The model confidence set. *Econometrica*.
 - Kupiec, P. (1995). Techniques for verifying the accuracy of risk measurement models. *Journal of Derivatives*.
